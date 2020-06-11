@@ -22,11 +22,9 @@ open class StartupView: Activity() {
         viewModel = StartupViewModelImp(transitionCommand = StartupTransitionCommandImp(this))
 
         val view = ConstraintLayout(this)
-        view.id = R.id.view
         setContentView(view)
 
         appTitleLabel = RollingAnimationLabel(this)
-        appTitleLabel.id = R.id.appTitleLabel
 
         setupView(view)
         buildLayout(view)
@@ -38,8 +36,10 @@ open class StartupView: Activity() {
 
     private fun setupView(view: ConstraintLayout) {
 
+        view.id = R.id.view
         view.setBackgroundColor(Color.WHITE)
 
+        appTitleLabel.id = R.id.appTitleLabel
         view.addView(appTitleLabel)
     }
 
