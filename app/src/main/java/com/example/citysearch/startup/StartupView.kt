@@ -2,6 +2,7 @@ package com.example.citysearch.startup
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -17,6 +18,8 @@ open class StartupView: Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+
+        viewModel = StartupViewModelImp(transitionCommand = StartupTransitionCommandImp(this))
 
         val view = ConstraintLayout(this)
         view.id = R.id.view
@@ -67,7 +70,5 @@ open class StartupView: Activity() {
 
     private lateinit var appTitleLabel: RollingAnimationLabel
 
-    private val viewModel: StartupViewModel = StartupViewModelImp()
-
-    private val viewBinder = ViewBinder()
+    private lateinit var viewModel: StartupViewModel
 }

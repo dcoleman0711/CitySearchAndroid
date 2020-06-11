@@ -16,7 +16,7 @@ class StartupViewModelImp(override val model: StartupModel) : StartupViewModel {
 
     private val titleFont = Font(Typeface.DEFAULT, 64.0)
 
-    constructor(): this(StartupModelImp())
+    constructor(transitionCommand: StartupTransitionCommand): this(StartupModelImp(transitionCommand))
 
     override val appTitle = model.appTitle.map { appTitle -> TextViewModel(text = appTitle, font = titleFont) }
 }

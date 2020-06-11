@@ -1,7 +1,9 @@
 package com.example.citysearch.startup
 
+import android.content.Context
 import android.os.Looper
 import android.util.Log
+import android.view.Window
 import com.example.citysearch.data.*
 import io.reactivex.Observable
 import io.reactivex.Observable.zip
@@ -21,7 +23,7 @@ interface StartupModel {
 
 class StartupModelImp(private val transitionCommand: StartupTransitionCommand, private val searchService: CitySearchService): StartupModel {
 
-    constructor() : this(StartupTransitionCommandImp(), CitySearchServiceImp())
+    constructor(transitionCommand: StartupTransitionCommand) : this(transitionCommand, CitySearchServiceImp())
 
     override val appTitle = Observable.just("City Search")
 
