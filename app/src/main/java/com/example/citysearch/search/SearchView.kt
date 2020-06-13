@@ -1,45 +1,50 @@
 package com.example.citysearch.search
 
-import android.app.Activity
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.fragment.app.Fragment
 import com.example.citysearch.R
 import com.example.citysearch.data.CitySearchResults
+import com.example.citysearch.search.searchresults.SearchResultsModel
 import com.example.citysearch.search.searchresults.SearchResultsModelImp
 import com.example.citysearch.search.searchresults.SearchResultsView
 import com.example.citysearch.search.searchresults.SearchResultsViewImp
 import com.example.citysearch.utilities.ViewUtilities
-import com.google.gson.Gson
 
-class SearchView: Activity() {
+class SearchView(context: Context, searchResultsModel: SearchResultsModel): Fragment() {
 
-    companion object {
+    private val searchResultsView: SearchResultsView
+    private val viewModel: SearchViewModel
 
-        const val initialResultsKey = "initialResults"
-    }
+    private val view: ConstraintLayout
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    init {
 
-        super.onCreate(savedInstanceState)
-
-        val initialResults = Gson().fromJson(intent.getStringExtra(initialResultsKey), CitySearchResults::class.java)
-        val searchResultsModel = SearchResultsModelImp()
-        searchResultsModel.setResults(initialResults)
-
-        searchResultsView = SearchResultsViewImp(this, searchResultsModel)
+        searchResultsView = SearchResultsViewImp(context, searchResultsModel)
         viewModel = SearchViewModelImp()
 
-        val view = ConstraintLayout(this)
-        setContentView(view)
+        view = ConstraintLayout(context)
 
-        setupView(view)
-        buildLayout(view)
+        setupView()
+        buildLayout(context)
     }
 
-    private fun setupView(view: ConstraintLayout) {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        return view
+    }
+
+    private fun setupView() {
 
         view.id = R.id.view
         view.setBackgroundColor(Color.WHITE)
@@ -48,7 +53,7 @@ class SearchView: Activity() {
         view.addView(searchResultsView.view)
     }
 
-    private fun buildLayout(view: ConstraintLayout) {
+    private fun buildLayout(context: Context) {
 
         val constraints = ConstraintSet()
 
@@ -56,12 +61,8 @@ class SearchView: Activity() {
         constraints.connect(searchResultsView.view.id, ConstraintSet.LEFT, view.id, ConstraintSet.LEFT, 0)
         constraints.connect(searchResultsView.view.id, ConstraintSet.RIGHT, view.id, ConstraintSet.RIGHT, 0)
         constraints.centerVertically(searchResultsView.view.id, view.id)
-        constraints.constrainHeight(searchResultsView.view.id, View.MeasureSpec.makeMeasureSpec(ViewUtilities.convertToPixels(this, 312), View.MeasureSpec.EXACTLY))
+        constraints.constrainHeight(searchResultsView.view.id, View.MeasureSpec.makeMeasureSpec(ViewUtilities.convertToPixels(context, 312), View.MeasureSpec.EXACTLY))
 
         constraints.applyTo(view)
     }
-
-    private lateinit var searchResultsView: SearchResultsView
-
-    private lateinit var viewModel: SearchViewModel
 }

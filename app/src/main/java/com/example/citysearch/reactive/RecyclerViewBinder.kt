@@ -58,6 +58,8 @@ class RecyclerViewBindingAdapter<ViewModel, CellType: RecyclerCell<ViewModel>>(p
         val viewModel = cellData.viewModel
         cell.viewModel = viewModel
 
+        cell.setOnClickListener({ cellData.tapCommand.invoke() })
+
         val layoutParams = cell.getLayoutParams() as? RecyclerView.LayoutParams ?: RecyclerView.LayoutParams(0, 0)
         layoutParams.width = ViewUtilities.convertToPixels(cell.context, cellData.size.width)
         layoutParams.height = ViewUtilities.convertToPixels(cell.context, cellData.size.height)

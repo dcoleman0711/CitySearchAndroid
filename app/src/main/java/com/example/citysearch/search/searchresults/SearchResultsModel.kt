@@ -3,6 +3,8 @@ package com.example.citysearch.search.searchresults
 import com.example.citysearch.data.CitySearchResults
 import com.example.citysearch.search.OpenDetailsCommandFactory
 import com.example.citysearch.search.OpenDetailsCommandFactoryImp
+import com.example.citysearch.search.SearchRoot
+import com.example.citysearch.search.SearchView
 import com.example.citysearch.search.searchresults.citysearchresultcell.CitySearchResultModel
 import com.example.citysearch.search.searchresults.citysearchresultcell.CitySearchResultModelFactory
 import com.example.citysearch.search.searchresults.citysearchresultcell.CitySearchResultModelFactoryImp
@@ -24,7 +26,7 @@ class SearchResultsModelImp(private val modelFactory: CitySearchResultModelFacto
 
     private val resultsSubject = BehaviorSubject.create<Array<CitySearchResultModel>>()
 
-    constructor() : this(CitySearchResultModelFactoryImp(), OpenDetailsCommandFactoryImp())
+    constructor(searchRoot: SearchRoot) : this(CitySearchResultModelFactoryImp(), OpenDetailsCommandFactoryImp(searchRoot))
 
     override fun setResults(results: CitySearchResults) {
 

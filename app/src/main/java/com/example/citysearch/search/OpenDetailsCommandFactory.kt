@@ -7,10 +7,10 @@ interface OpenDetailsCommandFactory {
     fun openDetailsCommand(searchResult: CitySearchResult): OpenDetailsCommand
 }
 
-class OpenDetailsCommandFactoryImp: OpenDetailsCommandFactory {
+class OpenDetailsCommandFactoryImp(private val searchRoot: SearchRoot): OpenDetailsCommandFactory {
 
     override fun openDetailsCommand(searchResult: CitySearchResult): OpenDetailsCommand {
 
-        return OpenDetailsCommandImp(searchResult)
+        return OpenDetailsCommandImp(searchRoot, searchResult)
     }
 }
