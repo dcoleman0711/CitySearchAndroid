@@ -1,12 +1,21 @@
 package com.example.citysearch.utilities
 
+import android.content.Context
+import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
+import kotlin.math.ceil
 
 class ViewUtilities {
 
     companion object {
 
+        fun convertToPixels(context: Context, dp: Int): Int {
+
+            val displayMetrics = context.resources.displayMetrics
+
+            return ceil(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), displayMetrics)).toInt()
+        }
         fun intrinsicSize(view: View): Size {
 
             val currentMeasuredWidth = view.getMeasuredWidth()

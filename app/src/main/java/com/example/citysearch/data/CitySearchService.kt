@@ -60,9 +60,13 @@ class CitySearchServiceImp: CitySearchService {
 
     override fun citySearch(): CitySearchFuture {
 
-        val start = 4000
-        val count = 80
+        val stubResultsArray: Array<CitySearchResult> = IntRange(0, 9).map { index -> CitySearchResult("Test $index", 15000, GeoPoint(0.0, 10.0)) }.toTypedArray()
+        val stubResults = CitySearchResults(stubResultsArray)
 
-        return api.citySearch(start, count)
+        return Observable.just(stubResults)
+//        val start = 4000
+//        val count = 80
+//
+//        return api.citySearch(start, count)
     }
 }

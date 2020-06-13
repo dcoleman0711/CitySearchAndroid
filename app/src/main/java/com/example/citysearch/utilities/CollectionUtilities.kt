@@ -1,5 +1,7 @@
 package com.example.citysearch.utilities
 
+import kotlin.math.min
+
 class CollectionUtilities {
 
     companion object {
@@ -21,9 +23,9 @@ class CollectionUtilities {
 
         fun<T1, T2> zip(first: List<T1>, second: List<T2>): List<Pair<T1, T2>> {
 
-            val count = Math.min(first.size, second.size)
+            val count = min(first.size, second.size)
 
-            var result = ArrayList<Pair<T1, T2>>()
+            val result = ArrayList<Pair<T1, T2>>()
             for(index in IntRange(0, count - 1)) {
 
                 result.add(Pair(first[index], second[index]))

@@ -2,4 +2,7 @@
 <resources>
     <item name="appTitleLabel" type="id"/>
     <item name="view" type="id"/>
+    <item name="searchResults" type="id" />
+    <item name="titleLabel" type="id" />
+    <item name="imageView" type="id" />
 </resources>
