@@ -50,7 +50,6 @@ open class StartupView: Activity() {
         // AppTitle
         constraints.centerHorizontally(appTitleLabel.id, view.id)
         constraints.centerVertically(appTitleLabel.id, view.id)
-
         constraints.constrainWidth(appTitleLabel.id, ConstraintSet.WRAP_CONTENT)
         constraints.constrainHeight(appTitleLabel.id, ConstraintSet.WRAP_CONTENT)
 

@@ -1,7 +1,5 @@
 package com.example.citysearch.search
 
-import android.view.View
-import com.example.citysearch.R
 import com.example.citysearch.data.CitySearchResult
 import com.example.citysearch.details.CityDetailsView
 import com.example.citysearch.reactive.CellTapCommand
@@ -12,7 +10,7 @@ class OpenDetailsCommandImp(private val searchRoot: SearchRoot, private val sear
 
     override fun invoke() {
 
-        val detailsView = CityDetailsView(searchRoot)
+        val detailsView = CityDetailsView(searchRoot, searchResult)
         val fragmentManager = searchRoot.supportFragmentManager
         val transaction = fragmentManager.beginTransaction()
 

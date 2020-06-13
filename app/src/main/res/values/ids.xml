@@ -5,4 +5,10 @@
     <item name="searchResults" type="id" />
     <item name="titleLabel" type="id" />
     <item name="imageView" type="id" />
+    <item name="contentView" type="id" />
+    <item name="populationTitleLabel" type="id" />
+    <item name="mapView" type="id" />
+    <item name="imageCarouselView" type="id" />
+    <item name="shimmeringLoader" type="id" />
+    <item name="populationLabel" type="id" />
 </resources>

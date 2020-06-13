@@ -44,7 +44,7 @@ class CitySearchResultCell(context: Context,
 
         titleLabel.id = R.id.titleLabel
         val titleBackground = GradientDrawable()
-        titleBackground.setColor(Color.argb(0.8.toFloat(), 1.0.toFloat(), 1.0.toFloat(), 1.0.toFloat()))
+        titleBackground.setColor(Color.argb(0.8f, 1.0f, 1.0f, 1.0f))
         titleBackground.setStroke(ViewUtilities.convertToPixels(context, 1), Color.BLACK)
         titleBackground.cornerRadius = ViewUtilities.convertToPixels(context, 8).toFloat()
         titleLabel.background = titleBackground
@@ -53,7 +53,7 @@ class CitySearchResultCell(context: Context,
 
         imageView.id = R.id.imageView
         val imageViewBackground = GradientDrawable()
-        imageViewBackground.setColor(Color.argb(0.2.toFloat(), 0.0.toFloat(), 0.0.toFloat(), 0.0.toFloat()))
+        imageViewBackground.setColor(Color.argb(0.2f, 0.0f, 0.0f, 0.0f))
         imageViewBackground.cornerRadius = ViewUtilities.convertToPixels(context, 52).toFloat()
         imageView.background = imageViewBackground
         imageView.scaleType = ImageView.ScaleType.CENTER_CROP
