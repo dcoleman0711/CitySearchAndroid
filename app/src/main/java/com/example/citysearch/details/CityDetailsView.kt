@@ -15,6 +15,7 @@ import com.example.citysearch.R
 import com.example.citysearch.data.CitySearchResult
 import com.example.citysearch.reactive.ViewBinder
 import com.example.citysearch.utilities.ViewUtilities
+import io.reactivex.disposables.Disposable
 
 class CityDetailsView(context: Context,
                       private val contentView: ConstraintLayout,
@@ -36,11 +37,15 @@ class CityDetailsView(context: Context,
         View(context),
         View(context),
         View(context),
-        CityDetailsViewModelImp(),
+        CityDetailsViewModelImp(searchResult),
         ViewBinder()
     )
 
     private val view: ScrollView
+
+    private lateinit var titleBinding: Disposable
+    private lateinit var populationTitleBinding: Disposable
+    private lateinit var populationBinding: Disposable
 
     init {
 
@@ -71,12 +76,15 @@ class CityDetailsView(context: Context,
         view.addView(contentView)
         
         titleLabel.id = R.id.titleLabel
+        titleLabel.setTextColor(Color.BLACK)
         contentView.addView(titleLabel)
 
         populationTitleLabel.id = R.id.populationTitleLabel
+        populationTitleLabel.setTextColor(Color.BLACK)
         contentView.addView(populationTitleLabel)
 
         populationLabel.id = R.id.populationLabel
+        populationLabel.setTextColor(Color.BLACK)
         contentView.addView(populationLabel)
 
         mapView.setBackgroundColor(Color.RED)
@@ -139,6 +147,8 @@ class CityDetailsView(context: Context,
 
     private fun bindViews() {
 
-
+        titleBinding = binder.bindTextView(titleLabel, viewModel.title)
+        populationTitleBinding = binder.bindTextView(populationTitleLabel, viewModel.populationTitle)
+        populationBinding = binder.bindTextView(populationLabel, viewModel.population)
     }
 }

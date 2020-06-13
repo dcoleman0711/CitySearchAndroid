@@ -22,15 +22,13 @@ interface SearchResultsModel {
 
 class SearchResultsModelImp(private val modelFactory: CitySearchResultModelFactory, private val openDetailsCommandFactory: OpenDetailsCommandFactory): SearchResultsModel {
 
-    override val resultsModels: Observable<Array<CitySearchResultModel>> get() = resultsSubject
-
-    private val resultsSubject = BehaviorSubject.create<Array<CitySearchResultModel>>()
+    override val resultsModels: BehaviorSubject<Array<CitySearchResultModel>> = BehaviorSubject.create()
 
     constructor(searchRoot: SearchRoot) : this(CitySearchResultModelFactoryImp(), OpenDetailsCommandFactoryImp(searchRoot))
 
     override fun setResults(results: CitySearchResults) {
 
         val resultsModels = results.results.map { searchResult -> modelFactory.resultModel(searchResult, openDetailsCommandFactory) }.toTypedArray()
-        resultsSubject.onNext(resultsModels)
+        this.resultsModels.onNext(resultsModels)
     }
 }
