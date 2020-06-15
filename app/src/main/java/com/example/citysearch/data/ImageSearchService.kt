@@ -1,5 +1,7 @@
 package com.example.citysearch.data
 
+import com.example.citysearch.startup.StartupView
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
@@ -9,6 +11,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
+import java.io.InputStreamReader
 
 typealias ImageSearchFuture = Observable<ImageSearchResults>
 
@@ -53,7 +56,13 @@ class ImageSearchServiceImp: ImageSearchService {
 
     override fun imageSearch(query: String): ImageSearchFuture {
 
-        return api.imageSearch(query)
+        val stubFile = StartupView.context.assets.open("stubImageResponse.json")
+        val stubResults = Gson().fromJson(InputStreamReader(stubFile), ImageSearchResults::class.java)
+
+        return Observable.just(stubResults)
             .subscribeOn(Schedulers.io())
+
+//        return api.imageSearch(query)
+//            .subscribeOn(Schedulers.io())
     }
 }

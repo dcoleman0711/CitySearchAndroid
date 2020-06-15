@@ -11,4 +11,7 @@
     <item name="imageCarouselView" type="id" />
     <item name="shimmeringLoader" type="id" />
     <item name="populationLabel" type="id" />
+    <item name="backgroundImageView" type="id" />
+    <item name="markerImageView" type="id" />
+    <item name="guideline" type="id" />
 </resources>

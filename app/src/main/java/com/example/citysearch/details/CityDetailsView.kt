@@ -17,6 +17,10 @@ import com.example.citysearch.details.imagecarousel.ImageCarouselModelImp
 import com.example.citysearch.details.imagecarousel.ImageCarouselView
 import com.example.citysearch.details.imagecarousel.ImageCarouselViewImp
 import com.example.citysearch.details.imagecarousel.ImageCarouselViewModelImp
+import com.example.citysearch.details.map.MapModelImp
+import com.example.citysearch.details.map.MapView
+import com.example.citysearch.details.map.MapViewImp
+import com.example.citysearch.details.map.MapViewModelImp
 import com.example.citysearch.reactive.ViewBinder
 import com.example.citysearch.utilities.ViewUtilities
 import io.reactivex.disposables.Disposable
@@ -26,7 +30,7 @@ class CityDetailsView(context: Context,
                       private val titleLabel: TextView,
                       private val populationTitleLabel: TextView,
                       private val populationLabel: TextView,
-                      private val mapView: View,
+                      private val mapView: MapView,
                       private val imageCarouselView: ImageCarouselView,
                       private val shimmeringLoader: View,
                       private val viewModel: CityDetailsViewModel,
@@ -36,6 +40,10 @@ class CityDetailsView(context: Context,
 
         fun detailsView(context: Context, searchResult: CitySearchResult): CityDetailsView {
 
+            val mapModel = MapModelImp(searchResult)
+            val mapViewModel = MapViewModelImp(context, mapModel)
+            val mapView = MapViewImp(context, mapViewModel)
+
             val imageCarouselModel = ImageCarouselModelImp(context)
             val imageCarouselViewModel = ImageCarouselViewModelImp(imageCarouselModel)
             val imageCarouselView = ImageCarouselViewImp(context, imageCarouselViewModel)
@@ -43,7 +51,7 @@ class CityDetailsView(context: Context,
             val model = CityDetailsModelImp(searchResult, imageCarouselModel)
             val viewModel = CityDetailsViewModelImp(model)
 
-            return CityDetailsView(context, viewModel, imageCarouselView)
+            return CityDetailsView(context, viewModel, mapView, imageCarouselView)
         }
     }
 
@@ -53,13 +61,17 @@ class CityDetailsView(context: Context,
     private lateinit var populationTitleBinding: Disposable
     private lateinit var populationBinding: Disposable
 
-    constructor(context: Context, viewModel: CityDetailsViewModel, imageCarouselView: ImageCarouselView) : this(
+    constructor(context: Context,
+                viewModel: CityDetailsViewModel,
+                mapView: MapView,
+                imageCarouselView: ImageCarouselView
+    ) : this(
         context,
         ConstraintLayout(context),
         TextView(context),
         TextView(context),
         TextView(context),
-        View(context),
+        mapView,
         imageCarouselView,
         View(context),
         viewModel,
@@ -106,9 +118,8 @@ class CityDetailsView(context: Context,
         populationLabel.setTextColor(Color.BLACK)
         contentView.addView(populationLabel)
 
-        mapView.setBackgroundColor(Color.RED)
-        mapView.id = R.id.mapView
-        contentView.addView(mapView)
+        mapView.view.id = R.id.mapView
+        contentView.addView(mapView.view)
 
         imageCarouselView.view.id = R.id.imageCarouselView
         contentView.addView(imageCarouselView.view)
@@ -142,15 +153,15 @@ class CityDetailsView(context: Context,
         constraints.constrainHeight(populationLabel.id, ConstraintSet.WRAP_CONTENT)
 
         // Map View
-        constraints.connect(mapView.id, ConstraintSet.RIGHT, contentView.id, ConstraintSet.RIGHT)
-        constraints.connect(mapView.id, ConstraintSet.TOP, contentView.id, ConstraintSet.TOP)
-        constraints.constrainPercentWidth(mapView.id, 0.5f)
-        constraints.setDimensionRatio(mapView.id, "H,2:1")
+        constraints.connect(mapView.view.id, ConstraintSet.RIGHT, contentView.id, ConstraintSet.RIGHT)
+        constraints.connect(mapView.view.id, ConstraintSet.TOP, contentView.id, ConstraintSet.TOP)
+        constraints.constrainPercentWidth(mapView.view.id, 0.5f)
+        constraints.setDimensionRatio(mapView.view.id, "H,2:1")
 
         // Image Carousel View
         constraints.connect(imageCarouselView.view.id, ConstraintSet.LEFT, contentView.id, ConstraintSet.LEFT)
         constraints.connect(imageCarouselView.view.id, ConstraintSet.RIGHT, contentView.id, ConstraintSet.RIGHT)
-        constraints.connect(imageCarouselView.view.id, ConstraintSet.TOP, mapView.id, ConstraintSet.BOTTOM)
+        constraints.connect(imageCarouselView.view.id, ConstraintSet.TOP, mapView.view.id, ConstraintSet.BOTTOM)
         constraints.connect(imageCarouselView.view.id, ConstraintSet.BOTTOM, contentView.id, ConstraintSet.BOTTOM)
         constraints.constrainHeight(imageCarouselView.view.id, ViewUtilities.convertToPixels(context, 256))
 

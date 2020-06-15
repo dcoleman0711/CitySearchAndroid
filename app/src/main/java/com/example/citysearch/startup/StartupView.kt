@@ -15,9 +15,16 @@ import com.example.citysearch.utilities.TextViewUtilities
 
 open class StartupView: Activity() {
 
+    companion object {
+
+        lateinit var context: Context
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+
+        context = this
 
         viewModel = StartupViewModelImp(transitionCommand = StartupTransitionCommandImp(this))
 

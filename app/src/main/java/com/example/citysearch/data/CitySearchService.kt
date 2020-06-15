@@ -1,5 +1,7 @@
 package com.example.citysearch.data
 
+import com.example.citysearch.startup.StartupView
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
@@ -10,6 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
+import java.io.InputStreamReader
 
 typealias CitySearchFuture = Observable<CitySearchResults>
 
@@ -61,8 +64,8 @@ class CitySearchServiceImp: CitySearchService {
 
     override fun citySearch(): CitySearchFuture {
 
-        val stubResultsArray: Array<CitySearchResult> = IntRange(0, 9).map { index -> CitySearchResult("Test $index", 15000, GeoPoint(0.0, 10.0)) }.toTypedArray()
-        val stubResults = CitySearchResults(stubResultsArray)
+        val stubFile = StartupView.context.assets.open("stubCityResponse.json")
+        val stubResults = Gson().fromJson(InputStreamReader(stubFile), CitySearchResults::class.java)
 
         return Observable.just(stubResults)
             .subscribeOn(Schedulers.io())
