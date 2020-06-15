@@ -13,6 +13,8 @@ import com.example.citysearch.R
 import com.example.citysearch.reactive.RecyclerCell
 import com.example.citysearch.reactive.ViewBinder
 import com.example.citysearch.utilities.ViewUtilities
+import io.reactivex.disposables.Disposable
+import java.util.*
 
 class CitySearchResultCell(context: Context,
                            private val titleLabel: TextView ,
@@ -24,6 +26,8 @@ class CitySearchResultCell(context: Context,
     set(value) {
 
         field = value
+
+        unbind()
 
         if(value == null)
             return
@@ -83,8 +87,17 @@ class CitySearchResultCell(context: Context,
 
     private fun bindToViewModel(viewModel: CitySearchResultViewModel) {
 
-        binder.bindTextView(titleLabel, viewModel.title)
-        binder.bindImageView(imageView, viewModel.iconImage)
+        titleBinding = binder.bindTextView(titleLabel, viewModel.title)
+        imageBinding = binder.bindImageView(imageView, viewModel.iconImage.map { image -> Optional.of(image) })
+    }
+
+    private fun unbind() {
+
+        titleBinding?.dispose()
+        titleBinding = null
+
+        imageBinding?.dispose()
+        imageBinding = null
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
@@ -94,4 +107,7 @@ class CitySearchResultCell(context: Context,
     }
 
     private val binder = ViewBinder()
+
+    private var titleBinding: Disposable? = null
+    private var imageBinding: Disposable? = null
 }

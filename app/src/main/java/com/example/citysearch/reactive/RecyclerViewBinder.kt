@@ -17,7 +17,7 @@ class RecyclerViewBinder<ViewModel, CellType: RecyclerCell<ViewModel>>(private v
         val adapter = RecyclerViewBindingAdapter(cellConstructor)
         view.adapter = adapter
 
-        return viewModelUpdates.subscribe { viewModel ->
+        return viewModelUpdates.subscribe({ viewModel ->
 
             for(decIndex in 0..view.itemDecorationCount-1) {
                 view.removeItemDecorationAt(decIndex)
@@ -28,7 +28,11 @@ class RecyclerViewBinder<ViewModel, CellType: RecyclerCell<ViewModel>>(private v
 
             adapter.cellData = viewModel.cells
             adapter.notifyDataSetChanged()
-        }
+
+        }, { error ->
+
+            print(error)
+        })
     }
 }
 
@@ -58,7 +62,7 @@ class RecyclerViewBindingAdapter<ViewModel, CellType: RecyclerCell<ViewModel>>(p
         val viewModel = cellData.viewModel
         cell.viewModel = viewModel
 
-        cell.setOnClickListener({ cellData.tapCommand.invoke() })
+        cell.setOnClickListener({ cellData.tapCommand?.invoke() })
 
         val layoutParams = cell.getLayoutParams() as? RecyclerView.LayoutParams ?: RecyclerView.LayoutParams(0, 0)
         layoutParams.width = ViewUtilities.convertToPixels(cell.context, cellData.size.width)

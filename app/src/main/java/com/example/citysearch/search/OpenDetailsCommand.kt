@@ -10,7 +10,7 @@ class OpenDetailsCommandImp(private val searchRoot: SearchRoot, private val sear
 
     override fun invoke() {
 
-        val detailsView = CityDetailsView(searchRoot, searchResult)
+        val detailsView = CityDetailsView.detailsView(searchRoot, searchResult)
         val fragmentManager = searchRoot.supportFragmentManager
         val transaction = fragmentManager.beginTransaction()
 

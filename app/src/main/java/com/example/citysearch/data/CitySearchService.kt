@@ -2,6 +2,7 @@ package com.example.citysearch.data
 
 import com.google.gson.GsonBuilder
 import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -28,7 +29,7 @@ class CitySearchServiceImp: CitySearchService {
         private const val appKey = "qxzeBZAV2pzUPlnkOJLjGainEkHCJVEdTnerWyTM"
 
         private const val baseURL = "https://parseapi.back4app.com"
-
+        private const val path = "/classes/Continentscountriescities_City"
     }
 
     interface CitySearchApi {
@@ -37,7 +38,7 @@ class CitySearchServiceImp: CitySearchService {
             "$appIdKey: $appId",
             "$appKeyKey: $appKey"
         )
-        @GET("/classes/Continentscountriescities_City")
+        @GET(path)
         fun citySearch(@Query("skip") start: Int, @Query("limit") count: Int): CitySearchFuture
     }
 
@@ -64,9 +65,11 @@ class CitySearchServiceImp: CitySearchService {
         val stubResults = CitySearchResults(stubResultsArray)
 
         return Observable.just(stubResults)
+            .subscribeOn(Schedulers.io())
 //        val start = 4000
 //        val count = 80
 //
 //        return api.citySearch(start, count)
+//            .subscribeOn(Schedulers.io())
     }
 }

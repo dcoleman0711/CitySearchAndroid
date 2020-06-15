@@ -13,6 +13,10 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import com.example.citysearch.R
 import com.example.citysearch.data.CitySearchResult
+import com.example.citysearch.details.imagecarousel.ImageCarouselModelImp
+import com.example.citysearch.details.imagecarousel.ImageCarouselView
+import com.example.citysearch.details.imagecarousel.ImageCarouselViewImp
+import com.example.citysearch.details.imagecarousel.ImageCarouselViewModelImp
 import com.example.citysearch.reactive.ViewBinder
 import com.example.citysearch.utilities.ViewUtilities
 import io.reactivex.disposables.Disposable
@@ -23,29 +27,44 @@ class CityDetailsView(context: Context,
                       private val populationTitleLabel: TextView,
                       private val populationLabel: TextView,
                       private val mapView: View,
-                      private val imageCarouselView: View,
+                      private val imageCarouselView: ImageCarouselView,
                       private val shimmeringLoader: View,
                       private val viewModel: CityDetailsViewModel,
                       private val binder: ViewBinder): Fragment() {
 
-    constructor(context: Context, searchResult: CitySearchResult) : this(
-        context,
-        ConstraintLayout(context),
-        TextView(context),
-        TextView(context),
-        TextView(context),
-        View(context),
-        View(context),
-        View(context),
-        CityDetailsViewModelImp(searchResult),
-        ViewBinder()
-    )
+    companion object {
+
+        fun detailsView(context: Context, searchResult: CitySearchResult): CityDetailsView {
+
+            val imageCarouselModel = ImageCarouselModelImp(context)
+            val imageCarouselViewModel = ImageCarouselViewModelImp(imageCarouselModel)
+            val imageCarouselView = ImageCarouselViewImp(context, imageCarouselViewModel)
+
+            val model = CityDetailsModelImp(searchResult, imageCarouselModel)
+            val viewModel = CityDetailsViewModelImp(model)
+
+            return CityDetailsView(context, viewModel, imageCarouselView)
+        }
+    }
 
     private val view: ScrollView
 
     private lateinit var titleBinding: Disposable
     private lateinit var populationTitleBinding: Disposable
     private lateinit var populationBinding: Disposable
+
+    constructor(context: Context, viewModel: CityDetailsViewModel, imageCarouselView: ImageCarouselView) : this(
+        context,
+        ConstraintLayout(context),
+        TextView(context),
+        TextView(context),
+        TextView(context),
+        View(context),
+        imageCarouselView,
+        View(context),
+        viewModel,
+        ViewBinder()
+    )
 
     init {
 
@@ -91,9 +110,8 @@ class CityDetailsView(context: Context,
         mapView.id = R.id.mapView
         contentView.addView(mapView)
 
-        imageCarouselView.setBackgroundColor(Color.GREEN)
-        imageCarouselView.id = R.id.imageCarouselView
-        contentView.addView(imageCarouselView)
+        imageCarouselView.view.id = R.id.imageCarouselView
+        contentView.addView(imageCarouselView.view)
 
         shimmeringLoader.id = R.id.shimmeringLoader
         contentView.addView(shimmeringLoader)
@@ -130,17 +148,17 @@ class CityDetailsView(context: Context,
         constraints.setDimensionRatio(mapView.id, "H,2:1")
 
         // Image Carousel View
-        constraints.connect(imageCarouselView.id, ConstraintSet.LEFT, contentView.id, ConstraintSet.LEFT)
-        constraints.connect(imageCarouselView.id, ConstraintSet.RIGHT, contentView.id, ConstraintSet.RIGHT)
-        constraints.connect(imageCarouselView.id, ConstraintSet.TOP, mapView.id, ConstraintSet.BOTTOM)
-        constraints.connect(imageCarouselView.id, ConstraintSet.BOTTOM, contentView.id, ConstraintSet.BOTTOM)
-        constraints.constrainHeight(imageCarouselView.id, ViewUtilities.convertToPixels(context, 256))
+        constraints.connect(imageCarouselView.view.id, ConstraintSet.LEFT, contentView.id, ConstraintSet.LEFT)
+        constraints.connect(imageCarouselView.view.id, ConstraintSet.RIGHT, contentView.id, ConstraintSet.RIGHT)
+        constraints.connect(imageCarouselView.view.id, ConstraintSet.TOP, mapView.id, ConstraintSet.BOTTOM)
+        constraints.connect(imageCarouselView.view.id, ConstraintSet.BOTTOM, contentView.id, ConstraintSet.BOTTOM)
+        constraints.constrainHeight(imageCarouselView.view.id, ViewUtilities.convertToPixels(context, 256))
 
         // Shimmering Loader
-        constraints.connect(shimmeringLoader.id, ConstraintSet.LEFT, imageCarouselView.id, ConstraintSet.LEFT)
-        constraints.connect(shimmeringLoader.id, ConstraintSet.RIGHT, imageCarouselView.id, ConstraintSet.RIGHT)
-        constraints.connect(shimmeringLoader.id, ConstraintSet.TOP, imageCarouselView.id, ConstraintSet.TOP)
-        constraints.connect(shimmeringLoader.id, ConstraintSet.BOTTOM, imageCarouselView.id, ConstraintSet.BOTTOM)
+        constraints.connect(shimmeringLoader.id, ConstraintSet.LEFT, imageCarouselView.view.id, ConstraintSet.LEFT)
+        constraints.connect(shimmeringLoader.id, ConstraintSet.RIGHT, imageCarouselView.view.id, ConstraintSet.RIGHT)
+        constraints.connect(shimmeringLoader.id, ConstraintSet.TOP, imageCarouselView.view.id, ConstraintSet.TOP)
+        constraints.connect(shimmeringLoader.id, ConstraintSet.BOTTOM, imageCarouselView.view.id, ConstraintSet.BOTTOM)
 
         constraints.applyTo(contentView)
     }

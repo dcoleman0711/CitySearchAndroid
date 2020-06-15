@@ -19,8 +19,6 @@ interface CityDetailsViewModel {
 
 class CityDetailsViewModelImp(private val model: CityDetailsModel): CityDetailsViewModel {
 
-    constructor(searchResult: CitySearchResult) : this(CityDetailsModelImp(searchResult))
-
     override val title: Observable<TextViewModel>
 
     override val populationTitle: Observable<TextViewModel>

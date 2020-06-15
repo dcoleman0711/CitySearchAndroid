@@ -19,30 +19,29 @@ interface SearchResultsView {
 
 class SearchResultsViewImp(context: Context, private val viewModel: SearchResultsViewModel): SearchResultsView {
 
-    override val view: View get() = recyclerView
+    override val view: RecyclerView
 
     constructor(context: Context, model: SearchResultsModel) : this(context, SearchResultsViewModelImp(context, model))
 
-    private val recyclerView: RecyclerView
     private val binder: RecyclerViewBinder<CitySearchResultViewModel, CitySearchResultCell> = RecyclerViewBinder(::CitySearchResultCell)
 
     private val recyclerViewBinding: Disposable
 
     init {
 
-        recyclerView = RecyclerView(context)
-        recyclerViewBinding = binder.bindCells(recyclerView, viewModel.resultsViewModels)
+        view = RecyclerView(context)
+        recyclerViewBinding = binder.bindCells(view, viewModel.resultsViewModels)
 
         setupView()
     }
 
     private fun setupView() {
 
-        recyclerView.setBackgroundColor(Color.TRANSPARENT)
-        recyclerView.isHorizontalScrollBarEnabled = false
+        view.setBackgroundColor(Color.TRANSPARENT)
+        view.isHorizontalScrollBarEnabled = false
 
-        val layoutManager = GridLayoutManager(recyclerView.context, 2, GridLayoutManager.HORIZONTAL, false)
-        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
-        recyclerView.layoutManager = layoutManager
+        val layoutManager = GridLayoutManager(view.context, 2, GridLayoutManager.HORIZONTAL, false)
+        layoutManager.orientation = GridLayoutManager.HORIZONTAL
+        view.layoutManager = layoutManager
     }
 }
