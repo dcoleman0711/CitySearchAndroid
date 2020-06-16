@@ -45,6 +45,7 @@ open class StartupView: Activity() {
 
         view.id = R.id.view
         view.setBackgroundColor(Color.WHITE)
+        view.clipChildren = false
 
         appTitleLabel.id = R.id.appTitleLabel
         view.addView(appTitleLabel)

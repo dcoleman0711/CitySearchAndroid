@@ -23,7 +23,7 @@ class ViewUtilities {
 
             view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
 
-            val result = frame(view).size
+            val result = Size(View.MeasureSpec.getSize(view.measuredWidth), View.MeasureSpec.getSize(view.measuredHeight))
 
             view.measure(currentMeasuredWidth, currentMeasuredHeight)
 
