@@ -19,9 +19,8 @@ class RecyclerViewBinder<ViewModel, CellType: RecyclerCell<ViewModel>>(private v
 
         return viewModelUpdates.subscribe({ viewModel ->
 
-            for(decIndex in 0..view.itemDecorationCount-1) {
+            for(decIndex in 0 until view.itemDecorationCount)
                 view.removeItemDecorationAt(decIndex)
-            }
 
             val spacingDecoration = SpacingDecoration<ViewModel>(viewModel.horSpacing, viewModel.verSpacing)
             view.addItemDecoration(spacingDecoration)

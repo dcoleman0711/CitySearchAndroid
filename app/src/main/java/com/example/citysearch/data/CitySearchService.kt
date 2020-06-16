@@ -65,7 +65,9 @@ class CitySearchServiceImp: CitySearchService {
     override fun citySearch(): CitySearchFuture {
 
         val stubFile = StartupView.context.assets.open("stubCityResponse.json")
-        val stubResults = Gson().fromJson(InputStreamReader(stubFile), CitySearchResults::class.java)
+        val stubFileContents = Gson().fromJson(InputStreamReader(stubFile), CitySearchResults::class.java)
+
+        val stubResults = CitySearchResults(Array(5) { stubFileContents.results }.flatten().toTypedArray())
 
         return Observable.just(stubResults)
             .subscribeOn(Schedulers.io())
