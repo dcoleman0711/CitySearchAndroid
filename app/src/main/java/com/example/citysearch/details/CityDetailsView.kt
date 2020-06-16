@@ -12,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import com.example.citysearch.R
+import com.example.citysearch.animations.ShimmeringLoaderView
 import com.example.citysearch.data.CitySearchResult
 import com.example.citysearch.details.imagecarousel.ImageCarouselModelImp
 import com.example.citysearch.details.imagecarousel.ImageCarouselView
@@ -32,7 +33,7 @@ class CityDetailsView(context: Context,
                       private val populationLabel: TextView,
                       private val mapView: MapView,
                       private val imageCarouselView: ImageCarouselView,
-                      private val shimmeringLoader: View,
+                      private val shimmeringLoader: ShimmeringLoaderView,
                       private val viewModel: CityDetailsViewModel,
                       private val binder: ViewBinder): Fragment() {
 
@@ -60,6 +61,7 @@ class CityDetailsView(context: Context,
     private lateinit var titleBinding: Disposable
     private lateinit var populationTitleBinding: Disposable
     private lateinit var populationBinding: Disposable
+    private lateinit var showLoaderBinding: Disposable
 
     constructor(context: Context,
                 viewModel: CityDetailsViewModel,
@@ -73,7 +75,7 @@ class CityDetailsView(context: Context,
         TextView(context),
         mapView,
         imageCarouselView,
-        View(context),
+        ShimmeringLoaderView(context),
         viewModel,
         ViewBinder()
     )
@@ -179,5 +181,14 @@ class CityDetailsView(context: Context,
         titleBinding = binder.bindTextView(titleLabel, viewModel.title)
         populationTitleBinding = binder.bindTextView(populationTitleLabel, viewModel.populationTitle)
         populationBinding = binder.bindTextView(populationLabel, viewModel.population)
+
+        showLoaderBinding = viewModel.showLoader.subscribe { showLoader ->
+
+            if(showLoader)
+                shimmeringLoader.startAnimating()
+
+            else
+                shimmeringLoader.stopAnimating()
+        }
     }
 }
