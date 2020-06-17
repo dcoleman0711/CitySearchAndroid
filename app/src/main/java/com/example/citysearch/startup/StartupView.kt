@@ -1,47 +1,41 @@
 package com.example.citysearch.startup
 
-import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.graphics.Color
-import android.os.Bundle
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import com.example.citysearch.R
 import com.example.citysearch.animations.RollingAnimationLabel
-import com.example.citysearch.reactive.ViewBinder
-import com.example.citysearch.utilities.TextViewUtilities
+import com.example.citysearch.utilities.*
+import io.reactivex.disposables.Disposable
 
-open class StartupView: Activity() {
+interface StartupView {
 
-    companion object {
+    val view: View
+}
 
-        lateinit var context: Context
-    }
+class StartupViewImp(context: Context,
+                     private val viewModel: StartupViewModel,
+                     override val view: ConstraintLayout,
+                     private val appTitleLabel: RollingAnimationLabel,
+                     private val constraintSetFactory: ConstraintSetFactory): StartupView {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    private lateinit var appTitleBinding: Disposable
 
-        super.onCreate(savedInstanceState)
+    constructor(context: Context) : this(context, StartupViewModelImp(transitionCommand = StartupTransitionCommandImp(context)), ConstraintLayout(context), RollingAnimationLabel(context), ConstraintSetFactoryImp())
 
-        context = this
+    init {
 
-        viewModel = StartupViewModelImp(transitionCommand = StartupTransitionCommandImp(this))
-
-        val view = ConstraintLayout(this)
-        setContentView(view)
-
-        appTitleLabel = RollingAnimationLabel(this)
-
-        setupView(view)
-        buildLayout(view)
+        setupView()
+        buildLayout()
 
         viewModel.model.startTransitionTimer()
 
         bindViews()
     }
 
-    private fun setupView(view: ConstraintLayout) {
+    private fun setupView() {
 
         view.id = R.id.view
         view.setBackgroundColor(Color.WHITE)
@@ -51,31 +45,24 @@ open class StartupView: Activity() {
         view.addView(appTitleLabel)
     }
 
-    private fun buildLayout(view: ConstraintLayout) {
+    private fun buildLayout() {
 
-        val constraints = ConstraintSet()
+        val constraints = constraintSetFactory.constraintSet()
 
         // AppTitle
-        constraints.centerHorizontally(appTitleLabel.id, view.id)
-        constraints.centerVertically(appTitleLabel.id, view.id)
+        constraints.centerHorizontally(appTitleLabel.id, ConstraintSet.PARENT_ID)
+        constraints.centerVertically(appTitleLabel.id, ConstraintSet.PARENT_ID)
         constraints.constrainWidth(appTitleLabel.id, ConstraintSet.WRAP_CONTENT)
         constraints.constrainHeight(appTitleLabel.id, ConstraintSet.WRAP_CONTENT)
 
         constraints.applyTo(view)
     }
 
-    @SuppressLint("CheckResult")
     private fun bindViews() {
 
-        viewModel.appTitle.subscribe { viewModel ->
+        appTitleBinding = viewModel.appTitle.subscribe { viewModel ->
 
             appTitleLabel.start(viewModel.text, viewModel.font)
         }
     }
-
-    val view: View get() = findViewById(R.id.content)
-
-    private lateinit var appTitleLabel: RollingAnimationLabel
-
-    private lateinit var viewModel: StartupViewModel
 }

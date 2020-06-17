@@ -1,5 +1,6 @@
 package com.example.citysearch.data
 
+import com.example.citysearch.startup.StartupActivity
 import com.example.citysearch.startup.StartupView
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -64,7 +65,7 @@ class CitySearchServiceImp: CitySearchService {
 
     override fun citySearch(): CitySearchFuture {
 
-        val stubFile = StartupView.context.assets.open("stubCityResponse.json")
+        val stubFile = StartupActivity.context.assets.open("stubCityResponse.json")
         val stubFileContents = Gson().fromJson(InputStreamReader(stubFile), CitySearchResults::class.java)
 
         val stubResults = CitySearchResults(Array(5) { stubFileContents.results }.flatten().toTypedArray())
