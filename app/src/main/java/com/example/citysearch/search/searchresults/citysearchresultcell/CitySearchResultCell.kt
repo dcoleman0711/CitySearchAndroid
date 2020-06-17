@@ -12,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintSet
 import com.example.citysearch.R
 import com.example.citysearch.reactive.RecyclerCell
 import com.example.citysearch.reactive.ViewBinder
+import com.example.citysearch.reactive.ViewBinderImp
 import com.example.citysearch.utilities.ViewUtilities
 import io.reactivex.disposables.Disposable
 import java.util.*
@@ -100,13 +101,7 @@ class CitySearchResultCell(context: Context,
         imageBinding = null
     }
 
-    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-        super.onLayout(changed, left, top, right, bottom)
-
-        print("TEST")
-    }
-
-    private val binder = ViewBinder()
+    private val binder = ViewBinderImp()
 
     private var titleBinding: Disposable? = null
     private var imageBinding: Disposable? = null

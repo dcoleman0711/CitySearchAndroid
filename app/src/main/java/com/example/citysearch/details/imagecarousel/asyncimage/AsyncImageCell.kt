@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintSet
 import com.example.citysearch.R
 import com.example.citysearch.reactive.RecyclerCell
 import com.example.citysearch.reactive.ViewBinder
+import com.example.citysearch.reactive.ViewBinderImp
 import io.reactivex.disposables.Disposable
 
 class AsyncImageCell(context: Context,
@@ -53,7 +54,7 @@ class AsyncImageCell(context: Context,
         constraints.applyTo(this)
     }
 
-    private val binder: ViewBinder = ViewBinder()
+    private val binder: ViewBinder = ViewBinderImp()
 
     private var imageBinding: Disposable? = null
 

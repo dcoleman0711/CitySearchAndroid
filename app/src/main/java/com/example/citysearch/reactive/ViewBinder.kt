@@ -12,9 +12,15 @@ import java.util.*
 
 fun<T> Optional<T>.toNullable(): T? = orElse(null)
 
-class ViewBinder {
+interface ViewBinder {
 
-    fun bindTextView(view: TextView, viewModelUpdates: Observable<TextViewModel>): Disposable {
+    fun bindTextView(view: TextView, viewModelUpdates: Observable<TextViewModel>): Disposable
+    fun bindImageView(view: ImageView, viewModelUpdates: Observable<Optional<Bitmap>>): Disposable
+}
+
+class ViewBinderImp: ViewBinder {
+
+    override fun bindTextView(view: TextView, viewModelUpdates: Observable<TextViewModel>): Disposable {
 
         return viewModelUpdates.subscribe { viewModel ->
 
@@ -23,7 +29,7 @@ class ViewBinder {
         }
     }
 
-    fun bindImageView(view: ImageView, viewModelUpdates: Observable<Optional<Bitmap>>): Disposable {
+    override fun bindImageView(view: ImageView, viewModelUpdates: Observable<Optional<Bitmap>>): Disposable {
 
         return viewModelUpdates.subscribe { imageOpt ->
 

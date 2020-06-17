@@ -23,6 +23,7 @@ import com.example.citysearch.details.map.MapView
 import com.example.citysearch.details.map.MapViewImp
 import com.example.citysearch.details.map.MapViewModelImp
 import com.example.citysearch.reactive.ViewBinder
+import com.example.citysearch.reactive.ViewBinderImp
 import com.example.citysearch.utilities.ViewUtilities
 import io.reactivex.disposables.Disposable
 
@@ -77,7 +78,7 @@ class CityDetailsView(context: Context,
         imageCarouselView,
         ShimmeringLoaderView(context),
         viewModel,
-        ViewBinder()
+        ViewBinderImp()
     )
 
     init {

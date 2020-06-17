@@ -9,6 +9,7 @@ import androidx.constraintlayout.widget.Guideline
 import androidx.constraintlayout.widget.Placeholder
 import com.example.citysearch.R
 import com.example.citysearch.reactive.ViewBinder
+import com.example.citysearch.reactive.ViewBinderImp
 import com.example.citysearch.utilities.Rect
 import com.example.citysearch.utilities.ViewUtilities
 import io.reactivex.disposables.Disposable
@@ -17,23 +18,6 @@ import java.util.*
 interface MapView {
 
     val view: View
-}
-
-class TestView(context: Context): ConstraintLayout(context) {
-
-    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-
-        super.onLayout(changed, left, top, right, bottom)
-
-        print("TEST")
-    }
-
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-
-        print("TEST")
-    }
 }
 
 class MapViewImp(private val context: Context, private val viewModel: MapViewModel): MapView {
@@ -53,14 +37,14 @@ class MapViewImp(private val context: Context, private val viewModel: MapViewMod
 
     init {
 
-        view = TestView(context)
+        view = ConstraintLayout(context)
 
         backgroundImageView = ImageView(context)
         markerImageView = ImageView(context)
 
         placeholder = Placeholder(context)
 
-        binder = ViewBinder()
+        binder = ViewBinderImp()
 
         setupView()
         buildLayout()
