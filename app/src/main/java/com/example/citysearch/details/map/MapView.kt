@@ -104,8 +104,8 @@ class MapViewImp(private val context: Context, private val viewModel: MapViewMod
         constraints.constrainWidth(markerImageView.id, ViewUtilities.convertToPixels(context, markerFrame.size.width))
         constraints.constrainHeight(markerImageView.id, ViewUtilities.convertToPixels(context, markerFrame.size.height))
 
-        constraints.constrainPercentWidth(placeholder.id, markerFrame.origin.x.toFloat() / 100f)
-        constraints.constrainPercentHeight(placeholder.id, markerFrame.origin.y.toFloat() / 100f)
+        constraints.constrainPercentWidth(placeholder.id, markerFrame.origin.x.toFloat() / MapViewModel.resolution)
+        constraints.constrainPercentHeight(placeholder.id, markerFrame.origin.y.toFloat() / MapViewModel.resolution)
 
         constraints.applyTo(view)
     }

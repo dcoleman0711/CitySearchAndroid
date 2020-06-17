@@ -11,6 +11,11 @@ import io.reactivex.Observable
 
 interface MapViewModel {
 
+    companion object {
+
+        const val resolution = 1.0e6f
+    }
+
     val backgroundImage: Observable<Bitmap>
     val markerImage: Observable<Bitmap>
     val markerFrame: Observable<Rect>
@@ -40,7 +45,7 @@ class MapViewModelImp(context: Context, private val model: MapModel): MapViewMod
         val xPercent = ((geoCoordinates.longitude / 360.0) + 0.5).rem(1.0)
         val yPercent = 1.0 - (geoCoordinates.latitude + 90.0) / 180.0
 
-        val position = Point((xPercent * 100.0).toInt(), (yPercent * 100.0).toInt())
+        val position = Point((xPercent * MapViewModel.resolution).toInt(), (yPercent * MapViewModel.resolution).toInt())
 
         return Rect(position, markerSize)
     }
