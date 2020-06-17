@@ -16,33 +16,39 @@ import com.example.citysearch.parallax.ParallaxView
 import com.example.citysearch.parallax.ParallaxViewImp
 import com.example.citysearch.parallax.ParallaxViewModelImp
 import com.example.citysearch.search.searchresults.*
-import com.example.citysearch.utilities.ViewUtilities
+import com.example.citysearch.utilities.*
 
-class SearchView(context: Context, searchResultsModel: SearchResultsModel): Fragment() {
+class SearchView(private val view: ConstraintLayout,
+                 private val viewModel: SearchViewModel,
+                 private val searchResultsView: SearchResultsView,
+                 private val parallaxView: ParallaxView,
+                 private val constraintSetFactory: ConstraintSetFactory,
+                 private val measureConverter: MeasureConverter): Fragment() {
 
-    private val searchResultsView: SearchResultsView
-    private val parallaxView: ParallaxView
+    companion object {
 
-    private val viewModel: SearchViewModel
+        fun searchView(context: Context, searchResultsModel: SearchResultsModel): SearchView {
 
-    private val view: ConstraintLayout
+            val searchResultsViewModel = SearchResultsViewModelImp(context, searchResultsModel)
+            val searchResultsView = SearchResultsViewImp(context, searchResultsViewModel)
+
+            val parallaxModel = ParallaxModelImp()
+            val parallaxViewModel = ParallaxViewModelImp(parallaxModel)
+            val parallaxView = ParallaxViewImp(context, parallaxViewModel)
+
+            val model = SearchModelImp(context, parallaxModel, searchResultsModel)
+            val viewModel = SearchViewModelImp(model, parallaxViewModel, searchResultsViewModel)
+
+            val view = ConstraintLayout(context)
+
+            return SearchView(view, viewModel, searchResultsView, parallaxView, ConstraintSetFactoryImp(), MeasureConverterImp(context))
+        }
+    }
 
     init {
 
-        val searchResultsViewModel = SearchResultsViewModelImp(context, searchResultsModel)
-        searchResultsView = SearchResultsViewImp(context, searchResultsViewModel)
-
-        val parallaxModel = ParallaxModelImp()
-        val parallaxViewModel = ParallaxViewModelImp(parallaxModel)
-        parallaxView = ParallaxViewImp(context, parallaxViewModel)
-
-        val model = SearchModelImp(context, parallaxModel, searchResultsModel)
-        viewModel = SearchViewModelImp(model, parallaxViewModel, searchResultsViewModel)
-
-        view = ConstraintLayout(context)
-
         setupView()
-        buildLayout(context)
+        buildLayout()
     }
 
     override fun onCreateView(
@@ -66,21 +72,21 @@ class SearchView(context: Context, searchResultsModel: SearchResultsModel): Frag
         view.addView(searchResultsView.view)
     }
 
-    private fun buildLayout(context: Context) {
+    private fun buildLayout() {
 
-        val constraints = ConstraintSet()
+        val constraints = constraintSetFactory.constraintSet()
 
         // Parallax View
-        constraints.connect(parallaxView.view.id, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT, 0)
-        constraints.connect(parallaxView.view.id, ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT, 0)
-        constraints.connect(parallaxView.view.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0)
-        constraints.connect(parallaxView.view.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, 0)
+        constraints.connect(parallaxView.view.id, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT)
+        constraints.connect(parallaxView.view.id, ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT)
+        constraints.connect(parallaxView.view.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+        constraints.connect(parallaxView.view.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
 
         // Search Results
-        constraints.connect(searchResultsView.view.id, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT, 0)
-        constraints.connect(searchResultsView.view.id, ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT, 0)
+        constraints.connect(searchResultsView.view.id, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT)
+        constraints.connect(searchResultsView.view.id, ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT)
         constraints.centerVertically(searchResultsView.view.id, ConstraintSet.PARENT_ID)
-        constraints.constrainHeight(searchResultsView.view.id, View.MeasureSpec.makeMeasureSpec(ViewUtilities.convertToPixels(context, 312), View.MeasureSpec.EXACTLY))
+        constraints.constrainHeight(searchResultsView.view.id, View.MeasureSpec.makeMeasureSpec(measureConverter.convertToPixels(312), View.MeasureSpec.EXACTLY))
 
         constraints.applyTo(view)
     }

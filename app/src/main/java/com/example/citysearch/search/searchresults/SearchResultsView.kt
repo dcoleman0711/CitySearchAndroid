@@ -6,6 +6,7 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citysearch.reactive.RecyclerViewBinder
+import com.example.citysearch.reactive.RecyclerViewBinderImp
 import com.example.citysearch.search.searchresults.citysearchresultcell.CitySearchResultCell
 import com.example.citysearch.search.searchresults.citysearchresultcell.CitySearchResultViewModel
 import com.example.citysearch.utilities.Point
@@ -21,7 +22,7 @@ class SearchResultsViewImp(context: Context, private val viewModel: SearchResult
 
     override val view: RecyclerView
 
-    private val binder: RecyclerViewBinder<CitySearchResultViewModel, CitySearchResultCell> = RecyclerViewBinder(::CitySearchResultCell)
+    private val binder: RecyclerViewBinder<CitySearchResultViewModel, CitySearchResultCell> = RecyclerViewBinderImp(context, ::CitySearchResultCell)
 
     private val recyclerViewBinding: Disposable
 

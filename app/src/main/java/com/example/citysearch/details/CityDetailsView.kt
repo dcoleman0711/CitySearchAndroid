@@ -25,6 +25,8 @@ import com.example.citysearch.details.map.MapViewImp
 import com.example.citysearch.details.map.MapViewModelImp
 import com.example.citysearch.reactive.ViewBinder
 import com.example.citysearch.reactive.ViewBinderImp
+import com.example.citysearch.utilities.MeasureConverter
+import com.example.citysearch.utilities.MeasureConverterImp
 import com.example.citysearch.utilities.ViewUtilities
 import io.reactivex.disposables.Disposable
 
@@ -37,7 +39,8 @@ class CityDetailsView(context: Context,
                       private val imageCarouselView: ImageCarouselView,
                       private val shimmeringLoader: ShimmeringLoaderView,
                       private val viewModel: CityDetailsViewModel,
-                      private val binder: ViewBinder): Fragment() {
+                      private val binder: ViewBinder,
+                      private val measureConverter: MeasureConverter): Fragment() {
 
     companion object {
 
@@ -79,7 +82,8 @@ class CityDetailsView(context: Context,
         imageCarouselView,
         ShimmeringLoaderViewImp(context),
         viewModel,
-        ViewBinderImp()
+        ViewBinderImp(),
+        MeasureConverterImp(context)
     )
 
     init {
@@ -145,12 +149,12 @@ class CityDetailsView(context: Context,
 
         // Population Title Label
         constraints.connect(populationTitleLabel.id, ConstraintSet.LEFT, titleLabel.id, ConstraintSet.LEFT)
-        constraints.connect(populationTitleLabel.id, ConstraintSet.TOP, titleLabel.id, ConstraintSet.BOTTOM, ViewUtilities.convertToPixels(context, 32))
+        constraints.connect(populationTitleLabel.id, ConstraintSet.TOP, titleLabel.id, ConstraintSet.BOTTOM, measureConverter.convertToPixels(32))
         constraints.constrainWidth(populationTitleLabel.id, ConstraintSet.WRAP_CONTENT)
         constraints.constrainHeight(populationTitleLabel.id, ConstraintSet.WRAP_CONTENT)
 
         // Population Label
-        constraints.connect(populationLabel.id, ConstraintSet.LEFT, populationTitleLabel.id, ConstraintSet.RIGHT, ViewUtilities.convertToPixels(context, 8))
+        constraints.connect(populationLabel.id, ConstraintSet.LEFT, populationTitleLabel.id, ConstraintSet.RIGHT, measureConverter.convertToPixels(8))
         constraints.connect(populationLabel.id, ConstraintSet.TOP, populationTitleLabel.id, ConstraintSet.TOP)
         constraints.connect(populationLabel.id, ConstraintSet.BOTTOM, populationTitleLabel.id, ConstraintSet.BOTTOM)
         constraints.constrainWidth(populationLabel.id, ConstraintSet.WRAP_CONTENT)
@@ -167,7 +171,7 @@ class CityDetailsView(context: Context,
         constraints.connect(imageCarouselView.view.id, ConstraintSet.RIGHT, contentView.id, ConstraintSet.RIGHT)
         constraints.connect(imageCarouselView.view.id, ConstraintSet.TOP, mapView.view.id, ConstraintSet.BOTTOM)
         constraints.connect(imageCarouselView.view.id, ConstraintSet.BOTTOM, contentView.id, ConstraintSet.BOTTOM)
-        constraints.constrainHeight(imageCarouselView.view.id, ViewUtilities.convertToPixels(context, 256))
+        constraints.constrainHeight(imageCarouselView.view.id, measureConverter.convertToPixels(256))
 
         // Shimmering Loader
         constraints.connect(shimmeringLoader.view.id, ConstraintSet.LEFT, imageCarouselView.view.id, ConstraintSet.LEFT)

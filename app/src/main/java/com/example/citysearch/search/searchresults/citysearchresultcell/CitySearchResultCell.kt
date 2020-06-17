@@ -13,15 +13,18 @@ import com.example.citysearch.R
 import com.example.citysearch.reactive.RecyclerCell
 import com.example.citysearch.reactive.ViewBinder
 import com.example.citysearch.reactive.ViewBinderImp
+import com.example.citysearch.utilities.MeasureConverter
+import com.example.citysearch.utilities.MeasureConverterImp
 import com.example.citysearch.utilities.ViewUtilities
 import io.reactivex.disposables.Disposable
 import java.util.*
 
 class CitySearchResultCell(context: Context,
-                           private val titleLabel: TextView ,
-                           private val imageView: ImageView): RecyclerCell<CitySearchResultViewModel>(context) {
+                           private val titleLabel: TextView,
+                           private val imageView: ImageView,
+                           private val measureConverter: MeasureConverter): RecyclerCell<CitySearchResultViewModel>(context) {
 
-    constructor(context: Context) : this(context, TextView(context), ImageView(context))
+    constructor(context: Context) : this(context, TextView(context), ImageView(context), MeasureConverterImp(context))
 
     override var viewModel: CitySearchResultViewModel? = null
     set(value) {
@@ -50,8 +53,8 @@ class CitySearchResultCell(context: Context,
         titleLabel.id = R.id.titleLabel
         val titleBackground = GradientDrawable()
         titleBackground.setColor(Color.argb(0.8f, 1.0f, 1.0f, 1.0f))
-        titleBackground.setStroke(ViewUtilities.convertToPixels(context, 1), Color.BLACK)
-        titleBackground.cornerRadius = ViewUtilities.convertToPixels(context, 8).toFloat()
+        titleBackground.setStroke(measureConverter.convertToPixels(1), Color.BLACK)
+        titleBackground.cornerRadius = measureConverter.convertToPixels(8).toFloat()
         titleLabel.background = titleBackground
         titleLabel.gravity = Gravity.CENTER
         addView(titleLabel)
@@ -59,7 +62,7 @@ class CitySearchResultCell(context: Context,
         imageView.id = R.id.imageView
         val imageViewBackground = GradientDrawable()
         imageViewBackground.setColor(Color.argb(0.2f, 0.0f, 0.0f, 0.0f))
-        imageViewBackground.cornerRadius = ViewUtilities.convertToPixels(context, 52).toFloat()
+        imageViewBackground.cornerRadius = measureConverter.convertToPixels(52).toFloat()
         imageView.background = imageViewBackground
         imageView.scaleType = ImageView.ScaleType.CENTER_CROP
         imageView.clipToOutline = true
@@ -74,7 +77,7 @@ class CitySearchResultCell(context: Context,
         constraints.connect(titleLabel.id, ConstraintSet.LEFT, this.id, ConstraintSet.LEFT)
         constraints.connect(titleLabel.id, ConstraintSet.RIGHT, this.id, ConstraintSet.RIGHT)
         constraints.connect(titleLabel.id, ConstraintSet.BOTTOM, this.id, ConstraintSet.BOTTOM)
-        constraints.constrainHeight(titleLabel.id, View.MeasureSpec.makeMeasureSpec(ViewUtilities.convertToPixels(context, 24), MeasureSpec.EXACTLY))
+        constraints.constrainHeight(titleLabel.id, View.MeasureSpec.makeMeasureSpec(measureConverter.convertToPixels(24), MeasureSpec.EXACTLY))
 
         // ImageView
         constraints.connect(imageView.id, ConstraintSet.LEFT, this.id, ConstraintSet.LEFT)

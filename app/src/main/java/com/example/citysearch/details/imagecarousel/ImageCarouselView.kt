@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.citysearch.details.imagecarousel.asyncimage.AsyncImageCell
 import com.example.citysearch.details.imagecarousel.asyncimage.AsyncImageViewModel
 import com.example.citysearch.reactive.RecyclerViewBinder
+import com.example.citysearch.reactive.RecyclerViewBinderImp
 import io.reactivex.disposables.Disposable
 
 interface ImageCarouselView {
@@ -20,7 +21,7 @@ class ImageCarouselViewImp(context: Context, private val viewModel: ImageCarouse
 
     override val view: RecyclerView
 
-    private val binder: RecyclerViewBinder<AsyncImageViewModel, AsyncImageCell> = RecyclerViewBinder(::AsyncImageCell)
+    private val binder: RecyclerViewBinder<AsyncImageViewModel, AsyncImageCell> = RecyclerViewBinderImp(context, ::AsyncImageCell)
 
     private lateinit var cellsBinding: Disposable
 

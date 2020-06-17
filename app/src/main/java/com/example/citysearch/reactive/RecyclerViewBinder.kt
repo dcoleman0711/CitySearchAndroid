@@ -6,15 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.citysearch.utilities.MeasureConverter
+import com.example.citysearch.utilities.MeasureConverterImp
 import com.example.citysearch.utilities.ViewUtilities
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 
-class RecyclerViewBinder<ViewModel, CellType: RecyclerCell<ViewModel>>(private val cellConstructor: (Context) -> CellType) {
+interface  RecyclerViewBinder<ViewModel, CellType: RecyclerCell<ViewModel>> {
 
-    fun bindCells(view: RecyclerView, viewModelUpdates: Observable<RecyclerViewModel<ViewModel>>): Disposable {
+    fun bindCells(view: RecyclerView, viewModelUpdates: Observable<RecyclerViewModel<ViewModel>>): Disposable
+}
 
-        val adapter = RecyclerViewBindingAdapter(cellConstructor)
+class RecyclerViewBinderImp<ViewModel, CellType: RecyclerCell<ViewModel>>(private val context: Context, private val cellConstructor: (Context) -> CellType): RecyclerViewBinder<ViewModel, CellType> {
+
+    override fun bindCells(view: RecyclerView, viewModelUpdates: Observable<RecyclerViewModel<ViewModel>>): Disposable {
+
+        val adapter = RecyclerViewBindingAdapter(context, cellConstructor)
         view.adapter = adapter
 
         return viewModelUpdates.subscribe({ viewModel ->
@@ -22,7 +29,7 @@ class RecyclerViewBinder<ViewModel, CellType: RecyclerCell<ViewModel>>(private v
             for(decIndex in 0 until view.itemDecorationCount)
                 view.removeItemDecorationAt(decIndex)
 
-            val spacingDecoration = SpacingDecoration<ViewModel>(viewModel.horSpacing, viewModel.verSpacing)
+            val spacingDecoration = SpacingDecoration<ViewModel>(viewModel.horSpacing, viewModel.verSpacing, context)
             view.addItemDecoration(spacingDecoration)
 
             adapter.cellData = viewModel.cells
@@ -35,7 +42,9 @@ class RecyclerViewBinder<ViewModel, CellType: RecyclerCell<ViewModel>>(private v
     }
 }
 
-class RecyclerViewBindingAdapter<ViewModel, CellType: RecyclerCell<ViewModel>>(private val constructor: (Context) -> CellType): RecyclerView.Adapter<RecyclerViewBindingAdapter<ViewModel, CellType>.CellHolder>() {
+class RecyclerViewBindingAdapter<ViewModel, CellType: RecyclerCell<ViewModel>>(private val constructor: (Context) -> CellType, private val measureConverter: MeasureConverter): RecyclerView.Adapter<RecyclerViewBindingAdapter<ViewModel, CellType>.CellHolder>() {
+
+    constructor(context: Context, constructor: (Context) -> CellType) : this(constructor, MeasureConverterImp(context))
 
     inner class CellHolder(val cell: RecyclerCell<ViewModel>): RecyclerView.ViewHolder(cell) {
 
@@ -64,15 +73,17 @@ class RecyclerViewBindingAdapter<ViewModel, CellType: RecyclerCell<ViewModel>>(p
         cell.setOnClickListener({ cellData.tapCommand?.invoke() })
 
         val layoutParams = cell.getLayoutParams() as? RecyclerView.LayoutParams ?: RecyclerView.LayoutParams(0, 0)
-        layoutParams.width = ViewUtilities.convertToPixels(cell.context, cellData.size.width)
-        layoutParams.height = ViewUtilities.convertToPixels(cell.context, cellData.size.height)
+        layoutParams.width = measureConverter.convertToPixels(cellData.size.width)
+        layoutParams.height = measureConverter.convertToPixels(cellData.size.height)
         cell.setLayoutParams(layoutParams)
     }
 
     var cellData: Array<CellData<ViewModel>> = arrayOf()
 }
 
-class SpacingDecoration<ViewModel>(private val horSpacing: Int, private val verSpacing: Int): RecyclerView.ItemDecoration() {
+class SpacingDecoration<ViewModel>(private val horSpacing: Int, private val verSpacing: Int, private val measureConverter: MeasureConverter): RecyclerView.ItemDecoration() {
+
+    constructor(horSpacing: Int, verSpacing: Int, context: Context) : this(horSpacing, verSpacing, MeasureConverterImp(context))
 
     override fun getItemOffsets(
         outRect: Rect,
@@ -88,9 +99,9 @@ class SpacingDecoration<ViewModel>(private val horSpacing: Int, private val verS
         val row = index % spanCount
 
         if(column > 0)
-            outRect.left = ViewUtilities.convertToPixels(view.context, horSpacing)
+            outRect.left = measureConverter.convertToPixels(horSpacing)
 
         if(row > 0)
-            outRect.top = ViewUtilities.convertToPixels(view.context, verSpacing)
+            outRect.top = measureConverter.convertToPixels(verSpacing)
     }
 }

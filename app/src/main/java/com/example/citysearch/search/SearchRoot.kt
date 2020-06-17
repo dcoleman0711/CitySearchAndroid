@@ -24,7 +24,7 @@ class SearchRoot: FragmentActivity() {
         val searchResultsModel = SearchResultsModelImp(this)
         searchResultsModel.setResults(initialResults)
 
-        val searchView = SearchView(this, searchResultsModel)
+        val searchView = SearchView.searchView(this, searchResultsModel)
 
         supportFragmentManager
             .beginTransaction()
