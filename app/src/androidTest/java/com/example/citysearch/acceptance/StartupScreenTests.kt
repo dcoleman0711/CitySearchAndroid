@@ -1,47 +1,47 @@
 //package com.example.citysearch.acceptance
 //
-//import android.app.Activity
-//import android.content.Context
-//import android.content.Intent
-//import android.graphics.Color
-//import android.graphics.Typeface
-//import android.graphics.drawable.ColorDrawable
-//import android.view.View
-//import androidx.lifecycle.Lifecycle
-//import androidx.test.core.app.ActivityScenario
-//import androidx.test.core.app.launchActivity
-//import androidx.test.ext.junit.runners.AndroidJUnit4
-//import com.example.citysearch.animations.RollingAnimationLabel
-//import com.example.citysearch.data.CitySearchService
-//import com.example.citysearch.startup.StartupTransitionCommand
-//import com.example.citysearch.startup.StartupView
-//import com.example.citysearch.startup.StartupViewBuilderImp
-//import com.example.citysearch.utilities.Font
-//import com.example.citysearch.utilities.Point
-//import com.example.citysearch.utilities.Rect
-//import com.example.citysearch.utilities.Size
-//import org.junit.Assert.assertTrue
-//import org.junit.Assert.assertEquals
-//import org.junit.Assert.fail
-//import org.junit.Before
-//import org.junit.Rule
-//import org.junit.Test
-//import org.junit.runner.RunWith
-//import org.mockito.ArgumentCaptor
-//import org.mockito.Captor
-//import org.mockito.Mockito.*
-//import org.mockito.MockitoAnnotations
-//
-//class StartupScreenTestConstants {
-//
-//    companion object {
-//
-//        val appTitle = "City Search"
-//        val appTitleFont = Font(typeface = Typeface.DEFAULT, size = 64.0)
-//        val maximumTransitionStartInterval = 4.5
-//        val minimumTransitionStartInterval = 3.5
-//    }
-//}
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.graphics.Color
+import android.graphics.Typeface
+import android.graphics.drawable.ColorDrawable
+import android.view.View
+import androidx.lifecycle.Lifecycle
+import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.launchActivity
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.citysearch.animations.RollingAnimationLabel
+import com.example.citysearch.data.CitySearchService
+import com.example.citysearch.startup.StartupTransitionCommand
+import com.example.citysearch.startup.StartupView
+import com.example.citysearch.utilities.Font
+import com.example.citysearch.utilities.Point
+import com.example.citysearch.utilities.Rect
+import com.example.citysearch.utilities.Size
+import org.junit.Assert.assertTrue
+import org.junit.Assert.assertEquals
+import org.junit.Assert.fail
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.ArgumentCaptor
+import org.mockito.Captor
+import org.mockito.Mockito.*
+import org.mockito.MockitoAnnotations
+import java.time.Duration
+
+class StartupScreenTestConstants {
+
+    companion object {
+
+        val appTitle = "City Search"
+        val appTitleFont = Font(typeface = Typeface.DEFAULT, size = 64.0)
+        val maximumTransitionStartInterval = Duration.ofMillis(4500)
+        val minimumTransitionStartInterval = Duration.ofMillis(3500)
+    }
+}
 //
 //@RunWith(AndroidJUnit4::class)
 //class StartupScreenTests {

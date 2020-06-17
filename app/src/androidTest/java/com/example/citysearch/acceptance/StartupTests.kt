@@ -1,75 +1,74 @@
-package com.example.citysearch.acceptance
-
-import android.app.Activity
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.Before
-import org.junit.Test
-
-import org.junit.runner.RunWith
-import java.time.Duration
-
-class StartupConstants {
-
-    companion object {
-
-        val transitionDuration = Duration.ofSeconds(1)
-        val transitionType = android.R.anim.slide_in_left;
-    }
-}
-
-@RunWith(AndroidJUnit4::class)
-class StartupTests {
-
-    lateinit var steps: StartupSteps
-
-    val Given: StartupSteps get() = steps
-    val When: StartupSteps get() = steps
-    val Then: StartupSteps get() = steps
-
-    @Before
-    fun setUp() {
-
-        steps = StartupSteps()
-    }
-
+//package com.example.citysearch.acceptance
+//
+//import android.app.Activity
+//import androidx.test.core.app.launchActivity
+//import androidx.test.ext.junit.runners.AndroidJUnit4
+//import com.example.citysearch.data.CitySearchService
+//import com.example.citysearch.startup.StartupView
+//import org.junit.Before
+//import org.junit.Test
+//
+//import org.junit.runner.RunWith
+//import org.mockito.Mockito.mock
+//import java.time.Duration
+//
+//class StartupConstants {
+//
+//    companion object {
+//
+//        val transitionDuration = Duration.ofSeconds(1)
+//        val transitionType = android.R.anim.slide_in_left;
+//    }
+//}
+//
+//@RunWith(AndroidJUnit4::class)
+//class StartupTests {
+//
+//    lateinit var steps: StartupSteps
+//
+//    val Given: StartupSteps get() = steps
+//    val When: StartupSteps get() = steps
+//    val Then: StartupSteps get() = steps
+//
+//    @Before
+//    fun setUp() {
+//
+//        steps = StartupSteps()
+//    }
+//
 //    @Test
 //    fun testTransitionToSearchView() {
 //
 //        val initialData = Given.initialData()
 //        val startupView = Given.startupView()
-//        val searchView = Given.searchViewInitialDataIs()
+//        val searchView = Given.searchView()
 //        val transitionType = Given.transitionType()
 //        val duration = Given.transitionDuration()
-//        val app = Given.application()
-//        Given.appIsLaunched(app: app)
 //
-//        When.transitionToSearchViewBegins(with: initialData)
+//        When.transitionToSearchViewBegins(initialData)
 //
-//        Then.transitionIsAppliedToNavigationStackWithNewView(ofType: transitionType, isAppliedFrom: startupView, toNavigationStackContaining: searchView, with: duration)
+//        Then.transitionIsAppliedToNewView(transitionType, startupView, searchView, duration)
 //    }
-
+//
 //    @Test
 //    fun testTransitionToSearchViewInitialData() {
 //
 //        val initialData = Given.initialData()
-//        val searchView = Given.searchViewInitialDataIs()
-//        val app = Given.application()
-//        Given.appIsLaunched(app: app)
+//        val searchView = Given.searchView()
 //
-//        When.transitionToSearchViewBegins(with: initialData)
+//        When.transitionToSearchViewBegins(initialData)
 //
-//        Then.searchViewInitialDataIs(searchView, initialDataIs: initialData)
+//        Then.searchViewInitialDataIs(searchView, initialData)
 //    }
-}
-
-class StartupSteps {
-
-//    private var startupViewStub = StartupViewBuilderImp().build()
+//}
 //
-//    private val searchViewFactory = SearchViewFactoryMock()
-//    private val searchViewStub = SearchViewFactoryImp().searchView(initialData: CitySearchResults.emptyResults())
+//class StartupSteps {
 //
-//    private val searchService = CitySearchServiceMock()
+//    private var startupViewScenario = launchActivity<StartupView>()
+//    private lateinit var startupView: StartupView
+////    private val searchViewStub = launch SearchViewFactoryImp().searchView(initialData: CitySearchResults.emptyResults())
+//
+//    private val searchService = mock(CitySearchService::class.java)
 //
 //    private val transitionCommandFactory = StartupTransitionCommandFactoryMock()
 //    private var transitionCommand: StartupTransitionCommand? = null
@@ -80,54 +79,32 @@ class StartupSteps {
 //    private var transitionNewView: Activity? = null
 //
 //    private var searchViewInitialData: CitySearchResults? = null
-
-    init {
-
-//        searchViewFactory.searchViewImp = { (initialData) in
 //
-//                this.searchViewInitialData = initialData
+//    init {
 //
-//            return this.searchViewStub
-//        }
-//
-//        transitionCommandFactory.startupTransitionCommandImp = { (window, newRoot, viewType) in
-//
-//            val transitionCommand = StartupTransitionCommandImp(window: window, searchViewFactory: newRoot, viewType: UIViewMock.this)
-//            this.transitionCommand = transitionCommand
-//            return transitionCommand
-//        }
-    }
-
-//    fun application(): AppDelegate {
-//
-////        val startupViewBuilder = StartupViewBuilderMock()
+//        startupViewScenario.onActivity { activity -> this.startupView = activity }
 ////
-////        startupViewBuilder.buildImp = { this.startupViewStub }
-//
-//        val app = AppDelegate(startupViewBuilder: startupViewBuilder, searchViewFactory: searchViewFactory, searchService: searchService, transitionCommandFactory: transitionCommandFactory)
-//
-////        UIViewMock.transitionImp = { (view, duration, options, animations, compvalion) in
+////        searchViewFactory.searchViewImp = { (initialData) in
 ////
-////            if view == app.window {
+////                this.searchViewInitialData = initialData
 ////
-////                this.durationUsedInAnimation = duration
-////                this.transitionTypeUsedInAnimation = options.intersection([UIView.AnimationOptions.transitionFlipFromRight])
-////
-////                this.transitionOldView = app.window?.rootViewController
-////                animations?()
-////                this.transitionNewView = app.window?.rootViewController
-////            }
+////            return this.searchViewStub
 ////        }
-//
-//        return app
+////
+////        transitionCommandFactory.startupTransitionCommandImp = { (window, newRoot, viewType) in
+////
+////            val transitionCommand = StartupTransitionCommandImp(window: window, searchViewFactory: newRoot, viewType: UIViewMock.this)
+////            this.transitionCommand = transitionCommand
+////            return transitionCommand
+////        }
 //    }
-
+//
 //    fun startupView(): StartupView {
 //
-//        return startupViewStub
+//        return startupView
 //    }
 //
-//    fun searchViewInitialDataIs(): SearchView {
+//    fun searchView(): SearchView {
 //
 //        return searchViewStub
 //    }
@@ -155,7 +132,7 @@ class StartupSteps {
 //
 //        return initialData
 //    }
-
+//
 //    fun appIsLaunched(app: AppDelegate) {
 //
 //        app.applicationDidFinishLaunching(UIApplication.shared)
@@ -183,8 +160,8 @@ class StartupSteps {
 //
 //        XCTAssertTrue(rootController is StartupView, "Root controller's is not Startup Screen")
 //    }
-
-//    fun transitionIsAppliedToNavigationStackWithNewView(expectedTransitionType: Int, expectedOldView: UIViewController, expectedNewView: UIViewController, expectedDuration: TimeInterval) {
+//
+//    fun transitionIsAppliedToNewView(expectedTransitionType: Int, expectedOldView: UIViewController, expectedNewView: UIViewController, expectedDuration: TimeInterval) {
 //
 //        XCTAssertEqual(durationUsedInAnimation, expectedDuration)
 //        XCTAssertEqual(transitionTypeUsedInAnimation, expectedTransitionType)
@@ -202,4 +179,4 @@ class StartupSteps {
 //
 //        XCTAssertEqual(searchViewInitialData, expectedInitialData)
 //    }
-}
+//}

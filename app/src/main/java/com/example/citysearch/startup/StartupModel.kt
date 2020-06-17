@@ -5,8 +5,11 @@ import android.os.Looper
 import android.util.Log
 import android.view.Window
 import com.example.citysearch.data.*
+import com.example.citysearch.reactive.ObservableFactory
+import com.example.citysearch.reactive.ObservableFactoryImp
 import io.reactivex.Observable
 import io.reactivex.Observable.zip
+import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
@@ -21,22 +24,33 @@ interface StartupModel {
     fun startTransitionTimer()
 }
 
-class StartupModelImp(private val transitionCommand: StartupTransitionCommand, private val searchService: CitySearchService): StartupModel {
+class StartupModelImp(private val transitionCommand: StartupTransitionCommand,
+                      private val searchService: CitySearchService,
+                      private val observableFactory: ObservableFactory,
+                      private val workScheduler: Scheduler,
+                      private val invocationScheduler: Scheduler): StartupModel {
 
     constructor(transitionCommand: StartupTransitionCommand) : this(transitionCommand, CitySearchServiceImp())
+
+    constructor(transitionCommand: StartupTransitionCommand, searchService: CitySearchService) : this(
+        transitionCommand,
+        searchService, ObservableFactoryImp(),
+        Schedulers.io(),
+        AndroidSchedulers.mainThread()
+    )
 
     override val appTitle = Observable.just("City Search")
 
     override fun startTransitionTimer() {
 
-        val timer = Observable.timer(4, TimeUnit.SECONDS)
+        val timer = observableFactory.timer(4, TimeUnit.SECONDS, workScheduler)
 
         val beginTransitionEvents = zip(initialResults, timer, BiFunction<CitySearchResults, Long, CitySearchResults> { initialResults, time -> initialResults })
 
         var subscriber: Disposable?
         subscriber = beginTransitionEvents
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(workScheduler)
+            .observeOn(invocationScheduler)
             .subscribe({ initialResults ->
 
             transitionCommand.invoke(initialResults)
