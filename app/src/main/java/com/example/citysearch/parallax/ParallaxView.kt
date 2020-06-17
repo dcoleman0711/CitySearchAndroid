@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import com.example.citysearch.utilities.Point
+import com.example.citysearch.utilities.*
 import io.reactivex.disposables.Disposable
 
 interface ParallaxView {
@@ -14,16 +14,17 @@ interface ParallaxView {
     val view: View
 }
 
-class ParallaxViewImp(private val context: Context, private val viewModel: ParallaxViewModel): ParallaxView {
-
-    override val view: ConstraintLayout
+class ParallaxViewImp(override val view: ConstraintLayout,
+                      private val viewModel: ParallaxViewModel,
+                      private val viewFactory: ViewFactory,
+                      private val constraintSetFactory: ConstraintSetFactory): ParallaxView {
 
     private lateinit var imagesBindings: Disposable
     private lateinit var offsetsBindings: Disposable
 
-    init {
+    constructor(context: Context, viewModel: ParallaxViewModel) : this(ConstraintLayout(context), viewModel, ViewFactoryImp(context), ConstraintSetFactoryImp())
 
-        view = ConstraintLayout(context)
+    init {
 
         bindViews()
     }
@@ -36,7 +37,7 @@ class ParallaxViewImp(private val context: Context, private val viewModel: Paral
 
     private fun buildImageViews(images: Array<Bitmap>) {
 
-        val constraints = ConstraintSet()
+        val constraints = constraintSetFactory.constraintSet()
 
         view.removeAllViews()
         images.forEach { image -> buildImageView(image, constraints) }
@@ -46,7 +47,7 @@ class ParallaxViewImp(private val context: Context, private val viewModel: Paral
 
     private fun buildImageView(image: Bitmap, constraints: ConstraintSet) {
 
-        val imageView = ImageView(context)
+        val imageView = viewFactory.imageView()
         imageView.setImageBitmap(image)
         imageView.id = View.generateViewId()
 
