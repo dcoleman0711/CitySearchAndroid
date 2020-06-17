@@ -6,6 +6,7 @@ import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.citysearch.StubMeasureConverter
 import com.example.citysearch.parallax.ParallaxView
 import com.example.citysearch.search.SearchModel
 import com.example.citysearch.search.SearchView
@@ -81,15 +82,7 @@ class SearchViewSteps {
 
     private val view = mock<ConstraintLayout> {  }
 
-    private val measureConverter = mock<MeasureConverter> {
-
-        on { convertToPixels(any()) }.then { invocation ->
-
-            val dp = invocation.getArgument<Int>(0)
-
-            dp * 4
-        }
-    }
+    private val measureConverter = StubMeasureConverter.stubMeasureConverter()
 
     private val searchResultsView = mock<SearchResultsView> {
 

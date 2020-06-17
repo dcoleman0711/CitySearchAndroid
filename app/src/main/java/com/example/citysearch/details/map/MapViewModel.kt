@@ -8,6 +8,7 @@ import com.example.citysearch.utilities.Point
 import com.example.citysearch.utilities.Rect
 import com.example.citysearch.utilities.Size
 import io.reactivex.Observable
+import java.util.*
 
 interface MapViewModel {
 
@@ -16,15 +17,15 @@ interface MapViewModel {
         const val resolution = 1.0e6f
     }
 
-    val backgroundImage: Observable<Bitmap>
-    val markerImage: Observable<Bitmap>
+    val backgroundImage: Observable<Optional<Bitmap>>
+    val markerImage: Observable<Optional<Bitmap>>
     val markerFrame: Observable<Rect>
 }
 
 class MapViewModelImp(context: Context, private val model: MapModel): MapViewModel {
 
-    override val backgroundImage: Observable<Bitmap>
-    override val markerImage: Observable<Bitmap>
+    override val backgroundImage: Observable<Optional<Bitmap>>
+    override val markerImage: Observable<Optional<Bitmap>>
     override val markerFrame: Observable<Rect>
 
     private val imgBackground = ImageLoader.loadImage(context, "MapBackground.jpg")
@@ -34,8 +35,8 @@ class MapViewModelImp(context: Context, private val model: MapModel): MapViewMod
 
     init {
 
-        backgroundImage = Observable.just(imgBackground)
-        markerImage = Observable.just(imgMarker)
+        backgroundImage = Observable.just(Optional.of(imgBackground))
+        markerImage = Observable.just(Optional.of(imgMarker))
 
         markerFrame = model.geoCoordinates.map { geoCoordinates -> markerFrame(geoCoordinates) }
     }

@@ -48,7 +48,7 @@ class CityDetailsView(context: Context,
 
             val mapModel = MapModelImp(searchResult)
             val mapViewModel = MapViewModelImp(context, mapModel)
-            val mapView = MapViewImp(context, mapViewModel)
+            val mapView = MapViewImp.mapView(context, mapViewModel)
 
             val imageCarouselModel = ImageCarouselModelImp(context)
             val imageCarouselViewModel = ImageCarouselViewModelImp(imageCarouselModel)

@@ -10,10 +10,7 @@ import androidx.constraintlayout.widget.Placeholder
 import com.example.citysearch.R
 import com.example.citysearch.reactive.ViewBinder
 import com.example.citysearch.reactive.ViewBinderImp
-import com.example.citysearch.utilities.MeasureConverter
-import com.example.citysearch.utilities.MeasureConverterImp
-import com.example.citysearch.utilities.Rect
-import com.example.citysearch.utilities.ViewUtilities
+import com.example.citysearch.utilities.*
 import io.reactivex.disposables.Disposable
 import java.util.*
 
@@ -22,35 +19,35 @@ interface MapView {
     val view: View
 }
 
-class MapViewImp(private val context: Context,
+class MapViewImp(override val view: ConstraintLayout,
+                 private val backgroundImageView: ImageView,
+                 private val markerImageView: ImageView,
+                 private val placeholder: Placeholder,
+                 private val binder: ViewBinder,
                  private val viewModel: MapViewModel,
+                 private val constraintSetFactory: ConstraintSetFactory,
                  private val measureConverter: MeasureConverter): MapView {
 
-    constructor(context: Context, viewModel: MapViewModel) : this(context, viewModel, MeasureConverterImp(context))
+    companion object {
 
-    override val view: ConstraintLayout
+        fun mapView(context: Context, viewModel: MapViewModel): MapViewImp {
 
-    private val backgroundImageView: ImageView
-    private val markerImageView: ImageView
+            val view = ConstraintLayout(context)
 
-    private val placeholder: Placeholder
+            val backgroundImageView = ImageView(context)
+            val markerImageView = ImageView(context)
 
-    private val binder: ViewBinder
+            val placeholder = Placeholder(context)
+
+            return MapViewImp(view, backgroundImageView, markerImageView, placeholder, ViewBinderImp(), viewModel, ConstraintSetFactoryImp(), MeasureConverterImp(context))
+        }
+    }
 
     private lateinit var backgroundImageBinding: Disposable
     private lateinit var markerImageBinding: Disposable
     private lateinit var markerFrameBinding: Disposable
 
     init {
-
-        view = ConstraintLayout(context)
-
-        backgroundImageView = ImageView(context)
-        markerImageView = ImageView(context)
-
-        placeholder = Placeholder(context)
-
-        binder = ViewBinderImp()
 
         setupView()
         buildLayout()
@@ -74,7 +71,7 @@ class MapViewImp(private val context: Context,
 
     private fun buildLayout() {
 
-        val constraints = ConstraintSet()
+        val constraints = constraintSetFactory.constraintSet()
 
         // Background Image View
         constraints.connect(backgroundImageView.id, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT)
@@ -95,15 +92,15 @@ class MapViewImp(private val context: Context,
 
     private fun bindViews() {
 
-        backgroundImageBinding = binder.bindImageView(backgroundImageView, viewModel.backgroundImage.map { image -> Optional.of(image) })
-        markerImageBinding = binder.bindImageView(markerImageView, viewModel.markerImage.map { image -> Optional.of(image) })
+        backgroundImageBinding = binder.bindImageView(backgroundImageView, viewModel.backgroundImage)
+        markerImageBinding = binder.bindImageView(markerImageView, viewModel.markerImage)
 
         markerFrameBinding = viewModel.markerFrame.subscribe { markerFrame -> updateMarkerFrame(markerFrame) }
     }
 
     private fun updateMarkerFrame(markerFrame: Rect) {
 
-        val constraints = ConstraintSet()
+        val constraints = constraintSetFactory.constraintSet()
         constraints.clone(view)
 
         // The marker frame size is in dp, the position is in *percent* of the total map
