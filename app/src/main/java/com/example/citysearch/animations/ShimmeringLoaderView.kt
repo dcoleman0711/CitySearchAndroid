@@ -4,11 +4,23 @@ import android.content.Context
 import android.graphics.Color
 import android.view.Choreographer
 import android.view.View
+import com.example.citysearch.utilities.ChoreographerWrapper
+import com.example.citysearch.utilities.ChoreographerWrapperImp
 import kotlin.math.sin
 
-class ShimmeringLoaderView(context: Context): View(context), Choreographer.FrameCallback {
+interface ShimmeringLoaderView {
 
-    private val choreographer: Choreographer
+    val view: View
+
+    fun startAnimating()
+    fun stopAnimating()
+}
+
+class ShimmeringLoaderViewImp(override val view: View,
+                              private val choreographer: ChoreographerWrapper): ShimmeringLoaderView, Choreographer.FrameCallback {
+
+    constructor(context: Context) : this(View(context), ChoreographerWrapperImp())
+
     private var running = false
 
     private var startTime: Long? = null
@@ -21,23 +33,21 @@ class ShimmeringLoaderView(context: Context): View(context), Choreographer.Frame
 
     init {
 
-        choreographer = Choreographer.getInstance()
-
-        stopAnimating()
+        view.alpha = 0.0f
     }
 
-    fun startAnimating() {
+    override fun startAnimating() {
 
-        alpha = 1.0f
+        view.alpha = 1.0f
 
         running = true
         choreographer.postFrameCallback(this)
     }
 
-    fun stopAnimating() {
+    override fun stopAnimating() {
 
         running = false
-        alpha = 0.0f
+        view.alpha = 0.0f
     }
 
     override fun doFrame(frameTimeNanos: Long) {
@@ -47,9 +57,9 @@ class ShimmeringLoaderView(context: Context): View(context), Choreographer.Frame
 
         choreographer.postFrameCallback(this)
 
-        val startTime = this@ShimmeringLoaderView.startTime
+        val startTime = this@ShimmeringLoaderViewImp.startTime
         if(startTime == null) {
-            this@ShimmeringLoaderView.startTime = frameTimeNanos
+            this@ShimmeringLoaderViewImp.startTime = frameTimeNanos
             return
         }
 
@@ -57,8 +67,8 @@ class ShimmeringLoaderView(context: Context): View(context), Choreographer.Frame
 
         val factor = sin(4.0 * interval).toFloat() * 0.5f + 0.5f
 
-        val grayVal = ShimmeringLoaderView.darkest + (ShimmeringLoaderView.lightest - ShimmeringLoaderView.darkest) * factor
+        val grayVal = ShimmeringLoaderViewImp.darkest + (ShimmeringLoaderViewImp.lightest - ShimmeringLoaderViewImp.darkest) * factor
 
-        setBackgroundColor(Color.argb(1.0f, grayVal, grayVal, grayVal))
+        view.setBackgroundColor(Color.argb(1.0f, grayVal, grayVal, grayVal))
     }
 }

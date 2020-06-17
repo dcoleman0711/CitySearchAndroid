@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import com.example.citysearch.R
 import com.example.citysearch.animations.ShimmeringLoaderView
+import com.example.citysearch.animations.ShimmeringLoaderViewImp
 import com.example.citysearch.data.CitySearchResult
 import com.example.citysearch.details.imagecarousel.ImageCarouselModelImp
 import com.example.citysearch.details.imagecarousel.ImageCarouselView
@@ -76,7 +77,7 @@ class CityDetailsView(context: Context,
         TextView(context),
         mapView,
         imageCarouselView,
-        ShimmeringLoaderView(context),
+        ShimmeringLoaderViewImp(context),
         viewModel,
         ViewBinderImp()
     )
@@ -127,8 +128,8 @@ class CityDetailsView(context: Context,
         imageCarouselView.view.id = R.id.imageCarouselView
         contentView.addView(imageCarouselView.view)
 
-        shimmeringLoader.id = R.id.shimmeringLoader
-        contentView.addView(shimmeringLoader)
+        shimmeringLoader.view.id = R.id.shimmeringLoader
+        contentView.addView(shimmeringLoader.view)
     }
 
     private fun buildLayout() {
@@ -169,10 +170,10 @@ class CityDetailsView(context: Context,
         constraints.constrainHeight(imageCarouselView.view.id, ViewUtilities.convertToPixels(context, 256))
 
         // Shimmering Loader
-        constraints.connect(shimmeringLoader.id, ConstraintSet.LEFT, imageCarouselView.view.id, ConstraintSet.LEFT)
-        constraints.connect(shimmeringLoader.id, ConstraintSet.RIGHT, imageCarouselView.view.id, ConstraintSet.RIGHT)
-        constraints.connect(shimmeringLoader.id, ConstraintSet.TOP, imageCarouselView.view.id, ConstraintSet.TOP)
-        constraints.connect(shimmeringLoader.id, ConstraintSet.BOTTOM, imageCarouselView.view.id, ConstraintSet.BOTTOM)
+        constraints.connect(shimmeringLoader.view.id, ConstraintSet.LEFT, imageCarouselView.view.id, ConstraintSet.LEFT)
+        constraints.connect(shimmeringLoader.view.id, ConstraintSet.RIGHT, imageCarouselView.view.id, ConstraintSet.RIGHT)
+        constraints.connect(shimmeringLoader.view.id, ConstraintSet.TOP, imageCarouselView.view.id, ConstraintSet.TOP)
+        constraints.connect(shimmeringLoader.view.id, ConstraintSet.BOTTOM, imageCarouselView.view.id, ConstraintSet.BOTTOM)
 
         constraints.applyTo(contentView)
     }
