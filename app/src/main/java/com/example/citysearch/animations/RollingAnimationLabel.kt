@@ -43,12 +43,6 @@ open class RollingAnimationLabel(context: Context): FrameLayout(context), Choreo
 
     private var running = false
 
-    init {
-
-//        this.clipChildren = false
-//        this.clipToPadding = false
-    }
-
     open fun start(text: String, font: Font) {
 
         this.text = text
