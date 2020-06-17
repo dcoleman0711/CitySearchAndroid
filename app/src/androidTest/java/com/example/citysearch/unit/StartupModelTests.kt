@@ -1,6 +1,5 @@
 package com.example.citysearch.unit
 
-import android.graphics.Typeface
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.citysearch.data.CitySearchResults
 import com.example.citysearch.data.CitySearchService
@@ -8,7 +7,6 @@ import com.example.citysearch.reactive.ObservableFactory
 import com.example.citysearch.startup.StartupModelImp
 import com.example.citysearch.startup.StartupTransitionCommand
 import com.example.citysearch.stub.CitySearchResultsStub
-import com.example.citysearch.utilities.Font
 import com.nhaarman.mockitokotlin2.*
 import io.reactivex.Scheduler
 import io.reactivex.schedulers.TestScheduler
