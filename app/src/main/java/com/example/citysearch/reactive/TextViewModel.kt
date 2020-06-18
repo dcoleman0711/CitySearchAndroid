@@ -1,5 +1,12 @@
 package com.example.citysearch.reactive
 
+import android.graphics.Typeface
 import com.example.citysearch.utilities.Font
 
-data class TextViewModel(val text: String, val font: Font)
+data class TextViewModel(val text: String, val font: Font) {
+
+    companion object {
+
+        val emptyData = TextViewModel("", Font(Typeface.DEFAULT, 12.0))
+    }
+}

@@ -9,11 +9,12 @@ import com.example.citysearch.search.OpenDetailsCommand
 import com.example.citysearch.utilities.Font
 import com.example.citysearch.utilities.ImageLoader
 import io.reactivex.Observable
+import java.util.*
 
 interface CitySearchResultViewModel {
 
     val title: Observable<TextViewModel>
-    val iconImage: Observable<Bitmap>
+    val iconImage: Observable<Optional<Bitmap>>
 
     val openDetailsCommand: OpenDetailsCommand
 }
@@ -21,14 +22,14 @@ interface CitySearchResultViewModel {
 class CitySearchResultViewModelImp(context: Context, private val model: CitySearchResultModel): CitySearchResultViewModel {
 
     override val title: Observable<TextViewModel>
-    override val iconImage: Observable<Bitmap>
+    override val iconImage: Observable<Optional<Bitmap>>
 
     override val openDetailsCommand: OpenDetailsCommand
 
     init {
 
         title = model.title.map { title -> TextViewModel(title, Font(Typeface.DEFAULT, 12.0)) }
-        iconImage = model.populationClass.map { popClass -> popClass.accept(ImageSelector(context)) }
+        iconImage = model.populationClass.map { popClass -> Optional.of(popClass.accept(ImageSelector(context))) }
 
         openDetailsCommand = model.openDetailsCommand
     }

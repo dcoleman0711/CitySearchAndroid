@@ -13,18 +13,18 @@ import com.example.citysearch.R
 import com.example.citysearch.reactive.RecyclerCell
 import com.example.citysearch.reactive.ViewBinder
 import com.example.citysearch.reactive.ViewBinderImp
-import com.example.citysearch.utilities.MeasureConverter
-import com.example.citysearch.utilities.MeasureConverterImp
-import com.example.citysearch.utilities.ViewUtilities
+import com.example.citysearch.utilities.*
 import io.reactivex.disposables.Disposable
 import java.util.*
 
 class CitySearchResultCell(context: Context,
                            private val titleLabel: TextView,
                            private val imageView: ImageView,
+                           private val binder: ViewBinder,
+                           private val constraintSetFactory: ConstraintSetFactory,
                            private val measureConverter: MeasureConverter): RecyclerCell<CitySearchResultViewModel>(context) {
 
-    constructor(context: Context) : this(context, TextView(context), ImageView(context), MeasureConverterImp(context))
+    constructor(context: Context) : this(context, TextView(context), ImageView(context), ViewBinderImp(), ConstraintSetFactoryImp(), MeasureConverterImp(context))
 
     override var viewModel: CitySearchResultViewModel? = null
     set(value) {
@@ -38,6 +38,9 @@ class CitySearchResultCell(context: Context,
 
         bindToViewModel(value)
     }
+
+    private var titleBinding: Disposable? = null
+    private var imageBinding: Disposable? = null
 
     init {
 
@@ -71,18 +74,18 @@ class CitySearchResultCell(context: Context,
 
     private fun buildLayout() {
 
-        val constraints = ConstraintSet()
+        val constraints = constraintSetFactory.constraintSet()
 
         // TitleLabel
-        constraints.connect(titleLabel.id, ConstraintSet.LEFT, this.id, ConstraintSet.LEFT)
-        constraints.connect(titleLabel.id, ConstraintSet.RIGHT, this.id, ConstraintSet.RIGHT)
-        constraints.connect(titleLabel.id, ConstraintSet.BOTTOM, this.id, ConstraintSet.BOTTOM)
+        constraints.connect(titleLabel.id, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT)
+        constraints.connect(titleLabel.id, ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT)
+        constraints.connect(titleLabel.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
         constraints.constrainHeight(titleLabel.id, View.MeasureSpec.makeMeasureSpec(measureConverter.convertToPixels(24), MeasureSpec.EXACTLY))
 
         // ImageView
-        constraints.connect(imageView.id, ConstraintSet.LEFT, this.id, ConstraintSet.LEFT)
-        constraints.connect(imageView.id, ConstraintSet.RIGHT, this.id, ConstraintSet.RIGHT)
-        constraints.connect(imageView.id, ConstraintSet.TOP, this.id, ConstraintSet.TOP)
+        constraints.connect(imageView.id, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT)
+        constraints.connect(imageView.id, ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT)
+        constraints.connect(imageView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
         constraints.connect(imageView.id, ConstraintSet.BOTTOM, titleLabel.id, ConstraintSet.TOP)
         constraints.setDimensionRatio(imageView.id, "W,1:1")
 
@@ -92,7 +95,7 @@ class CitySearchResultCell(context: Context,
     private fun bindToViewModel(viewModel: CitySearchResultViewModel) {
 
         titleBinding = binder.bindTextView(titleLabel, viewModel.title)
-        imageBinding = binder.bindImageView(imageView, viewModel.iconImage.map { image -> Optional.of(image) })
+        imageBinding = binder.bindImageView(imageView, viewModel.iconImage)
     }
 
     private fun unbind() {
@@ -103,9 +106,4 @@ class CitySearchResultCell(context: Context,
         imageBinding?.dispose()
         imageBinding = null
     }
-
-    private val binder = ViewBinderImp()
-
-    private var titleBinding: Disposable? = null
-    private var imageBinding: Disposable? = null
 }
