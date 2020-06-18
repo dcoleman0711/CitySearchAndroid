@@ -25,12 +25,10 @@ import com.example.citysearch.details.map.MapViewImp
 import com.example.citysearch.details.map.MapViewModelImp
 import com.example.citysearch.reactive.ViewBinder
 import com.example.citysearch.reactive.ViewBinderImp
-import com.example.citysearch.utilities.MeasureConverter
-import com.example.citysearch.utilities.MeasureConverterImp
-import com.example.citysearch.utilities.ViewUtilities
+import com.example.citysearch.utilities.*
 import io.reactivex.disposables.Disposable
 
-class CityDetailsView(context: Context,
+class CityDetailsView(private val view: ScrollView,
                       private val contentView: ConstraintLayout,
                       private val titleLabel: TextView,
                       private val populationTitleLabel: TextView,
@@ -40,6 +38,7 @@ class CityDetailsView(context: Context,
                       private val shimmeringLoader: ShimmeringLoaderView,
                       private val viewModel: CityDetailsViewModel,
                       private val binder: ViewBinder,
+                      private val constraintSetFactory: ConstraintSetFactory,
                       private val measureConverter: MeasureConverter): Fragment() {
 
     companion object {
@@ -61,8 +60,6 @@ class CityDetailsView(context: Context,
         }
     }
 
-    private val view: ScrollView
-
     private lateinit var titleBinding: Disposable
     private lateinit var populationTitleBinding: Disposable
     private lateinit var populationBinding: Disposable
@@ -73,7 +70,7 @@ class CityDetailsView(context: Context,
                 mapView: MapView,
                 imageCarouselView: ImageCarouselView
     ) : this(
-        context,
+        ScrollView(context),
         ConstraintLayout(context),
         TextView(context),
         TextView(context),
@@ -83,12 +80,14 @@ class CityDetailsView(context: Context,
         ShimmeringLoaderViewImp(context),
         viewModel,
         ViewBinderImp(),
+        ConstraintSetFactoryImp(),
         MeasureConverterImp(context)
     )
 
     init {
 
-        view = ScrollView(context)
+        setupView()
+        buildLayout()
 
         bindViews()
     }
@@ -98,9 +97,6 @@ class CityDetailsView(context: Context,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        setupView()
-        buildLayout()
 
         return view
     }
@@ -138,12 +134,11 @@ class CityDetailsView(context: Context,
 
     private fun buildLayout() {
 
-        val constraints = ConstraintSet()
-        val context = requireContext()
+        val constraints = constraintSetFactory.constraintSet()
 
         // Title Label
-        constraints.connect(titleLabel.id, ConstraintSet.LEFT, contentView.id, ConstraintSet.LEFT)
-        constraints.connect(titleLabel.id, ConstraintSet.TOP, contentView.id, ConstraintSet.TOP)
+        constraints.connect(titleLabel.id, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT)
+        constraints.connect(titleLabel.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
         constraints.constrainWidth(titleLabel.id, ConstraintSet.WRAP_CONTENT)
         constraints.constrainHeight(titleLabel.id, ConstraintSet.WRAP_CONTENT)
 
@@ -161,16 +156,16 @@ class CityDetailsView(context: Context,
         constraints.constrainHeight(populationLabel.id, ConstraintSet.WRAP_CONTENT)
 
         // Map View
-        constraints.connect(mapView.view.id, ConstraintSet.RIGHT, contentView.id, ConstraintSet.RIGHT)
-        constraints.connect(mapView.view.id, ConstraintSet.TOP, contentView.id, ConstraintSet.TOP)
+        constraints.connect(mapView.view.id, ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT)
+        constraints.connect(mapView.view.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
         constraints.constrainPercentWidth(mapView.view.id, 0.5f)
         constraints.setDimensionRatio(mapView.view.id, "H,2:1")
 
         // Image Carousel View
-        constraints.connect(imageCarouselView.view.id, ConstraintSet.LEFT, contentView.id, ConstraintSet.LEFT)
-        constraints.connect(imageCarouselView.view.id, ConstraintSet.RIGHT, contentView.id, ConstraintSet.RIGHT)
+        constraints.connect(imageCarouselView.view.id, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT)
+        constraints.connect(imageCarouselView.view.id, ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT)
         constraints.connect(imageCarouselView.view.id, ConstraintSet.TOP, mapView.view.id, ConstraintSet.BOTTOM)
-        constraints.connect(imageCarouselView.view.id, ConstraintSet.BOTTOM, contentView.id, ConstraintSet.BOTTOM)
+        constraints.connect(imageCarouselView.view.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
         constraints.constrainHeight(imageCarouselView.view.id, measureConverter.convertToPixels(256))
 
         // Shimmering Loader
