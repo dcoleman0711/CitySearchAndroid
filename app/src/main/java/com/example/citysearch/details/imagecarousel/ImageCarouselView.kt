@@ -17,17 +17,15 @@ interface ImageCarouselView {
     val view: View
 }
 
-class ImageCarouselViewImp(context: Context, private val viewModel: ImageCarouselViewModel): ImageCarouselView {
-
-    override val view: RecyclerView
-
-    private val binder: RecyclerViewBinder<AsyncImageViewModel, AsyncImageCell> = RecyclerViewBinderImp(context, ::AsyncImageCell)
+class ImageCarouselViewImp(override val view: RecyclerView,
+                           private val viewModel: ImageCarouselViewModel,
+                           private val binder: RecyclerViewBinder<AsyncImageViewModel, AsyncImageCell>): ImageCarouselView {
 
     private lateinit var cellsBinding: Disposable
 
-    init {
+    constructor(context: Context, viewModel: ImageCarouselViewModel) : this(RecyclerView(context), viewModel, RecyclerViewBinderImp(context, ::AsyncImageCell))
 
-        view = RecyclerView(context)
+    init {
 
         setupView()
         bindView()
