@@ -17,11 +17,13 @@ interface  RecyclerViewBinder<ViewModel, CellType: RecyclerCell<ViewModel>> {
     fun bindCells(view: RecyclerView, viewModelUpdates: Observable<RecyclerViewModel<ViewModel>>): Disposable
 }
 
-class RecyclerViewBinderImp<ViewModel, CellType: RecyclerCell<ViewModel>>(private val context: Context, private val cellConstructor: (Context) -> CellType): RecyclerViewBinder<ViewModel, CellType> {
+class RecyclerViewBinderImp<ViewModel, CellType: RecyclerCell<ViewModel>>(private val cellConstructor: (Context) -> CellType, private val measureConverter: MeasureConverter): RecyclerViewBinder<ViewModel, CellType> {
+
+    constructor(context: Context, constructor: (Context) -> CellType) : this(constructor, MeasureConverterImp(context))
 
     override fun bindCells(view: RecyclerView, viewModelUpdates: Observable<RecyclerViewModel<ViewModel>>): Disposable {
 
-        val adapter = RecyclerViewBindingAdapter(context, cellConstructor)
+        val adapter = RecyclerViewBindingAdapter(cellConstructor, measureConverter)
         view.adapter = adapter
 
         return viewModelUpdates.subscribe({ viewModel ->
@@ -29,7 +31,7 @@ class RecyclerViewBinderImp<ViewModel, CellType: RecyclerCell<ViewModel>>(privat
             for(decIndex in 0 until view.itemDecorationCount)
                 view.removeItemDecorationAt(decIndex)
 
-            val spacingDecoration = SpacingDecoration<ViewModel>(viewModel.horSpacing, viewModel.verSpacing, context)
+            val spacingDecoration = SpacingDecoration<ViewModel>(viewModel.horSpacing, viewModel.verSpacing, measureConverter)
             view.addItemDecoration(spacingDecoration)
 
             adapter.cellData = viewModel.cells
@@ -42,9 +44,7 @@ class RecyclerViewBinderImp<ViewModel, CellType: RecyclerCell<ViewModel>>(privat
     }
 }
 
-class RecyclerViewBindingAdapter<ViewModel, CellType: RecyclerCell<ViewModel>>(private val constructor: (Context) -> CellType, private val measureConverter: MeasureConverter): RecyclerView.Adapter<RecyclerViewBindingAdapter<ViewModel, CellType>.CellHolder>() {
-
-    constructor(context: Context, constructor: (Context) -> CellType) : this(constructor, MeasureConverterImp(context))
+open class RecyclerViewBindingAdapter<ViewModel, CellType: RecyclerCell<ViewModel>>(private val constructor: (Context) -> CellType, private val measureConverter: MeasureConverter): RecyclerView.Adapter<RecyclerViewBindingAdapter<ViewModel, CellType>.CellHolder>() {
 
     inner class CellHolder(val cell: RecyclerCell<ViewModel>): RecyclerView.ViewHolder(cell) {
 
@@ -82,8 +82,6 @@ class RecyclerViewBindingAdapter<ViewModel, CellType: RecyclerCell<ViewModel>>(p
 }
 
 class SpacingDecoration<ViewModel>(private val horSpacing: Int, private val verSpacing: Int, private val measureConverter: MeasureConverter): RecyclerView.ItemDecoration() {
-
-    constructor(horSpacing: Int, verSpacing: Int, context: Context) : this(horSpacing, verSpacing, MeasureConverterImp(context))
 
     override fun getItemOffsets(
         outRect: Rect,
