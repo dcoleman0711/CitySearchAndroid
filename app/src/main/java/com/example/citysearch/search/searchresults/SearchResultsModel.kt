@@ -1,6 +1,9 @@
 package com.example.citysearch.search.searchresults
 
+import android.content.Context
+import androidx.fragment.app.FragmentManager
 import com.example.citysearch.data.CitySearchResults
+import com.example.citysearch.details.CityDetailsViewFactory
 import com.example.citysearch.search.OpenDetailsCommandFactory
 import com.example.citysearch.search.OpenDetailsCommandFactoryImp
 import com.example.citysearch.search.SearchRoot
@@ -24,7 +27,7 @@ class SearchResultsModelImp(private val modelFactory: CitySearchResultModelFacto
 
     override val resultsModels: BehaviorSubject<Array<CitySearchResultModel>> = BehaviorSubject.create()
 
-    constructor(searchRoot: SearchRoot) : this(CitySearchResultModelFactoryImp(), OpenDetailsCommandFactoryImp(searchRoot))
+    constructor(openDetailsCommandFactory: OpenDetailsCommandFactory) : this(CitySearchResultModelFactoryImp(), openDetailsCommandFactory)
 
     override fun setResults(results: CitySearchResults) {
 

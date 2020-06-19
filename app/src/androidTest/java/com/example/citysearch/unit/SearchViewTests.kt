@@ -1,34 +1,20 @@
 package com.example.citysearch.unit
 
-import android.content.Context
-import android.content.res.Resources
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.citysearch.StubMeasureConverter
+import com.example.citysearch.acceptance.SearchScreenTestConstants
 import com.example.citysearch.parallax.ParallaxView
-import com.example.citysearch.search.SearchModel
 import com.example.citysearch.search.SearchView
 import com.example.citysearch.search.SearchViewModel
-import com.example.citysearch.search.searchresults.SearchResultsModel
 import com.example.citysearch.search.searchresults.SearchResultsView
 import com.example.citysearch.utilities.ConstraintSetFactory
-import com.example.citysearch.utilities.MeasureConverter
-import com.example.citysearch.utilities.ViewUtilities
 import com.nhaarman.mockitokotlin2.*
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-
-class SearchScreenTestConstants {
-
-    companion object {
-
-        const val resultsHeight = 312
-    }
-}
 
 @RunWith(AndroidJUnit4::class)
 class SearchViewTests {

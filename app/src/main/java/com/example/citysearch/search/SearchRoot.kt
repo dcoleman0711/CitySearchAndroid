@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import com.example.citysearch.data.CitySearchResults
+import com.example.citysearch.details.CityDetailsViewFactoryImp
 import com.example.citysearch.search.searchresults.SearchResultsModelImp
 import com.google.gson.Gson
 
@@ -21,7 +22,8 @@ class SearchRoot: FragmentActivity() {
         super.onCreate(savedInstanceState)
 
         val initialResults = Gson().fromJson(intent.getStringExtra(initialResultsKey), CitySearchResults::class.java)
-        val searchResultsModel = SearchResultsModelImp(this)
+        val openDetailsCommandFactory = OpenDetailsCommandFactoryImp(this, supportFragmentManager, CityDetailsViewFactoryImp())
+        val searchResultsModel = SearchResultsModelImp(openDetailsCommandFactory)
         searchResultsModel.setResults(initialResults)
 
         val searchView = SearchView.searchView(this, searchResultsModel)

@@ -28,7 +28,7 @@ import com.example.citysearch.reactive.ViewBinderImp
 import com.example.citysearch.utilities.*
 import io.reactivex.disposables.Disposable
 
-class CityDetailsView(private val view: ScrollView,
+open class CityDetailsView(private val view: ScrollView,
                       private val contentView: ConstraintLayout,
                       private val titleLabel: TextView,
                       private val populationTitleLabel: TextView,
@@ -40,25 +40,6 @@ class CityDetailsView(private val view: ScrollView,
                       private val binder: ViewBinder,
                       private val constraintSetFactory: ConstraintSetFactory,
                       private val measureConverter: MeasureConverter): Fragment() {
-
-    companion object {
-
-        fun detailsView(context: Context, searchResult: CitySearchResult): CityDetailsView {
-
-            val mapModel = MapModelImp(searchResult)
-            val mapViewModel = MapViewModelImp(context, mapModel)
-            val mapView = MapViewImp.mapView(context, mapViewModel)
-
-            val imageCarouselModel = ImageCarouselModelImp(context)
-            val imageCarouselViewModel = ImageCarouselViewModelImp(imageCarouselModel)
-            val imageCarouselView = ImageCarouselViewImp(context, imageCarouselViewModel)
-
-            val model = CityDetailsModelImp(searchResult, imageCarouselModel)
-            val viewModel = CityDetailsViewModelImp(model)
-
-            return CityDetailsView(context, viewModel, mapView, imageCarouselView)
-        }
-    }
 
     private lateinit var titleBinding: Disposable
     private lateinit var populationTitleBinding: Disposable
