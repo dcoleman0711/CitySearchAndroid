@@ -7,10 +7,14 @@ import com.example.citysearch.R
 import com.example.citysearch.reactive.RecyclerCell
 import com.example.citysearch.reactive.ViewBinder
 import com.example.citysearch.reactive.ViewBinderImp
+import com.example.citysearch.utilities.ConstraintSetFactory
+import com.example.citysearch.utilities.ConstraintSetFactoryImp
 import io.reactivex.disposables.Disposable
 
 class AsyncImageCell(context: Context,
-                     private val imageView: ImageView): RecyclerCell<AsyncImageViewModel>(context) {
+                     private val imageView: ImageView,
+                     private val binder: ViewBinder,
+                     private val constraintSetFactory: ConstraintSetFactory): RecyclerCell<AsyncImageViewModel>(context) {
 
     override var viewModel: AsyncImageViewModel? = null
         set(value) {
@@ -25,7 +29,9 @@ class AsyncImageCell(context: Context,
             bindViews(value)
         }
 
-    constructor(context: Context) : this(context, ImageView(context))
+    private var imageBinding: Disposable? = null
+
+    constructor(context: Context) : this(context, ImageView(context), ViewBinderImp(), ConstraintSetFactoryImp())
 
     init {
 
@@ -43,20 +49,16 @@ class AsyncImageCell(context: Context,
 
     private fun buildLayout() {
 
-        val constraints = ConstraintSet()
+        val constraints = constraintSetFactory.constraintSet()
 
         // Image View
-        constraints.connect(imageView.id, ConstraintSet.LEFT, this.id, ConstraintSet.LEFT)
-        constraints.connect(imageView.id, ConstraintSet.RIGHT, this.id, ConstraintSet.RIGHT)
-        constraints.connect(imageView.id, ConstraintSet.TOP, this.id, ConstraintSet.TOP)
-        constraints.connect(imageView.id, ConstraintSet.BOTTOM, this.id, ConstraintSet.BOTTOM)
+        constraints.connect(imageView.id, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT)
+        constraints.connect(imageView.id, ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT)
+        constraints.connect(imageView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+        constraints.connect(imageView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
 
         constraints.applyTo(this)
     }
-
-    private val binder: ViewBinder = ViewBinderImp()
-
-    private var imageBinding: Disposable? = null
 
     private fun bindViews(viewModel: AsyncImageViewModel) {
 
