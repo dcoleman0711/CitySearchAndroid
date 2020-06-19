@@ -30,8 +30,6 @@ class StartupModelImp(private val transitionCommand: StartupTransitionCommand,
                       private val workScheduler: Scheduler,
                       private val invocationScheduler: Scheduler): StartupModel {
 
-    constructor(transitionCommand: StartupTransitionCommand) : this(transitionCommand, CitySearchServiceImp())
-
     constructor(transitionCommand: StartupTransitionCommand, searchService: CitySearchService) : this(
         transitionCommand,
         searchService, ObservableFactoryImp(),

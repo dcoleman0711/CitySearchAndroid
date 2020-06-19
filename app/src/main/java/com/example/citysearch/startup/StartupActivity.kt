@@ -11,6 +11,8 @@ class StartupActivity: Activity() {
         lateinit var context: Context
     }
 
+    val startupViewBuilder = StartupViewBuilder()
+
     private lateinit var startupView: StartupView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,7 +21,7 @@ class StartupActivity: Activity() {
 
         context = this
 
-        startupView = StartupViewImp(this)
+        startupView = startupViewBuilder.build(this)
         setContentView(startupView.view)
     }
 }

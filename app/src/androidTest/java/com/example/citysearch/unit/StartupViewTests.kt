@@ -155,7 +155,7 @@ class StartupViewSteps {
 
     fun startupViewIsCreated(appTitleLabel: RollingAnimationLabel = this.appTitleLabel, startupModel: StartupModel = this.startupModel, startupViewModel: StartupViewModel = this.viewModel): StartupViewImp {
 
-        return StartupViewImp(context, viewModel, view, appTitleLabel, constraintSetFactory)
+        return StartupViewImp(viewModel, view, appTitleLabel, constraintSetFactory)
     }
 
     fun appTitleLabel(): RollingAnimationLabel {

@@ -15,15 +15,14 @@ interface StartupView {
     val view: View
 }
 
-class StartupViewImp(context: Context,
-                     private val viewModel: StartupViewModel,
+class StartupViewImp(private val viewModel: StartupViewModel,
                      override val view: ConstraintLayout,
                      private val appTitleLabel: RollingAnimationLabel,
                      private val constraintSetFactory: ConstraintSetFactory): StartupView {
 
     private lateinit var appTitleBinding: Disposable
 
-    constructor(context: Context) : this(context, StartupViewModelImp(transitionCommand = StartupTransitionCommandImp(context)), ConstraintLayout(context), RollingAnimationLabel(context), ConstraintSetFactoryImp())
+    constructor(context: Context, viewModel: StartupViewModel, appTitleLabel: RollingAnimationLabel) : this(viewModel, ConstraintLayout(context), appTitleLabel, ConstraintSetFactoryImp())
 
     init {
 
