@@ -59,6 +59,16 @@ class PopulationClassSmall: PopulationClass {
     override val range: IntRange = IntRange(0, 9999)
 
     override fun<T, V: PopulationClassVisitor<T>> accept(visitor: V): T { return visitor.visitSmall(this) }
+
+    override fun equals(other: Any?): Boolean {
+
+        return other is PopulationClassSmall
+    }
+
+    override fun hashCode(): Int {
+
+        return this::class.hashCode()
+    }
 }
 
 class PopulationClassMedium: PopulationClass {
@@ -66,6 +76,16 @@ class PopulationClassMedium: PopulationClass {
     override val range: IntRange = IntRange(10000, 99999)
 
     override fun<T, V: PopulationClassVisitor<T>> accept(visitor: V): T { return visitor.visitMedium(this) }
+
+    override fun equals(other: Any?): Boolean {
+
+        return other is PopulationClassMedium
+    }
+
+    override fun hashCode(): Int {
+
+        return this::class.hashCode()
+    }
 }
 
 class PopulationClassLarge: PopulationClass {
@@ -73,6 +93,16 @@ class PopulationClassLarge: PopulationClass {
     override val range: IntRange = IntRange(100000, 999999)
 
     override fun<T, V: PopulationClassVisitor<T>> accept(visitor: V): T { return visitor.visitLarge(this) }
+
+    override fun equals(other: Any?): Boolean {
+
+        return other is PopulationClassLarge
+    }
+
+    override fun hashCode(): Int {
+
+        return this::class.hashCode()
+    }
 }
 
 class PopulationClassVeryLarge: PopulationClass {
@@ -80,4 +110,14 @@ class PopulationClassVeryLarge: PopulationClass {
     override val range: IntRange = IntRange(1000000, Int.MAX_VALUE)
 
     override fun<T, V: PopulationClassVisitor<T>> accept(visitor: V): T { return visitor.visitVeryLarge(this) }
+
+    override fun equals(other: Any?): Boolean {
+
+        return other is PopulationClassVeryLarge
+    }
+
+    override fun hashCode(): Int {
+
+        return this::class.hashCode()
+    }
 }
