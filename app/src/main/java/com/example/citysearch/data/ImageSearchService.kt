@@ -5,6 +5,7 @@ import com.example.citysearch.startup.StartupView
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import io.reactivex.Observable
+import io.reactivex.Scheduler
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -21,7 +22,10 @@ interface ImageSearchService {
     fun imageSearch(query: String): ImageSearchFuture
 }
 
-class ImageSearchServiceImp: ImageSearchService {
+class ImageSearchServiceImp(private val client: OkHttpClient,
+                            private val queue: Scheduler): ImageSearchService {
+
+    constructor() : this(OkHttpClient.Builder().build(), Schedulers.io())
 
     companion object {
 
@@ -42,7 +46,6 @@ class ImageSearchServiceImp: ImageSearchService {
 
     init {
 
-        val client = OkHttpClient.Builder().build()
         val parser = GsonBuilder().create()
 
         val retrofit = Retrofit.Builder()
@@ -57,13 +60,19 @@ class ImageSearchServiceImp: ImageSearchService {
 
     override fun imageSearch(query: String): ImageSearchFuture {
 
+        return api.imageSearch(query)
+            .subscribeOn(queue)
+    }
+}
+
+class ImageSearchServiceStub(): ImageSearchService {
+
+    override fun imageSearch(query: String): ImageSearchFuture {
+
         val stubFile = StartupActivity.context.assets.open("stubImageResponse.json")
         val stubResults = Gson().fromJson(InputStreamReader(stubFile), ImageSearchResults::class.java)
 
         return Observable.just(stubResults)
             .subscribeOn(Schedulers.io())
-
-//        return api.imageSearch(query)
-//            .subscribeOn(Schedulers.io())
     }
 }
