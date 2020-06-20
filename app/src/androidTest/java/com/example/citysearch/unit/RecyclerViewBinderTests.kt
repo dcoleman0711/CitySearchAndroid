@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.citysearch.StubMeasureConverter
+import com.example.citysearch.acceptance.RecyclerViewTestUtilities
 import com.example.citysearch.reactive.*
 import com.example.citysearch.utilities.Size
 import com.nhaarman.mockitokotlin2.*

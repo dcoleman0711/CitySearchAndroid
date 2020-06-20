@@ -27,7 +27,7 @@ class CityDetailsViewModelImp(private val model: CityDetailsModel): CityDetailsV
     override val showLoader: Observable<Boolean>
 
     private val titleFont = Font(Typeface.DEFAULT, 36.0)
-    private val populationFont = Font(Typeface.DEFAULT, 36.0)
+    private val populationFont = Font(Typeface.DEFAULT, 24.0)
     private val populationTitleText = "Population: "
 
     init {

@@ -29,17 +29,17 @@ import com.example.citysearch.utilities.*
 import io.reactivex.disposables.Disposable
 
 open class CityDetailsView(private val view: ScrollView,
-                      private val contentView: ConstraintLayout,
-                      private val titleLabel: TextView,
-                      private val populationTitleLabel: TextView,
-                      private val populationLabel: TextView,
-                      private val mapView: MapView,
-                      private val imageCarouselView: ImageCarouselView,
-                      private val shimmeringLoader: ShimmeringLoaderView,
-                      private val viewModel: CityDetailsViewModel,
-                      private val binder: ViewBinder,
-                      private val constraintSetFactory: ConstraintSetFactory,
-                      private val measureConverter: MeasureConverter): Fragment() {
+                           private val contentView: ConstraintLayout,
+                           private val titleLabel: TextView,
+                           private val populationTitleLabel: TextView,
+                           private val populationLabel: TextView,
+                           private val mapView: MapView,
+                           private val imageCarouselView: ImageCarouselView,
+                           private val shimmeringLoader: ShimmeringLoaderView,
+                           private val viewModel: CityDetailsViewModel,
+                           private val binder: ViewBinder,
+                           private val constraintSetFactory: ConstraintSetFactory,
+                           private val measureConverter: MeasureConverter): Fragment() {
 
     private lateinit var titleBinding: Disposable
     private lateinit var populationTitleBinding: Disposable
@@ -145,7 +145,7 @@ open class CityDetailsView(private val view: ScrollView,
         // Image Carousel View
         constraints.connect(imageCarouselView.view.id, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT)
         constraints.connect(imageCarouselView.view.id, ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT)
-        constraints.connect(imageCarouselView.view.id, ConstraintSet.TOP, mapView.view.id, ConstraintSet.BOTTOM)
+        constraints.connect(imageCarouselView.view.id, ConstraintSet.TOP, mapView.view.id, ConstraintSet.BOTTOM, measureConverter.convertToPixels(16))
         constraints.connect(imageCarouselView.view.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
         constraints.constrainHeight(imageCarouselView.view.id, measureConverter.convertToPixels(256))
 
