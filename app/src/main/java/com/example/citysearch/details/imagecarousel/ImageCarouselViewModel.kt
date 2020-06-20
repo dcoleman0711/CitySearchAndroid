@@ -20,9 +20,12 @@ interface ImageCarouselViewModel {
     val results: Observable<RecyclerViewModel<AsyncImageViewModel>>
 }
 
-class ImageCarouselViewModelImp(private val model: ImageCarouselModel, private val viewModelFactory: AsyncImageViewModelFactory): ImageCarouselViewModel {
+class ImageCarouselViewModelImp(private val model: ImageCarouselModel,
+                                private val viewModelFactory: AsyncImageViewModelFactory,
+                                private val workQueue: Scheduler,
+                                private val resultsQueue: Scheduler): ImageCarouselViewModel {
 
-    constructor(model: ImageCarouselModel) : this(model, AsyncImageViewModelFactoryImp())
+    constructor(model: ImageCarouselModel) : this(model, AsyncImageViewModelFactoryImp(), Schedulers.computation(), AndroidSchedulers.mainThread())
 
     override val results: Observable<RecyclerViewModel<AsyncImageViewModel>>
 
@@ -42,7 +45,7 @@ class ImageCarouselViewModelImp(private val model: ImageCarouselModel, private v
             val cellDataUpdates = resultModels.map { resultModel ->
 
                 val imageEvents = Observable.merge(Observable.just(Optional.empty()), resultModel.image.map { image -> Optional.of(image) } )
-                    .subscribeOn(Schedulers.computation())
+                    .subscribeOn(workQueue)
 
                 imageEvents.map { image ->
 
@@ -57,7 +60,7 @@ class ImageCarouselViewModelImp(private val model: ImageCarouselModel, private v
 
             }
 
-        }.observeOn(AndroidSchedulers.mainThread())
+        }.observeOn(resultsQueue)
     }
 
     private fun cellData(resultModel: AsyncImageModel, image: Bitmap?): CellData<AsyncImageViewModel> {

@@ -98,18 +98,37 @@ class ImageCarouselModelSteps {
 
     fun observerIsNotifiedWithValue(expectedResults: List<AsyncImageModel>) {
 
-        val results = valuePassedToObserver
-        if(results == null) {
-            Assert.fail("Observer was not notified")
-            return
+        Assert.assertTrue("Observer was not notified with correct results", ListCompareUtility.compareListsWithPointerEquality(expectedResults, valuePassedToObserver))
+    }
+}
+
+class ListCompareUtility {
+
+    companion object {
+
+        fun<T> compareListsWithPointerEquality(expected: List<T>?, actual: List<T>?): Boolean {
+
+            return compareLists(expected, actual, { first, second -> first === second })
         }
 
-        if(expectedResults.size != results.size) {
-            Assert.fail("Observer was notified with incorrect number of results")
-            return
-        }
+        fun<T> compareLists(expected: List<T>?, actual: List<T>?, compare: (first: T, second: T) -> Boolean): Boolean {
 
-        for(index in 0 until expectedResults.size)
-            Assert.assertTrue("Observer was not notified of correct results", results[index] === expectedResults[index])
+            val expected = expected
+            if(expected == null) {
+                Assert.assertNull("Lists are not equal", actual)
+                return false
+            }
+
+            val actual = actual
+            if(actual == null) {
+                return false
+            }
+
+            if(actual.size != actual.size) {
+                return false
+            }
+
+            return (0 until expected.size).toList().stream().allMatch { index -> compare(actual[index], expected[index]) }
+        }
     }
 }
