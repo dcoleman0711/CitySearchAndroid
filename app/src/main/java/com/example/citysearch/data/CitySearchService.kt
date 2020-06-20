@@ -5,6 +5,7 @@ import com.example.citysearch.startup.StartupView
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import io.reactivex.Observable
+import io.reactivex.Scheduler
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -14,6 +15,8 @@ import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
 import java.io.InputStreamReader
+import java.util.*
+import kotlin.collections.ArrayList
 
 typealias CitySearchFuture = Observable<CitySearchResults>
 
@@ -22,7 +25,10 @@ interface CitySearchService {
     fun citySearch(): CitySearchFuture
 }
 
-class CitySearchServiceImp: CitySearchService {
+class CitySearchServiceImp(private val client: OkHttpClient,
+                           private val queue: Scheduler): CitySearchService {
+
+    constructor() : this(OkHttpClient.Builder().build(), Schedulers.io())
 
     companion object {
 
@@ -50,7 +56,6 @@ class CitySearchServiceImp: CitySearchService {
 
     init {
 
-        val client = OkHttpClient.Builder().build()
         val parser = GsonBuilder().create()
 
         val retrofit = Retrofit.Builder()
@@ -65,17 +70,24 @@ class CitySearchServiceImp: CitySearchService {
 
     override fun citySearch(): CitySearchFuture {
 
+        val start = 4000
+        val count = 80
+
+        return api.citySearch(start, count)
+            .subscribeOn(queue)
+    }
+}
+
+class CitySearchServiceStub(): CitySearchService {
+
+    override fun citySearch(): CitySearchFuture {
+
         val stubFile = StartupActivity.context.assets.open("stubCityResponse.json")
         val stubFileContents = Gson().fromJson(InputStreamReader(stubFile), CitySearchResults::class.java)
 
-        val stubResults = CitySearchResults(Array(5) { stubFileContents.results }.flatten().toTypedArray())
+        val stubResults = CitySearchResults(Collections.nCopies(5, stubFileContents.results ).flatten())
 
         return Observable.just(stubResults)
             .subscribeOn(Schedulers.io())
-//        val start = 4000
-//        val count = 80
-//
-//        return api.citySearch(start, count)
-//            .subscribeOn(Schedulers.io())
     }
 }

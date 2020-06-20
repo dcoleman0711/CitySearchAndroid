@@ -3,10 +3,10 @@ package com.example.citysearch.data
 import android.os.Parcel
 import android.os.Parcelable
 
-data class CitySearchResults(val results: Array<CitySearchResult>) {
+data class CitySearchResults(val results: List<CitySearchResult>) {
 
     companion object {
 
-        fun emptyResults() = CitySearchResults(arrayOf())
+        fun emptyResults() = CitySearchResults(arrayListOf())
     }
 }

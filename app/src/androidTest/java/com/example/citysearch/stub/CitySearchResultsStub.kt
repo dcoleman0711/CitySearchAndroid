@@ -18,7 +18,7 @@ class CitySearchResultsStub {
                 val stubName = "Stub City #$index"
                 CitySearchResult(stubName,(index + 1) * 1000, GeoPoint(index.toDouble() * 20.0, index.toDouble() * 40.0))
 
-            }.toTypedArray()
+            }
 
             return CitySearchResults(items)
         }
