@@ -35,7 +35,7 @@ class ParallaxViewImp(override val view: ConstraintLayout,
         offsetsBindings = viewModel.offsets.subscribe { offsets -> updateOffsets(offsets) }
     }
 
-    private fun buildImageViews(images: Array<Bitmap>) {
+    private fun buildImageViews(images: List<Bitmap>) {
 
         val constraints = constraintSetFactory.constraintSet()
 
@@ -59,7 +59,7 @@ class ParallaxViewImp(override val view: ConstraintLayout,
         constraints.setDimensionRatio(imageView.id, "${image.width}:${image.height}")
     }
 
-    private fun updateOffsets(offsets: Array<Point>) {
+    private fun updateOffsets(offsets: List<Point>) {
 
         for(index in 0 until view.childCount) {
 

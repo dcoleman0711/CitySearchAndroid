@@ -8,21 +8,21 @@ data class ParallaxLayer(val distance: Float, val image: Bitmap)
 
 interface ParallaxModel {
 
-    val layers: Observable<Array<ParallaxLayer>>
+    val layers: Observable<List<ParallaxLayer>>
 
-    fun setLayers(layers: Array<ParallaxLayer>)
+    fun setLayers(layers: List<ParallaxLayer>)
 }
 
 class ParallaxModelImp: ParallaxModel {
 
-    override val layers: BehaviorSubject<Array<ParallaxLayer>>
+    override val layers: BehaviorSubject<List<ParallaxLayer>>
 
     init {
 
         layers = BehaviorSubject.create()
     }
 
-    override fun setLayers(layers: Array<ParallaxLayer>) {
+    override fun setLayers(layers: List<ParallaxLayer>) {
 
         this.layers.onNext(layers)
     }

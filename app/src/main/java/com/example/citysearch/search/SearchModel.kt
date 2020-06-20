@@ -27,7 +27,7 @@ class SearchModelImp(private val context: Context, private val parallaxModel: Pa
             if(searchModel == null)
                 return
 
-            val layers = arrayOf(
+            val layers = arrayListOf(
                 ParallaxLayer(4.0f, ImageLoader.loadImage(searchModel.context, "Parallax2.jpg")),
                 ParallaxLayer(2.0f, ImageLoader.loadImage(searchModel.context, "Parallax1.png"))
             )

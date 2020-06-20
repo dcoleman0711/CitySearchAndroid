@@ -10,16 +10,16 @@ import io.reactivex.subjects.BehaviorSubject
 
 interface ParallaxViewModel {
 
-    val images: Observable<Array<Bitmap>>
-    val offsets: Observable<Array<Point>>
+    val images: Observable<List<Bitmap>>
+    val offsets: Observable<List<Point>>
 
     var contentOffset: Observable<Point>?
 }
 
 class ParallaxViewModelImp(private val model: ParallaxModel): ParallaxViewModel {
 
-    override val images: Observable<Array<Bitmap>>
-    override val offsets: BehaviorSubject<Array<Point>>
+    override val images: Observable<List<Bitmap>>
+    override val offsets: BehaviorSubject<List<Point>>
 
     private var offsetsBinding: Disposable? = null
 
@@ -38,22 +38,22 @@ class ParallaxViewModelImp(private val model: ParallaxModel): ParallaxViewModel 
 
     init {
 
-        images = model.layers.map { layers -> layers.map { layer -> layer.image }.toTypedArray() }.observeOn(AndroidSchedulers.mainThread())
+        images = model.layers.map { layers -> layers.map { layer -> layer.image } }.observeOn(AndroidSchedulers.mainThread())
         offsets = BehaviorSubject.create()
     }
 
     private fun createOffsetsPipe(contentOffset: Observable<Point>) {
 
         // We subscribe and publish to a subject instead of just assigning the offsets observable directly, because changing the offsets observable (part of the public interface of this ViewModel class) would mean the subscribers to it are subscribed to an obsolete observable.  This way, subscribers can stay subscribed to a permanent observable and always receive the up-to-date event stream
-        val offsetsEvents: Observable<Array<Point>> = Observable.combineLatest(model.layers, contentOffset, BiFunction({ layers, offset -> offsets(layers, offset) }))
+        val offsetsEvents: Observable<List<Point>> = Observable.combineLatest(model.layers, contentOffset, BiFunction({ layers, offset -> offsets(layers, offset) }))
 
         offsetsBinding = offsetsEvents
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ offsets -> this.offsets.onNext(offsets) })
     }
 
-    private fun offsets(layers: Array<ParallaxLayer>, offset: Point): Array<Point> {
+    private fun offsets(layers: List<ParallaxLayer>, offset: Point): List<Point> {
 
-        return layers.map { layer -> Point((-offset.x.toFloat() / layer.distance).toInt(), (-offset.y.toFloat() / layer.distance).toInt()) }.toTypedArray()
+        return layers.map { layer -> Point((-offset.x.toFloat() / layer.distance).toInt(), (-offset.y.toFloat() / layer.distance).toInt()) }
     }
 }

@@ -101,8 +101,8 @@ class ParallaxViewSteps {
         }
     }
 
-    private val viewModelImages = BehaviorSubject.create<Array<Bitmap>>()
-    private val viewModelOffsets = BehaviorSubject.create<Array<Point>>()
+    private val viewModelImages = BehaviorSubject.create<List<Bitmap>>()
+    private val viewModelOffsets = BehaviorSubject.create<List<Point>>()
 
     private val viewModel = mock<ParallaxViewModel> {
 
@@ -164,12 +164,12 @@ class ParallaxViewSteps {
 
     fun viewModelPublishesImages(viewModel: ParallaxViewModel, images: List<Bitmap>) {
 
-        viewModelImages.onNext(images.toTypedArray())
+        viewModelImages.onNext(images)
     }
 
     fun viewModelPublishesOffsets(viewModel: ParallaxViewModel, offsets: List<Point>) {
 
-        viewModelOffsets.onNext(offsets.toTypedArray())
+        viewModelOffsets.onNext(offsets)
     }
 
     fun parallaxViewHasImageViewsWith(parallaxView: ParallaxViewImp, expectedImages: List<Bitmap>) {
