@@ -141,7 +141,7 @@ class ParallaxViewModelSteps {
     fun imagesAreUpdatedTo(expectedImages: List<Bitmap>) {
 
         resultsQueue.triggerActions()
-        
+
         Assert.assertEquals("Images were not updated correctly", expectedImages, updatedImages)
     }
 }
