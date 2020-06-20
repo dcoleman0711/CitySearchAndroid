@@ -124,31 +124,6 @@ class RecyclerViewBinderSteps(private val context: Context) {
 
     private val recyclerView = mock<RecyclerView> {
 
-        on { adapter }.then { invocation ->
-
-            val adapter = invocation.getArgument<RecyclerViewBindingAdapter<String, TestMVVMCell>>(0)
-            this@RecyclerViewBinderSteps.adapter = adapter
-
-            adapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
-
-                override fun onChanged() {
-
-                    displayedCells.clear()
-
-                    val parent = FrameLayout(context)
-
-                    for(index in 0 until adapter.itemCount) {
-
-                        val holder = adapter.onCreateViewHolder(parent, 0)
-                        adapter.onBindViewHolder(holder, index)
-                        displayedCells.add(holder.cell as TestMVVMCell)
-                    }
-                }
-            })
-
-            null
-        }
-
         on { layoutManager }.thenReturn(layout)
     }
 

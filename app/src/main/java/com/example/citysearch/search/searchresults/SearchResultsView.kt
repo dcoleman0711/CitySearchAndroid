@@ -18,9 +18,9 @@ interface SearchResultsView {
     val view: View
 }
 
-class SearchResultsViewImp(context: Context, private val viewModel: SearchResultsViewModel): SearchResultsView {
+class SearchResultsViewImp(context: Context, override val view: RecyclerView, private val viewModel: SearchResultsViewModel): SearchResultsView {
 
-    override val view: RecyclerView
+    constructor(context: Context, viewModel: SearchResultsViewModel) : this(context, RecyclerView(context), viewModel)
 
     private val binder: RecyclerViewBinder<CitySearchResultViewModel, CitySearchResultCell> = RecyclerViewBinderImp(context, ::CitySearchResultCell)
 
@@ -28,7 +28,6 @@ class SearchResultsViewImp(context: Context, private val viewModel: SearchResult
 
     init {
 
-        view = RecyclerView(context)
         recyclerViewBinding = binder.bindCells(view, viewModel.resultsViewModels)
 
         viewModel.contentOffset = Observable.create { emitter ->
