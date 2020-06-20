@@ -78,7 +78,7 @@ open class RecyclerViewBindingAdapter<ViewModel, CellType: RecyclerCell<ViewMode
         cell.setLayoutParams(layoutParams)
     }
 
-    var cellData: Array<CellData<ViewModel>> = arrayOf()
+    var cellData: List<CellData<ViewModel>> = arrayListOf()
 }
 
 class SpacingDecoration<ViewModel>(private val horSpacing: Int, private val verSpacing: Int, private val measureConverter: MeasureConverter): RecyclerView.ItemDecoration() {

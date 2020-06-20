@@ -9,4 +9,4 @@ interface CellTapCommand {
 
 data class CellData<ViewModel>(val viewModel: ViewModel, val size: Size, val tapCommand: CellTapCommand?)
 
-data class RecyclerViewModel<ViewModel>(val cells: Array<CellData<ViewModel>>, val horSpacing: Int, val verSpacing: Int)
+data class RecyclerViewModel<ViewModel>(val cells: List<CellData<ViewModel>>, val horSpacing: Int, val verSpacing: Int)

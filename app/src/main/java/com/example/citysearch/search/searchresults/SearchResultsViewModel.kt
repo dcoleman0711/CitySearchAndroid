@@ -40,9 +40,9 @@ class SearchResultsViewModelImp(private val context: Context, private val model:
         return cellViewModel(this.cellData(models))
     }
 
-    private fun cellData(models: Array<CitySearchResultModel>): Array<CellData<CitySearchResultViewModel>> {
+    private fun cellData(models: Array<CitySearchResultModel>): List<CellData<CitySearchResultViewModel>> {
 
-        return models.map { model -> cellDatum(model) }.toTypedArray()
+        return models.map { model -> cellDatum(model) }
     }
 
     private fun cellDatum(model: CitySearchResultModel): CellData<CitySearchResultViewModel> {
@@ -51,7 +51,7 @@ class SearchResultsViewModelImp(private val context: Context, private val model:
         return CellData(viewModel, cellSize, viewModel.openDetailsCommand)
     }
 
-    private fun cellViewModel(cellData: Array<CellData<CitySearchResultViewModel>>): RecyclerViewModel<CitySearchResultViewModel> {
+    private fun cellViewModel(cellData: List<CellData<CitySearchResultViewModel>>): RecyclerViewModel<CitySearchResultViewModel> {
 
         return RecyclerViewModel(cells = cellData, horSpacing = this.horSpacing, verSpacing = this.verSpacing)
     }

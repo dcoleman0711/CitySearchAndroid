@@ -176,7 +176,7 @@ class RecyclerViewBinderSteps(private val context: Context) {
         return (0 until 5).map( { index -> "StubViewModel #$index" })
     }
 
-    fun cellData(cellViewModels: List<String>): Array<CellData<String>> {
+    fun cellData(cellViewModels: List<String>): List<CellData<String>> {
 
         return (0 until cellViewModels.size).map { index ->
 
@@ -192,15 +192,15 @@ class RecyclerViewBinderSteps(private val context: Context) {
 
             CellData(viewModel, Size(index * 32, index * 64), command)
 
-        }.toTypedArray()
+        }
     }
 
-    fun cellSizes(cellData: Array<CellData<String>>): List<Size> {
+    fun cellSizes(cellData: List<CellData<String>>): List<Size> {
 
         return cellData.map({ cellDatum -> cellDatum.size })
     }
 
-    fun tapCommands(cellData: Array<CellData<String>>): List<CellTapCommand> {
+    fun tapCommands(cellData: List<CellData<String>>): List<CellTapCommand> {
 
         return cellData.map({ cellDatum -> cellDatum.tapCommand!! })
     }
@@ -215,7 +215,7 @@ class RecyclerViewBinderSteps(private val context: Context) {
         return 14
     }
 
-    fun viewModel(cellData: Array<CellData<String>> = arrayOf(), horSpacing: Int = 0, verSpacing: Int = 0): RecyclerViewModel<String> {
+    fun viewModel(cellData: List<CellData<String>> = arrayListOf(), horSpacing: Int = 0, verSpacing: Int = 0): RecyclerViewModel<String> {
 
         return RecyclerViewModel<String>(cellData, horSpacing, verSpacing)
     }

@@ -10,25 +10,25 @@ import java.net.URL
 
 interface ImageCarouselModel {
 
-    val resultsModels: Observable<Array<AsyncImageModel>>
+    val resultsModels: Observable<List<AsyncImageModel>>
 
-    fun setResults(results: Array<URL>)
+    fun setResults(results: List<URL>)
 }
 
 class ImageCarouselModelImp(modelFactory: AsyncImageModelFactory): ImageCarouselModel {
 
     constructor(context: Context) : this(AsyncImageModelFactoryImp(context))
 
-    override val resultsModels: Observable<Array<AsyncImageModel>>
+    override val resultsModels: Observable<List<AsyncImageModel>>
 
-    private val results = BehaviorSubject.create<Array<URL>>()
+    private val results = BehaviorSubject.create<List<URL>>()
 
     init {
 
-        resultsModels = results.map { results -> results.map { url -> modelFactory.imageModel(url) }.toTypedArray() }
+        resultsModels = results.map { results -> results.map { url -> modelFactory.imageModel(url) } }
     }
 
-    override fun setResults(results: Array<URL>) {
+    override fun setResults(results: List<URL>) {
 
         this.results.onNext(results)
     }

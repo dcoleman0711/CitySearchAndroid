@@ -27,6 +27,7 @@ import com.example.citysearch.stub.CitySearchResultsStub
 import com.example.citysearch.utilities.*
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import org.junit.Assert
 import org.junit.Before
@@ -349,7 +350,7 @@ class DetailsScreenSteps(private val context: Context) {
                       map: MapView = this.mapView,
                       imageCarousel: ImageCarouselView = this.imageCarouselView) {
 
-        val model = CityDetailsModelImp(searchResult, ImageCarouselModelImp(context), imageSearchService)
+        val model = CityDetailsModelImp(searchResult, ImageCarouselModelImp(context), imageSearchService, Schedulers.computation())
         val viewModel = CityDetailsViewModelImp(model)
 
         buildDetailsScreen = {

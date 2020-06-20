@@ -37,7 +37,7 @@ class ImageCarouselViewModelImp(private val model: ImageCarouselModel, private v
         // combineLatest will only publish an event after every input stream has published at least one event.  But since every image stream is prepended with an immediately published "null",
         // combineLatest will publish an event combining all these "null"s immediately.  This event is the initial recycler view load, where it knows how many cells to display, but no images are loaded yet,
         // and all displayed cells will be "loading" cells
-        results = model.resultsModels.flatMap { resultModels: Array<AsyncImageModel> ->
+        results = model.resultsModels.flatMap { resultModels: List<AsyncImageModel> ->
 
             val cellDataUpdates = resultModels.map { resultModel ->
 
@@ -53,7 +53,7 @@ class ImageCarouselViewModelImp(private val model: ImageCarouselModel, private v
 
             Observable.combineLatest(cellDataUpdates) { cellData ->
 
-                RecyclerViewModel(cellData.filterIsInstance<CellData<AsyncImageViewModel>>().toTypedArray(), itemSpacing, 0)
+                RecyclerViewModel(cellData.filterIsInstance<CellData<AsyncImageViewModel>>(), itemSpacing, 0)
 
             }
 
