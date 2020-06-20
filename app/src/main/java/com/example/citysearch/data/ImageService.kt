@@ -3,6 +3,7 @@ package com.example.citysearch.data
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import io.reactivex.Observable
+import io.reactivex.Scheduler
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -17,11 +18,13 @@ interface ImageService {
     fun fetchImage(url: URL): ImageFuture
 }
 
-class ImageServiceImp: ImageService {
+class ImageServiceImp(private val client: OkHttpClient,
+                      private val queue: Scheduler): ImageService {
+
+    constructor() : this(OkHttpClient.Builder().build(), Schedulers.io())
 
     override fun fetchImage(url: URL): ImageFuture {
 
-        val client = OkHttpClient.Builder().build()
         val request = Request.Builder()
             .url(url)
             .build()
@@ -29,7 +32,7 @@ class ImageServiceImp: ImageService {
         val call = client.newCall(request)
 
         val responseFuture = Observable.fromCallable( { call.execute() })
-            .subscribeOn(Schedulers.io())
+            .subscribeOn(queue)
 
         return responseFuture.map { response -> parseResponse(response) }
             .share()
