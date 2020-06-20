@@ -12,7 +12,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.citysearch.animations.ShimmeringLoaderView
-import com.example.citysearch.animations.ShimmeringLoaderViewImp
 import com.example.citysearch.data.CitySearchResult
 import com.example.citysearch.data.GeoPoint
 import com.example.citysearch.data.ImageSearchResults

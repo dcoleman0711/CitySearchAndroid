@@ -26,6 +26,12 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
+
+    sourceSets {
+        androidTest {
+            assets.srcDirs = ['src/main/assets/', 'src/androidTest/assets/']
+        }
+    }
 }
 
 dependencies {
