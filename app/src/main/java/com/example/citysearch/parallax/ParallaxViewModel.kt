@@ -3,6 +3,7 @@ package com.example.citysearch.parallax
 import android.graphics.Bitmap
 import com.example.citysearch.utilities.Point
 import io.reactivex.Observable
+import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
@@ -16,7 +17,10 @@ interface ParallaxViewModel {
     var contentOffset: Observable<Point>?
 }
 
-class ParallaxViewModelImp(private val model: ParallaxModel): ParallaxViewModel {
+class ParallaxViewModelImp(private val model: ParallaxModel,
+                           private val resultsQueue: Scheduler): ParallaxViewModel {
+
+    constructor(model: ParallaxModel) : this(model, AndroidSchedulers.mainThread())
 
     override val images: Observable<List<Bitmap>>
     override val offsets: BehaviorSubject<List<Point>>
@@ -48,7 +52,7 @@ class ParallaxViewModelImp(private val model: ParallaxModel): ParallaxViewModel 
         val offsetsEvents: Observable<List<Point>> = Observable.combineLatest(model.layers, contentOffset, BiFunction({ layers, offset -> offsets(layers, offset) }))
 
         offsetsBinding = offsetsEvents
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(resultsQueue)
             .subscribe({ offsets -> this.offsets.onNext(offsets) })
     }
 
