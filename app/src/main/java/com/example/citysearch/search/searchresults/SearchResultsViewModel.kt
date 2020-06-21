@@ -35,12 +35,12 @@ class SearchResultsViewModelImp(private val context: Context, private val model:
         resultsViewModels = model.resultsModels.map { resultsModels -> mapResults(resultsModels) }
     }
 
-    private fun mapResults(models: Array<CitySearchResultModel>): RecyclerViewModel<CitySearchResultViewModel> {
+    private fun mapResults(models: List<CitySearchResultModel>): RecyclerViewModel<CitySearchResultViewModel> {
 
         return cellViewModel(this.cellData(models))
     }
 
-    private fun cellData(models: Array<CitySearchResultModel>): List<CellData<CitySearchResultViewModel>> {
+    private fun cellData(models: List<CitySearchResultModel>): List<CellData<CitySearchResultViewModel>> {
 
         return models.map { model -> cellDatum(model) }
     }
