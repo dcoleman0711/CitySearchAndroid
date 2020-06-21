@@ -50,12 +50,17 @@ class CityDetailsModelImp(private val searchResult: CitySearchResult,
         var subscriber: Disposable? = null
         subscriber = imageURLEvents
             .observeOn(resultsQueue)
-            .subscribe { imageURLs ->
+            .subscribe({ imageURLs ->
 
                 loading.onNext(false)
                 imageCarouselModel.setResults(imageURLs)
 
                 subscriber = null
-        }
+
+            }, { error ->
+
+                loading.onNext(false)
+                subscriber = null
+            })
     }
 }

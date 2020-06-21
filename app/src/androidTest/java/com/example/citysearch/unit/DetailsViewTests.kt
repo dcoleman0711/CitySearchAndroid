@@ -331,7 +331,7 @@ class DetailsViewSteps {
 
             verify(constraints, atLeastOnce()).connect(imageCarouselView.view.id, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT)
             verify(constraints, atLeastOnce()).connect(imageCarouselView.view.id, ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT)
-            verify(constraints, atLeastOnce()).connect(imageCarouselView.view.id, ConstraintSet.TOP, mapView.view.id, ConstraintSet.BOTTOM)
+            verify(constraints, atLeastOnce()).connect(imageCarouselView.view.id, ConstraintSet.TOP, mapView.view.id, ConstraintSet.BOTTOM, measureConverter.convertToPixels(16))
             verify(constraints, atLeastOnce()).connect(imageCarouselView.view.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
             verify(constraints, atLeastOnce()).constrainHeight(imageCarouselView.view.id, measureConverter.convertToPixels(256))
         }

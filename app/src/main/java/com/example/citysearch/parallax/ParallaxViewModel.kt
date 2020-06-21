@@ -42,7 +42,7 @@ class ParallaxViewModelImp(private val model: ParallaxModel,
 
     init {
 
-        images = model.layers.map { layers -> layers.map { layer -> layer.image } }.observeOn(AndroidSchedulers.mainThread())
+        images = model.layers.map { layers -> layers.map { layer -> layer.image } }.observeOn(resultsQueue)
         offsets = BehaviorSubject.create()
     }
 

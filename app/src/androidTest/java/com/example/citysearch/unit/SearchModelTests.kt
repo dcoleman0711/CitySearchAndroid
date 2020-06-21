@@ -8,6 +8,7 @@ import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import org.junit.Assert
 import org.junit.Before
+import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
@@ -23,6 +24,12 @@ class SearchModelTests {
     fun setUp() {
         
         steps = SearchModelSteps()
+    }
+
+    @Test
+    fun test() {
+
+        // Empty test to prevent JUnit from failing
     }
 }
 
