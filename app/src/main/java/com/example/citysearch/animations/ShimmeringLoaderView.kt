@@ -19,7 +19,7 @@ interface ShimmeringLoaderView {
 class ShimmeringLoaderViewImp(override val view: View,
                               private val choreographer: ChoreographerWrapper): ShimmeringLoaderView, Choreographer.FrameCallback {
 
-    constructor(context: Context) : this(View(context), ChoreographerWrapperImp())
+    constructor(view: View) : this(view, ChoreographerWrapperImp())
 
     private var running = false
 

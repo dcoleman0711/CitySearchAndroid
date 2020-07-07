@@ -5,11 +5,14 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ScrollView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.example.citysearch.R
 import com.example.citysearch.data.CitySearchResult
 import com.example.citysearch.data.CitySearchResults
 import com.example.citysearch.details.CityDetailsView
@@ -24,6 +27,7 @@ import com.example.citysearch.stub.CitySearchResultsStub
 import com.example.citysearch.utilities.*
 import com.nhaarman.mockitokotlin2.*
 import io.reactivex.subjects.BehaviorSubject
+import kotlinx.android.synthetic.main.search.view.*
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -49,7 +53,7 @@ class SearchScreenTests {
     @Before
     fun setUp() {
         
-        steps = SearchScreenSteps(InstrumentationRegistry.getInstrumentation().context)
+        steps = SearchScreenSteps(InstrumentationRegistry.getInstrumentation().targetContext)
     }
 
     @Test
@@ -135,7 +139,6 @@ class SearchScreenSteps(private val context: Context) {
     private val searchResultsContentOffset = BehaviorSubject.create<Point>()
 
     private val detailsViews = HashMap<String, CityDetailsView>()
-    private val realDetailsViewFactory = CityDetailsViewFactoryImp()
     private val detailsViewFactory = mock<CityDetailsViewFactory> {
 
         on { detailsView(any(), any()) }.then { invocation ->
@@ -165,8 +168,10 @@ class SearchScreenSteps(private val context: Context) {
     private val searchResultsModel = SearchResultsModelImp(openDetailsCommandFactory)
     private val searchResultsViewModel = SearchResultsViewModelImp(context, searchResultsModel)
 
-    private val searchResultsView = SearchResultsViewImp(context, searchResultsViewModel)
-    private val parallaxView = ParallaxViewImp(context, parallaxViewModel)
+    private val searchView = LayoutInflater.from(context).inflate(R.layout.search, null) as ConstraintLayout
+
+    private val searchResultsView = SearchResultsViewImp(context, searchView.findViewById(R.id.searchResults), searchResultsViewModel)
+    private val parallaxView = ParallaxViewImp(context, searchView.findViewById(R.id.parallaxView), parallaxViewModel)
 
     private lateinit var buildSearchScreen: () -> SearchView
     private lateinit var searchScreen: SearchView
@@ -208,12 +213,10 @@ class SearchScreenSteps(private val context: Context) {
 
         this.buildSearchScreen = {
 
-            SearchView(ConstraintLayout(context),
+            SearchView(searchView,
                 searchViewModel,
                 searchResultsView,
-                parallaxView,
-                ConstraintSetFactoryImp(),
-                MeasureConverterImp(context))
+                parallaxView)
         }
     }
 
@@ -270,7 +273,7 @@ class SearchScreenSteps(private val context: Context) {
 
         val correctHeight = searchResults.view.height == MeasureConverterImp(context).convertToPixels(SearchScreenTestConstants.resultsHeight)
 
-        Assert.assertTrue("Search results do not fill safe area horizontally", fillsHorizontally)
+        Assert.assertTrue("Search results do not fill view horizontally", fillsHorizontally)
         Assert.assertTrue("Search results are not centered vertically", centeredVertically)
         Assert.assertTrue("Search results does not have correct height", correctHeight)
     }

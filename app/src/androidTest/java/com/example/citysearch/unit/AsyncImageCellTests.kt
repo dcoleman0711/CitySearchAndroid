@@ -32,7 +32,7 @@ class AsyncImageCellTests {
     @Before
     fun setUp() {
         
-        steps = AsyncImageCellSteps(InstrumentationRegistry.getInstrumentation().context)
+        steps = AsyncImageCellSteps(InstrumentationRegistry.getInstrumentation().targetContext)
     }
 
     @Test

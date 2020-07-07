@@ -49,16 +49,6 @@ class MapViewTests {
     }
 
     @Test
-    fun testBackgroundImageViewIsView() {
-
-        val backgroundImageView = Given.backgroundImageView()
-
-        val mapView = When.mapViewIsCreated(backgroundImageView = backgroundImageView)
-
-        Then.viewIsChildOfMapView(backgroundImageView, mapView)
-    }
-
-    @Test
     fun testMarkerImageViewImage() {
 
         val viewModel = Given.viewModel()
@@ -128,16 +118,6 @@ class MapViewSteps {
         return markerImageView
     }
 
-    fun markerSize(): Size {
-
-        return Size(16, 16)
-    }
-
-    fun markerPosition(): Point {
-
-        return Point(64, 128)
-    }
-
     fun frame(): Rect {
 
         return Rect(Point((0.2 * MapViewModel.resolution).toInt(), (0.4 * MapViewModel.resolution).toInt()), Size(16, 16))
@@ -156,11 +136,6 @@ class MapViewSteps {
     fun mapViewIsCreated(backgroundImageView: ImageView = this.backgroundImageView, markerImageView: ImageView = this.markerImageView, viewModel: MapViewModel = this.viewModel, binder: ViewBinder = this.viewBinder): MapViewImp {
 
         return MapViewImp(view, backgroundImageView, markerImageView, placeholder, binder, viewModel, constraintSetFactory, measureConverter)
-    }
-
-    fun viewIsChildOfMapView(child: View, mapView: MapViewImp) {
-
-        verify(view).addView(child)
     }
 
     fun backgroundImageViewIsBoundToViewModel(backgroundImageView: ImageView, viewModel: MapViewModel) {

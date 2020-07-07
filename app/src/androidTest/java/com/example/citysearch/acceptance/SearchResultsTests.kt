@@ -3,11 +3,14 @@ package com.example.citysearch.acceptance
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.view.LayoutInflater
 import android.widget.FrameLayout
+import android.widget.ScrollView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.example.citysearch.R
 import com.example.citysearch.data.CitySearchResult
 import com.example.citysearch.data.CitySearchResults
 import com.example.citysearch.reactive.RecyclerCell
@@ -41,7 +44,7 @@ class SearchResultsTests {
     @Before
     fun setUp() {
         
-        steps = SearchResultsSteps(InstrumentationRegistry.getInstrumentation().context)
+        steps = SearchResultsSteps(InstrumentationRegistry.getInstrumentation().targetContext)
     }
 
     @Test
@@ -105,7 +108,7 @@ class SearchResultsTests {
 
 class SearchResultsSteps(private val context: Context) {
 
-    private val recyclerView = RecyclerView(context)
+    private val recyclerView = LayoutInflater.from(context).inflate(R.layout.searchresults, null) as RecyclerView
 
     private val resultModelFactory = mock<CitySearchResultModelFactory> {  }
     private val resultViewModelFactory = mock<CitySearchResultViewModelFactory> {  }

@@ -1,10 +1,16 @@
 package com.example.citysearch.unit
 
+import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.view.LayoutInflater
+import android.widget.ScrollView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import com.example.citysearch.R
 import com.example.citysearch.details.imagecarousel.ImageCarouselViewImp
 import com.example.citysearch.details.imagecarousel.ImageCarouselViewModel
 import com.example.citysearch.details.imagecarousel.asyncimage.AsyncImageCell
@@ -32,7 +38,7 @@ class ImageCarouselViewTests {
     @Before
     fun setUp() {
 
-        steps = ImageCarouselViewSteps()
+        steps = ImageCarouselViewSteps(InstrumentationRegistry.getInstrumentation().targetContext)
     }
 
     @Test
@@ -68,9 +74,9 @@ class ImageCarouselViewTests {
     }
 }
 
-class ImageCarouselViewSteps {
+class ImageCarouselViewSteps(private val context: Context) {
 
-    private val recyclerView = mock<RecyclerView> {  }
+    private val recyclerView = LayoutInflater.from(context).inflate(R.layout.imagecarousel, null) as RecyclerView
 
     private val viewModelCells = BehaviorSubject.create<RecyclerViewModel<AsyncImageViewModel>>()
 
@@ -103,10 +109,7 @@ class ImageCarouselViewSteps {
 
     fun recyclerViewLayoutIsHorizontalGrid(recyclerView: RecyclerView) {
 
-        val argumentCaptor = argumentCaptor<RecyclerView.LayoutManager>()
-        verify(recyclerView).layoutManager = argumentCaptor.capture()
-        
-        val gridLayoutManager = argumentCaptor.firstValue as? GridLayoutManager
+        val gridLayoutManager =  recyclerView.layoutManager as? GridLayoutManager
         if(gridLayoutManager == null) {
             Assert.fail("Recycler view layout is not a flow layout")
             return
@@ -117,7 +120,8 @@ class ImageCarouselViewSteps {
 
     fun recyclerViewBackgroundColorIsClear(recyclerView: RecyclerView) {
 
-        verify(recyclerView).setBackgroundColor(Color.TRANSPARENT)
+        val background = recyclerView.background as ColorDrawable
+        Assert.assertEquals("Recycler view layout flow direction is not horizontal", Color.TRANSPARENT, background.color)
     }
 
     fun recyclerViewCellsAreBoundToViewModel(recyclerView: RecyclerView, viewModel: ImageCarouselViewModel) {

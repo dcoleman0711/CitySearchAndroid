@@ -3,6 +3,8 @@ package com.example.citysearch.startup
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.view.ViewGroup
+import com.example.citysearch.R
 
 class StartupActivity: Activity() {
 
@@ -21,7 +23,7 @@ class StartupActivity: Activity() {
 
         context = this
 
-        startupView = startupViewBuilder.build(this)
-        setContentView(startupView.view)
+        setContentView(R.layout.startup)
+        startupView = startupViewBuilder.build(this, findViewById(R.id.view))
     }
 }

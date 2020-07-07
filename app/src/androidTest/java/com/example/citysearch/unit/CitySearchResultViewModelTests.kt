@@ -30,7 +30,7 @@ class CitySearchResultViewModelTests {
     @Before
     fun setUp() {
         
-        steps = CitySearchResultViewModelSteps(InstrumentationRegistry.getInstrumentation().context)
+        steps = CitySearchResultViewModelSteps(InstrumentationRegistry.getInstrumentation().targetContext)
     }
 
     @Test

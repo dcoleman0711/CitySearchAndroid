@@ -1,6 +1,9 @@
 package com.example.citysearch.startup
 
 import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import com.example.citysearch.R
 import com.example.citysearch.animations.RollingAnimationLabel
 import com.example.citysearch.data.CitySearchService
 import com.example.citysearch.data.CitySearchServiceImp
@@ -11,14 +14,12 @@ class StartupViewBuilder {
     var transitionCommand: StartupTransitionCommand? = null
     var searchService: CitySearchService = CitySearchServiceImp()
 
-    fun build(context: Context): StartupView {
+    fun build(context: Context, view: View): StartupView {
 
         val transitionCommand = this.transitionCommand ?: StartupTransitionCommandImp(context)
         val model = StartupModelImp(transitionCommand, searchService)
         val viewModel = StartupViewModelImp(model)
 
-        val appTitleLabel = this.appTitleLabel ?: RollingAnimationLabel(context)
-
-        return StartupViewImp(context, viewModel, appTitleLabel)
+        return StartupViewImp(view, viewModel)
     }
 }

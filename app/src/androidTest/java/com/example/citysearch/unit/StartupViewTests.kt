@@ -40,28 +40,6 @@ class StartupViewTests {
     }
 
     @Test
-    fun testAppTitleLabelIsOnStartupView() {
-
-        val appTitleLabel = Given.appTitleLabel()
-        val startupViewModel = Given.startupViewModel()
-
-        val startupView = When.startupViewIsCreated(startupViewModel = startupViewModel, appTitleLabel =  appTitleLabel)
-
-        Then.appTitleLabelIsOnStartupView(appTitleLabel, startupView)
-    }
-
-    @Test
-    fun testAppTitleLabelCenter() {
-
-        val appTitleLabel = Given.appTitleLabel()
-        val expectedConstraints = Given.constraintsForCenter(appTitleLabel)
-
-        val startupView = When.startupViewIsCreated(appTitleLabel)
-
-        Then.startupViewHasConstraints(startupView, expectedConstraints)
-    }
-
-    @Test
     fun testAppTitleLabelIsBoundToViewModel() {
 
         val appTitleLabel = Given.appTitleLabel()
@@ -85,39 +63,9 @@ class StartupViewTests {
 
 class StartupViewSteps {
 
-    private val context = mock<Context> {
-
-//        on { resources }.thenAnswer {
-//
-//            val resources = mock<Resources> {
-//
-//                on { displayMetrics }.thenAnswer {
-//
-//                    val displayMetrics = mock<DisplayMetrics> {  }
-//
-//                    displayMetrics
-//                }
-//
-//                on { configuration }.thenAnswer {
-//
-//                    val configuration = Configuration()
-//                }
-//            }
-//
-//            resources
-//        }
-    }
-
     private val view = mock<ConstraintLayout> {  }
 
     private val appTitleLabel = mock<RollingAnimationLabel> {  }
-
-    private val constraints = mock<ConstraintSet> {  }
-
-    private val constraintSetFactory = mock<ConstraintSetFactory> {
-
-        on { constraintSet() }.thenReturn(constraints)
-    }
 
     private val startupModel = mock<StartupModel> {  }
     private val appTitle = BehaviorSubject.create<TextViewModel>()
@@ -142,35 +90,14 @@ class StartupViewSteps {
         return viewModel
     }
 
-    fun constraintsForCenter(appTitleLabel: RollingAnimationLabel): () -> Unit {
-
-        return {
-
-            verify(constraints).centerHorizontally(appTitleLabel.id, ConstraintSet.PARENT_ID)
-            verify(constraints).centerVertically(appTitleLabel.id, ConstraintSet.PARENT_ID)
-            verify(constraints).constrainWidth(appTitleLabel.id, ConstraintSet.WRAP_CONTENT)
-            verify(constraints).constrainHeight(appTitleLabel.id, ConstraintSet.WRAP_CONTENT)
-        }
-    }
-
     fun startupViewIsCreated(appTitleLabel: RollingAnimationLabel = this.appTitleLabel, startupModel: StartupModel = this.startupModel, startupViewModel: StartupViewModel = this.viewModel): StartupViewImp {
 
-        return StartupViewImp(viewModel, view, appTitleLabel, constraintSetFactory)
+        return StartupViewImp(viewModel, view, appTitleLabel)
     }
 
     fun appTitleLabel(): RollingAnimationLabel {
 
         return appTitleLabel
-    }
-
-    fun appTitleLabelIsOnStartupView(appTitleLabel: RollingAnimationLabel, startupView: StartupView) {
-
-        verify(view).addView(appTitleLabel)
-    }
-
-    fun startupViewHasConstraints(startupView: StartupView, expectedConstraints: () -> Unit) {
-
-        expectedConstraints()
     }
 
     fun appTitleLabelIsBoundToViewModel(appTitleLabel: RollingAnimationLabel, viewModel: StartupViewModel) {

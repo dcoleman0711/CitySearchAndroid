@@ -39,7 +39,7 @@ class ImageCarouselViewModelTests {
     @Before
     fun setUp() {
         
-        steps = ImageCarouselViewModelSteps(InstrumentationRegistry.getInstrumentation().context)
+        steps = ImageCarouselViewModelSteps(InstrumentationRegistry.getInstrumentation().targetContext)
     }
 
     @Test

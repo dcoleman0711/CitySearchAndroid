@@ -33,7 +33,7 @@ class MapViewModelTests {
     @Before
     fun setUp() {
         
-        steps = MapViewModelSteps(InstrumentationRegistry.getInstrumentation().context)
+        steps = MapViewModelSteps(InstrumentationRegistry.getInstrumentation().targetContext)
     }
     
     @Test

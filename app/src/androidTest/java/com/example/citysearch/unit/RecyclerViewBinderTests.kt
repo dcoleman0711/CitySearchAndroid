@@ -32,7 +32,7 @@ class RecyclerViewBinderTests {
     @Before
     fun setUp() {
 
-        steps = RecyclerViewBinderSteps(InstrumentationRegistry.getInstrumentation().context)
+        steps = RecyclerViewBinderSteps(InstrumentationRegistry.getInstrumentation().targetContext)
     }
 
     @Test

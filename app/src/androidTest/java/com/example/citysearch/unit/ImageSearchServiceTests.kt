@@ -32,7 +32,7 @@ class ImageSearchServiceTests {
     @Before
     fun setUp() {
         
-        steps = ImageSearchServiceSteps(InstrumentationRegistry.getInstrumentation().context)
+        steps = ImageSearchServiceSteps(InstrumentationRegistry.getInstrumentation().targetContext)
     }
 
     @Test

@@ -37,38 +37,31 @@ open class CityDetailsView(private val view: ScrollView,
                            private val imageCarouselView: ImageCarouselView,
                            private val shimmeringLoader: ShimmeringLoaderView,
                            private val viewModel: CityDetailsViewModel,
-                           private val binder: ViewBinder,
-                           private val constraintSetFactory: ConstraintSetFactory,
-                           private val measureConverter: MeasureConverter): Fragment() {
+                           private val binder: ViewBinder): Fragment() {
 
     private lateinit var titleBinding: Disposable
     private lateinit var populationTitleBinding: Disposable
     private lateinit var populationBinding: Disposable
     private lateinit var showLoaderBinding: Disposable
 
-    constructor(context: Context,
-                viewModel: CityDetailsViewModel,
+    constructor(view: ScrollView,
                 mapView: MapView,
-                imageCarouselView: ImageCarouselView
+                imageCarouselView: ImageCarouselView,
+                viewModel: CityDetailsViewModel
     ) : this(
-        ScrollView(context),
-        ConstraintLayout(context),
-        TextView(context),
-        TextView(context),
-        TextView(context),
+        view,
+        view.findViewById(R.id.contentView),
+        view.findViewById(R.id.titleLabel),
+        view.findViewById(R.id.populationTitleLabel),
+        view.findViewById(R.id.populationLabel),
         mapView,
         imageCarouselView,
-        ShimmeringLoaderViewImp(context),
+        ShimmeringLoaderViewImp(view.findViewById(R.id.shimmeringLoader)),
         viewModel,
-        ViewBinderImp(),
-        ConstraintSetFactoryImp(),
-        MeasureConverterImp(context)
+        ViewBinderImp()
     )
 
     init {
-
-        setupView()
-        buildLayout()
 
         bindViews()
     }
@@ -80,82 +73,6 @@ open class CityDetailsView(private val view: ScrollView,
     ): View? {
 
         return view
-    }
-
-    private fun setupView() {
-
-        view.id = R.id.view
-        view.setBackgroundColor(Color.rgb(0.8f, 0.8f, 0.8f))
-        view.isFillViewport = true
-
-        contentView.id = R.id.contentView
-        view.addView(contentView)
-        
-        titleLabel.id = R.id.titleLabel
-        titleLabel.setTextColor(Color.BLACK)
-        contentView.addView(titleLabel)
-
-        populationTitleLabel.id = R.id.populationTitleLabel
-        populationTitleLabel.setTextColor(Color.BLACK)
-        contentView.addView(populationTitleLabel)
-
-        populationLabel.id = R.id.populationLabel
-        populationLabel.setTextColor(Color.BLACK)
-        contentView.addView(populationLabel)
-
-        mapView.view.id = R.id.mapView
-        contentView.addView(mapView.view)
-
-        imageCarouselView.view.id = R.id.imageCarouselView
-        contentView.addView(imageCarouselView.view)
-
-        shimmeringLoader.view.id = R.id.shimmeringLoader
-        contentView.addView(shimmeringLoader.view)
-    }
-
-    private fun buildLayout() {
-
-        val constraints = constraintSetFactory.constraintSet()
-
-        // Title Label
-        constraints.connect(titleLabel.id, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT)
-        constraints.connect(titleLabel.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
-        constraints.constrainWidth(titleLabel.id, ConstraintSet.WRAP_CONTENT)
-        constraints.constrainHeight(titleLabel.id, ConstraintSet.WRAP_CONTENT)
-
-        // Population Title Label
-        constraints.connect(populationTitleLabel.id, ConstraintSet.LEFT, titleLabel.id, ConstraintSet.LEFT)
-        constraints.connect(populationTitleLabel.id, ConstraintSet.TOP, titleLabel.id, ConstraintSet.BOTTOM, measureConverter.convertToPixels(32))
-        constraints.constrainWidth(populationTitleLabel.id, ConstraintSet.WRAP_CONTENT)
-        constraints.constrainHeight(populationTitleLabel.id, ConstraintSet.WRAP_CONTENT)
-
-        // Population Label
-        constraints.connect(populationLabel.id, ConstraintSet.LEFT, populationTitleLabel.id, ConstraintSet.RIGHT, measureConverter.convertToPixels(8))
-        constraints.connect(populationLabel.id, ConstraintSet.TOP, populationTitleLabel.id, ConstraintSet.TOP)
-        constraints.connect(populationLabel.id, ConstraintSet.BOTTOM, populationTitleLabel.id, ConstraintSet.BOTTOM)
-        constraints.constrainWidth(populationLabel.id, ConstraintSet.WRAP_CONTENT)
-        constraints.constrainHeight(populationLabel.id, ConstraintSet.WRAP_CONTENT)
-
-        // Map View
-        constraints.connect(mapView.view.id, ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT)
-        constraints.connect(mapView.view.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
-        constraints.constrainPercentWidth(mapView.view.id, 0.5f)
-        constraints.setDimensionRatio(mapView.view.id, "H,2:1")
-
-        // Image Carousel View
-        constraints.connect(imageCarouselView.view.id, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT)
-        constraints.connect(imageCarouselView.view.id, ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT)
-        constraints.connect(imageCarouselView.view.id, ConstraintSet.TOP, mapView.view.id, ConstraintSet.BOTTOM, measureConverter.convertToPixels(16))
-        constraints.connect(imageCarouselView.view.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
-        constraints.constrainHeight(imageCarouselView.view.id, measureConverter.convertToPixels(256))
-
-        // Shimmering Loader
-        constraints.connect(shimmeringLoader.view.id, ConstraintSet.LEFT, imageCarouselView.view.id, ConstraintSet.LEFT)
-        constraints.connect(shimmeringLoader.view.id, ConstraintSet.RIGHT, imageCarouselView.view.id, ConstraintSet.RIGHT)
-        constraints.connect(shimmeringLoader.view.id, ConstraintSet.TOP, imageCarouselView.view.id, ConstraintSet.TOP)
-        constraints.connect(shimmeringLoader.view.id, ConstraintSet.BOTTOM, imageCarouselView.view.id, ConstraintSet.BOTTOM)
-
-        constraints.applyTo(contentView)
     }
 
     private fun bindViews() {

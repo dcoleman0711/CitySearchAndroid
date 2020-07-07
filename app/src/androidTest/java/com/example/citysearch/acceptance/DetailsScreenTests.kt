@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.example.citysearch.R
 import com.example.citysearch.animations.ShimmeringLoaderView
 import com.example.citysearch.data.CitySearchResult
 import com.example.citysearch.data.GeoPoint
@@ -56,7 +57,7 @@ class DetailsScreenTests {
     @Before
     fun setUp() {
         
-        steps = DetailsScreenSteps(InstrumentationRegistry.getInstrumentation().context)
+        steps = DetailsScreenSteps(InstrumentationRegistry.getInstrumentation().targetContext)
     }
 
     @Test
@@ -245,27 +246,25 @@ class DetailsScreenTests {
 
 class DetailsScreenSteps(private val context: Context) {
 
-    private var safeAreaFrame = Rect.zero
+    private val detailsView = LayoutInflater.from(context).inflate(R.layout.citydetails, null) as ScrollView
 
-    private val detailsView = ScrollView(context)
+    private val titleLabel = detailsView.findViewById<TextView>(R.id.titleLabel)
+    private val populationTitleLabel = detailsView.findViewById<TextView>(R.id.populationTitleLabel)
+    private val populationLabel = detailsView.findViewById<TextView>(R.id.populationLabel)
 
-    private val titleLabel = TextView(context)
-    private val populationTitleLabel = TextView(context)
-    private val populationLabel = TextView(context)
-
-    private val mapViewView = View(context)
+    private val mapViewView = detailsView.findViewById<View>(R.id.mapView)
     private val mapView = mock<MapView> {
 
         on { view }.thenReturn(mapViewView)
     }
 
-    private val imageCarouselViewView = View(context)
+    private val imageCarouselViewView = detailsView.findViewById<View>(R.id.imageCarouselView)
     private val imageCarouselView = mock<ImageCarouselView> {
 
         on { view }.thenReturn(imageCarouselViewView)
     }
 
-    private val shimmeringLoaderViewView = View(context)
+    private val shimmeringLoaderViewView = detailsView.findViewById<View>(R.id.shimmeringLoader)
     private val shimmeringLoaderView = mock<ShimmeringLoaderView> {
 
         on { view }.thenReturn(shimmeringLoaderViewView)
@@ -365,9 +364,7 @@ class DetailsScreenSteps(private val context: Context) {
                 imageCarousel,
                 shimmeringLoaderView,
                 viewModel,
-                ViewBinderImp(),
-                ConstraintSetFactoryImp(),
-                measureConverter)
+                ViewBinderImp())
         }
     }
 

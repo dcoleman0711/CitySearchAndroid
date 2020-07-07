@@ -35,7 +35,7 @@ class SearchResultsViewModelTests {
     @Before
     fun setUp() {
         
-        steps = SearchResultsViewModelSteps(InstrumentationRegistry.getInstrumentation().context)
+        steps = SearchResultsViewModelSteps(InstrumentationRegistry.getInstrumentation().targetContext)
     }
 
     @Test

@@ -38,18 +38,6 @@ class DetailsViewTests {
     }
 
     @Test
-    fun testTitlePositionConstraints() {
-
-        val titleLabel = Given.titleLabel()
-        val contentView = Given.contentView()
-        val expectedConstraints = Given.titleLabelConstraintsToTopLeftSafeAreaOf(titleLabel, contentView)
-
-        val detailsView = When.detailsViewIsCreated(contentView = contentView, titleLabel = titleLabel)
-
-        Then.detailsViewHasExpectedConstraints(detailsView, expectedConstraints)
-    }
-
-    @Test
     fun testTitleBindToViewModel() {
 
         val titleLabel = Given.titleLabel()
@@ -59,19 +47,6 @@ class DetailsViewTests {
         val detailsView = When.detailsViewIsCreated(titleLabel = titleLabel, viewModel = viewModel, binder = binder)
 
         Then.titleLabelIsBoundToViewModel(titleLabel, viewModel)
-    }
-
-    @Test
-    fun testPopulationTitleLabelPositionConstraints() {
-
-        val populationTitleLabel = Given.populationTitleLabel()
-        val titleLabel = Given.titleLabel()
-        val contentView = Given.contentView()
-        val expectedConstraints = Given.populationTitleLabelConstraintsToLeftAlignAndSpaceBelow(populationTitleLabel, titleLabel)
-
-        val detailsView = Given.detailsViewIsCreated(contentView = contentView, titleLabel = titleLabel, populationTitleLabel = populationTitleLabel)
-
-        Then.detailsViewHasExpectedConstraints(detailsView, expectedConstraints)
     }
 
     @Test
@@ -87,19 +62,6 @@ class DetailsViewTests {
     }
 
     @Test
-    fun testPopulationLabelPositionConstraints() {
-
-        val populationLabel = Given.populationLabel()
-        val populationTitleLabel = Given.populationTitleLabel()
-        val contentView = Given.contentView()
-        val expectedConstraints = Given.populationLabelConstraintsToRightAndVerticallyCenteredWith(populationLabel, populationTitleLabel)
-
-        val detailsView = When.detailsViewIsCreated(contentView = contentView, populationTitleLabel = populationTitleLabel, populationLabel = populationLabel)
-
-        Then.detailsViewHasExpectedConstraints(detailsView, expectedConstraints)
-    }
-
-    @Test
     fun testPopulationLabelBindToViewModel() {
 
         val populationLabel = Given.populationLabel()
@@ -109,43 +71,6 @@ class DetailsViewTests {
         val detailsView = When.detailsViewIsCreated(populationLabel = populationLabel, viewModel = viewModel, binder = binder)
 
         Then.populationLabelIsBoundToViewModel(populationLabel, viewModel)
-    }
-
-    @Test
-    fun testMapViewPositionConstraints() {
-
-        val mapView = Given.mapView()
-        val contentView = Given.contentView()
-        val expectedConstraints = Given.mapViewConstraintsToTopRightWithHalfWidthAnd2to1AspectRatio(mapView, contentView)
-
-        val detailsView = When.detailsViewIsCreated(contentView = contentView, mapView = mapView)
-
-        Then.detailsViewHasExpectedConstraints(detailsView, expectedConstraints)
-    }
-
-    @Test
-    fun testImageCarouselViewPositionConstraints() {
-
-        val imageCarouselView = Given.imageCarouselView()
-        val mapView = Given.mapView()
-        val contentView = Given.contentView()
-        val expectedConstraints = Given.imageCarouselViewConstraintsSafeAreaBottomAndEdgesOfAndSpacedBelowWithCorrectHeight(imageCarouselView, contentView, mapView)
-
-        val detailsView = When.detailsViewIsCreated(contentView = contentView, mapView = mapView, imageCarouselView = imageCarouselView)
-
-        Then.detailsViewHasExpectedConstraints(detailsView, expectedConstraints)
-    }
-
-    @Test
-    fun testShimmeringLoaderViewPositionConstraints() {
-
-        val shimmeringLoader = Given.shimmeringLoader()
-        val imageCarouselView = Given.imageCarouselView()
-        val expectedConstraints = Given.shimmeringLoaderConstrainedToMatchFrameOfImageCarousel(shimmeringLoader, imageCarouselView)
-
-        val detailsView = When.detailsViewIsCreated(imageCarouselView = imageCarouselView, shimmeringLoader = shimmeringLoader)
-
-        Then.detailsViewHasExpectedConstraints(detailsView, expectedConstraints)
     }
 
     @Test
@@ -213,20 +138,6 @@ class DetailsViewSteps {
 
     private val viewBinder = mock<ViewBinder> {  }
 
-    private val constraints = mock<ConstraintSet> {  }
-
-    private val constraintSetFactory = mock<ConstraintSetFactory> {
-
-        on { constraintSet() }.thenReturn(constraints)
-    }
-
-    private val measureConverter = StubMeasureConverter.stubMeasureConverter()
-    
-    fun contentView(): ConstraintLayout {
-
-        return contentView
-    }
-
     fun titleLabel(): TextView {
 
         return titleLabel
@@ -240,16 +151,6 @@ class DetailsViewSteps {
     fun populationLabel(): TextView {
 
         return populationLabel
-    }
-
-    fun mapView(): MapView {
-
-        return mapView
-    }
-
-    fun imageCarouselView(): ImageCarouselView {
-
-        return imageCarouselView
     }
 
     fun shimmeringLoader(): ShimmeringLoaderView {
@@ -277,75 +178,7 @@ class DetailsViewSteps {
                              viewModel: CityDetailsViewModel = this.viewModel,
                              binder: ViewBinder = this.viewBinder): CityDetailsView {
 
-        return CityDetailsView(view, contentView, titleLabel, populationTitleLabel, populationLabel, mapView, imageCarouselView, shimmeringLoader, viewModel, binder, constraintSetFactory, measureConverter)
-    }
-
-    fun titleLabelConstraintsToTopLeftSafeAreaOf(titleLabel: TextView, contentView: ConstraintLayout): () -> Unit {
-
-        return {
-
-            verify(constraints, atLeastOnce()).connect(titleLabel.id, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT)
-            verify(constraints, atLeastOnce()).connect(titleLabel.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
-            verify(constraints, atLeastOnce()).constrainWidth(titleLabel.id, ConstraintSet.WRAP_CONTENT)
-            verify(constraints, atLeastOnce()).constrainHeight(titleLabel.id, ConstraintSet.WRAP_CONTENT)
-        }
-    }
-
-    fun populationTitleLabelConstraintsToLeftAlignAndSpaceBelow(populationTitleLabel: TextView, titleLabel: TextView): () -> Unit {
-
-        return {
-
-            verify(constraints, atLeastOnce()).connect(populationTitleLabel.id, ConstraintSet.LEFT, titleLabel.id, ConstraintSet.LEFT)
-            verify(constraints, atLeastOnce()).connect(populationTitleLabel.id, ConstraintSet.TOP, titleLabel.id, ConstraintSet.BOTTOM, measureConverter.convertToPixels(32))
-            verify(constraints, atLeastOnce()).constrainWidth(populationTitleLabel.id, ConstraintSet.WRAP_CONTENT)
-            verify(constraints, atLeastOnce()).constrainHeight(populationTitleLabel.id, ConstraintSet.WRAP_CONTENT)
-        }
-    }
-
-    fun populationLabelConstraintsToRightAndVerticallyCenteredWith(populationLabel: TextView, populationTitleLabel: TextView): () -> Unit {
-
-        return {
-
-            verify(constraints, atLeastOnce()).connect(populationLabel.id, ConstraintSet.LEFT, populationTitleLabel.id, ConstraintSet.RIGHT, measureConverter.convertToPixels(8))
-            verify(constraints, atLeastOnce()).connect(populationLabel.id, ConstraintSet.TOP, populationTitleLabel.id, ConstraintSet.TOP)
-            verify(constraints, atLeastOnce()).connect(populationLabel.id, ConstraintSet.BOTTOM, populationTitleLabel.id, ConstraintSet.BOTTOM)
-            verify(constraints, atLeastOnce()).constrainWidth(populationLabel.id, ConstraintSet.WRAP_CONTENT)
-            verify(constraints, atLeastOnce()).constrainHeight(populationLabel.id, ConstraintSet.WRAP_CONTENT)
-        }
-    }
-
-    fun mapViewConstraintsToTopRightWithHalfWidthAnd2to1AspectRatio(mapView: MapView, contentView: ConstraintLayout): () -> Unit {
-
-        return {
-
-            verify(constraints, atLeastOnce()).connect(mapView.view.id, ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT)
-            verify(constraints, atLeastOnce()).connect(mapView.view.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
-            verify(constraints, atLeastOnce()).constrainPercentWidth(mapView.view.id, 0.5f)
-            verify(constraints, atLeastOnce()).setDimensionRatio(mapView.view.id, "H,2:1")
-        }
-    }
-
-    fun imageCarouselViewConstraintsSafeAreaBottomAndEdgesOfAndSpacedBelowWithCorrectHeight(imageCarouselView: ImageCarouselView, contentView: ConstraintLayout, mapView: MapView): () -> Unit {
-
-        return {
-
-            verify(constraints, atLeastOnce()).connect(imageCarouselView.view.id, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT)
-            verify(constraints, atLeastOnce()).connect(imageCarouselView.view.id, ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT)
-            verify(constraints, atLeastOnce()).connect(imageCarouselView.view.id, ConstraintSet.TOP, mapView.view.id, ConstraintSet.BOTTOM, measureConverter.convertToPixels(16))
-            verify(constraints, atLeastOnce()).connect(imageCarouselView.view.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
-            verify(constraints, atLeastOnce()).constrainHeight(imageCarouselView.view.id, measureConverter.convertToPixels(256))
-        }
-    }
-
-    fun shimmeringLoaderConstrainedToMatchFrameOfImageCarousel(shimmeringLoader: ShimmeringLoaderView, imageCarouselView: ImageCarouselView): () -> Unit {
-
-        return {
-
-            verify(constraints, atLeastOnce()).connect(shimmeringLoader.view.id, ConstraintSet.LEFT, imageCarouselView.view.id, ConstraintSet.LEFT)
-            verify(constraints, atLeastOnce()).connect(shimmeringLoader.view.id, ConstraintSet.RIGHT, imageCarouselView.view.id, ConstraintSet.RIGHT)
-            verify(constraints, atLeastOnce()).connect(shimmeringLoader.view.id, ConstraintSet.TOP, imageCarouselView.view.id, ConstraintSet.TOP)
-            verify(constraints, atLeastOnce()).connect(shimmeringLoader.view.id, ConstraintSet.BOTTOM, imageCarouselView.view.id, ConstraintSet.BOTTOM)
-        }
+        return CityDetailsView(view, contentView, titleLabel, populationTitleLabel, populationLabel, mapView, imageCarouselView, shimmeringLoader, viewModel, binder)
     }
 
     fun viewModelPublishesShowLoader(viewModel: CityDetailsViewModel) {
@@ -366,11 +199,6 @@ class DetailsViewSteps {
     fun shimmeringLoaderStopppedAnimating(shimmeringLoader: ShimmeringLoaderView) {
 
         verify(shimmeringLoader).stopAnimating()
-    }
-
-    fun detailsViewHasExpectedConstraints(detailsView: CityDetailsView, expectedConstraints: () -> Unit) {
-
-        expectedConstraints()
     }
 
     fun titleLabelIsBoundToViewModel(titleLabel: TextView, viewModel: CityDetailsViewModel) {

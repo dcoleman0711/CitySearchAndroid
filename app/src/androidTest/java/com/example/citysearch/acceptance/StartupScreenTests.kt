@@ -5,9 +5,12 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.os.ConditionVariable
+import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.View
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.example.citysearch.R
 import com.example.citysearch.animations.RollingAnimationLabel
 import com.example.citysearch.data.CitySearchResults
 import com.example.citysearch.data.CitySearchService
@@ -52,7 +55,7 @@ class StartupScreenTests {
     @Before
     fun setUp() {
 
-        steps = StartupScreenSteps(InstrumentationRegistry.getInstrumentation().context)
+        steps = StartupScreenSteps(InstrumentationRegistry.getInstrumentation().targetContext)
     }
 
     @Test
@@ -249,7 +252,7 @@ class StartupScreenSteps(private val context: Context) {
 
     fun startupScreenLoadedAtTime(): Instant {
 
-        this.startupScreen = startupViewBuilder.build(context)
+        this.startupScreen = startupViewBuilder.build(context, LayoutInflater.from(context).inflate(R.layout.startup, null))
         return Instant.now()
     }
 
@@ -350,7 +353,7 @@ class StartupScreenSteps(private val context: Context) {
     }
 }
 
-class RollingAnimationLabelTest(context: Context): RollingAnimationLabel(context) {
+class RollingAnimationLabelTest(context: Context): RollingAnimationLabel(context, null) {
 
     var text: String? = null
     var font: Font? = null

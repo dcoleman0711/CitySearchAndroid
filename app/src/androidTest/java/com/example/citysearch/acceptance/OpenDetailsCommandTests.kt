@@ -34,7 +34,7 @@ class OpenDetailsCommandTests {
     @Before
     fun setUp() {
         
-        steps = OpenDetailsCommandSteps(InstrumentationRegistry.getInstrumentation().context)
+        steps = OpenDetailsCommandSteps(InstrumentationRegistry.getInstrumentation().targetContext)
     }
 
     @Test

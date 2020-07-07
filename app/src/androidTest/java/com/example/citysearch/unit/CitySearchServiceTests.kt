@@ -32,7 +32,7 @@ class CitySearchServiceTests {
     @Before
     fun setUp() {
 
-        steps = CitySearchServiceSteps(InstrumentationRegistry.getInstrumentation().context)
+        steps = CitySearchServiceSteps(InstrumentationRegistry.getInstrumentation().targetContext)
     }
 
     @Test

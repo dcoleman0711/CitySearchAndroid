@@ -23,22 +23,13 @@ class ImageCarouselViewImp(override val view: RecyclerView,
 
     private lateinit var cellsBinding: Disposable
 
-    constructor(context: Context, viewModel: ImageCarouselViewModel) : this(RecyclerView(context), viewModel, RecyclerViewBinderImp(context, ::AsyncImageCell))
+    constructor(context: Context,
+                view: RecyclerView,
+                viewModel: ImageCarouselViewModel) : this(view, viewModel, RecyclerViewBinderImp(context, ::AsyncImageCell))
 
     init {
 
-        setupView()
         bindView()
-    }
-
-    private fun setupView() {
-
-        view.setBackgroundColor(Color.TRANSPARENT)
-        view.isHorizontalScrollBarEnabled = false
-
-        val layoutManager = GridLayoutManager(view.context, 1, GridLayoutManager.HORIZONTAL, false)
-        layoutManager.orientation = GridLayoutManager.HORIZONTAL
-        view.layoutManager = layoutManager
     }
 
     private fun bindView() {

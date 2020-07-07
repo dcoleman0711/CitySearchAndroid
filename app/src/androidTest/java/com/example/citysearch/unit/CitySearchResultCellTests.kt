@@ -40,7 +40,7 @@ class CitySearchResultCellTests {
     @Before
     fun setUp() {
 
-        steps = CitySearchResultCellSteps(InstrumentationRegistry.getInstrumentation().context)
+        steps = CitySearchResultCellSteps(InstrumentationRegistry.getInstrumentation().targetContext)
     }
 
     @Test

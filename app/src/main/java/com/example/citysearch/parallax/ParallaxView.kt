@@ -22,7 +22,7 @@ class ParallaxViewImp(override val view: ConstraintLayout,
     private lateinit var imagesBindings: Disposable
     private lateinit var offsetsBindings: Disposable
 
-    constructor(context: Context, viewModel: ParallaxViewModel) : this(ConstraintLayout(context), viewModel, ViewFactoryImp(context), ConstraintSetFactoryImp())
+    constructor(context: Context, view: ConstraintLayout, viewModel: ParallaxViewModel) : this(view, viewModel, ViewFactoryImp(context), ConstraintSetFactoryImp())
 
     init {
 

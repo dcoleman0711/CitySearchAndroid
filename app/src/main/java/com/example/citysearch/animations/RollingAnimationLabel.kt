@@ -3,6 +3,7 @@ package com.example.citysearch.animations
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
+import android.util.AttributeSet
 import android.view.Choreographer
 import android.view.Gravity
 import android.view.View
@@ -20,7 +21,7 @@ import java.util.function.Supplier
 import kotlin.math.max
 import kotlin.math.min
 
-open class RollingAnimationLabel(context: Context): FrameLayout(context), Choreographer.FrameCallback {
+open class RollingAnimationLabel(context: Context, attributeSet: AttributeSet?): FrameLayout(context, attributeSet), Choreographer.FrameCallback {
 
     private var text: String = ""
     private var font: Font = Font(Typeface.DEFAULT, 12.0)

@@ -20,8 +20,6 @@ interface SearchResultsView {
 
 class SearchResultsViewImp(context: Context, override val view: RecyclerView, private val viewModel: SearchResultsViewModel): SearchResultsView {
 
-    constructor(context: Context, viewModel: SearchResultsViewModel) : this(context, RecyclerView(context), viewModel)
-
     private val binder: RecyclerViewBinder<CitySearchResultViewModel, CitySearchResultCell> = RecyclerViewBinderImp(context, ::CitySearchResultCell)
 
     private val recyclerViewBinding: Disposable
@@ -45,17 +43,5 @@ class SearchResultsViewImp(context: Context, override val view: RecyclerView, pr
                 }
             })
         }
-
-        setupView()
-    }
-
-    private fun setupView() {
-
-        view.setBackgroundColor(Color.TRANSPARENT)
-        view.isHorizontalScrollBarEnabled = false
-
-        val layoutManager = GridLayoutManager(view.context, 2, GridLayoutManager.HORIZONTAL, false)
-        layoutManager.orientation = GridLayoutManager.HORIZONTAL
-        view.layoutManager = layoutManager
     }
 }

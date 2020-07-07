@@ -16,45 +16,19 @@ interface StartupView {
 }
 
 class StartupViewImp(private val viewModel: StartupViewModel,
-                     override val view: ConstraintLayout,
-                     private val appTitleLabel: RollingAnimationLabel,
-                     private val constraintSetFactory: ConstraintSetFactory): StartupView {
+                     override val view: View,
+                     private val appTitleLabel: RollingAnimationLabel): StartupView {
+
 
     private lateinit var appTitleBinding: Disposable
 
-    constructor(context: Context, viewModel: StartupViewModel, appTitleLabel: RollingAnimationLabel) : this(viewModel, ConstraintLayout(context), appTitleLabel, ConstraintSetFactoryImp())
+    constructor(view: View, viewModel: StartupViewModel) : this(viewModel, view, view.findViewById(R.id.appTitleLabel))
 
     init {
-
-        setupView()
-        buildLayout()
 
         viewModel.model.startTransitionTimer()
 
         bindViews()
-    }
-
-    private fun setupView() {
-
-        view.id = R.id.view
-        view.setBackgroundColor(Color.WHITE)
-        view.clipChildren = false
-
-        appTitleLabel.id = R.id.appTitleLabel
-        view.addView(appTitleLabel)
-    }
-
-    private fun buildLayout() {
-
-        val constraints = constraintSetFactory.constraintSet()
-
-        // AppTitle
-        constraints.centerHorizontally(appTitleLabel.id, ConstraintSet.PARENT_ID)
-        constraints.centerVertically(appTitleLabel.id, ConstraintSet.PARENT_ID)
-        constraints.constrainWidth(appTitleLabel.id, ConstraintSet.WRAP_CONTENT)
-        constraints.constrainHeight(appTitleLabel.id, ConstraintSet.WRAP_CONTENT)
-
-        constraints.applyTo(view)
     }
 
     private fun bindViews() {
