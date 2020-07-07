@@ -1,10 +1,9 @@
 package com.example.citysearch.search.searchresults
 
 import android.content.Context
-import android.graphics.Color
 import android.view.View
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.citysearch.R
 import com.example.citysearch.reactive.RecyclerViewBinder
 import com.example.citysearch.reactive.RecyclerViewBinderImp
 import com.example.citysearch.search.searchresults.citysearchresultcell.CitySearchResultCell
@@ -20,7 +19,7 @@ interface SearchResultsView {
 
 class SearchResultsViewImp(context: Context, override val view: RecyclerView, private val viewModel: SearchResultsViewModel): SearchResultsView {
 
-    private val binder: RecyclerViewBinder<CitySearchResultViewModel, CitySearchResultCell> = RecyclerViewBinderImp(context, ::CitySearchResultCell)
+    private val binder: RecyclerViewBinder<CitySearchResultViewModel, CitySearchResultCell> = RecyclerViewBinderImp(context, R.layout.citysearchresultcell, ::CitySearchResultCell)
 
     private val recyclerViewBinding: Disposable
 

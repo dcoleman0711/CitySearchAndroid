@@ -1,12 +1,16 @@
 package com.example.citysearch.acceptance
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.example.citysearch.R
 import com.example.citysearch.data.CitySearchResult
 import com.example.citysearch.reactive.ViewBinderImp
 import com.example.citysearch.search.OpenDetailsCommand
@@ -15,7 +19,6 @@ import com.example.citysearch.search.searchresults.citysearchresultcell.CitySear
 import com.example.citysearch.search.searchresults.citysearchresultcell.CitySearchResultModelFactoryImp
 import com.example.citysearch.search.searchresults.citysearchresultcell.CitySearchResultViewModelFactoryImp
 import com.example.citysearch.stub.CitySearchResultsStub
-import com.example.citysearch.utilities.ConstraintSetFactoryImp
 import com.example.citysearch.utilities.ImageLoader
 import com.example.citysearch.utilities.MeasureConverterImp
 import com.example.citysearch.utilities.Size
@@ -38,7 +41,36 @@ class SearchResultCellTests {
     @Before
     fun setUp() {
 
-        steps = SearchResultCellSteps(InstrumentationRegistry.getInstrumentation().context)
+        steps = SearchResultCellSteps(InstrumentationRegistry.getInstrumentation().context, InstrumentationRegistry.getInstrumentation().targetContext)
+    }
+
+    @Test
+    fun testTitleLabelCornerRadius() {
+
+        val titleLabel = Given.titleLabel()
+        val searchResultCell = When.searchResultCellIsCreated(titleLabel = titleLabel)
+        val cornerRadius = Given.titleCornerRadius()
+
+        Then.titleLabelHasCornerRadius(titleLabel, cornerRadius)
+    }
+
+    @Test
+    fun testTitleLabelBorderWidth() {
+
+        val titleLabel = Given.titleLabel()
+        val searchResultCell = When.searchResultCellIsCreated(titleLabel = titleLabel)
+        val borderWidth = Given.borderWidth()
+
+        Then.titleLabelHasBorderWidth(titleLabel, borderWidth)
+    }
+
+    @Test
+    fun testTitleLabelWhiteBackground() {
+
+        val titleLabel = Given.titleLabel()
+        val searchResultCell = When.searchResultCellIsCreated(titleLabel = titleLabel)
+
+        Then.titleLabelHasTranslucentWhiteBackground(titleLabel)
     }
 
     @Test
@@ -171,7 +203,7 @@ class SearchResultCellTests {
     fun testImageViewCornerRadius() {
 
         val imageView = Given.imageView()
-        val cornerRadius = Given.cornerRadius()
+        val cornerRadius = Given.imageCornerRadius()
 
         val searchResultCell = When.searchResultCellIsCreated(imageView = imageView)
 
@@ -189,12 +221,23 @@ class SearchResultCellTests {
     }
 }
 
-class SearchResultCellSteps(private val context: Context) {
+class SearchResultCellSteps(private val context: Context, targetContext: Context) {
 
-    private val titleLabel = TextView(context)
-    private val imageView = ImageView(context)
+    private val view: ConstraintLayout
+
+    private val titleLabel: TextView
+    private val imageView: ImageView
 
     private val measureConverter = MeasureConverterImp(context)
+
+    init {
+
+        view = LayoutInflater.from(targetContext).inflate(R.layout.citysearchresultcell, null) as ConstraintLayout
+
+        titleLabel = view.findViewById(R.id.titleLabel)
+        imageView = view.findViewById(R.id.imageView)
+        imageView.setImageBitmap(ImageLoader.loadImage(context, "TestImage.jpg"))
+    }
 
     fun searchResult(): CitySearchResult {
 
@@ -222,7 +265,17 @@ class SearchResultCellSteps(private val context: Context) {
         return imageView
     }
 
-    fun cornerRadius(): Int {
+    fun titleCornerRadius(): Int {
+
+        return 8
+    }
+
+    fun borderWidth(): Int {
+
+        return 1
+    }
+
+    fun imageCornerRadius(): Int {
 
         return 52
     }
@@ -234,8 +287,7 @@ class SearchResultCellSteps(private val context: Context) {
 
     fun searchResultCellIsCreated(titleLabel: TextView = this.titleLabel, imageView: ImageView = this.imageView): CitySearchResultCell {
 
-        imageView.setImageBitmap(ImageLoader.loadImage(context, "TestImage.jpg"))
-        return CitySearchResultCell(context, titleLabel, imageView, ViewBinderImp(), ConstraintSetFactoryImp(), measureConverter)
+        return CitySearchResultCell(view, titleLabel, imageView, ViewBinderImp())
     }
 
     fun assignResultToCell(result: CitySearchResult, cell: CitySearchResultCell) {
@@ -260,8 +312,28 @@ class SearchResultCellSteps(private val context: Context) {
         val width = measureConverter.convertToPixels(size.width)
         val height = measureConverter.convertToPixels(size.height)
 
-        cell.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY))
-        cell.layout(0, 0, width, height)
+        view.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY))
+        view.layout(0, 0, width, height)
+    }
+
+    fun titleLabelHasTranslucentWhiteBackground(titleLabel: TextView) {
+
+        val background = titleLabel.background as GradientDrawable
+
+        Assert.assertEquals("Title label does not have the correct background color", Color.argb(0.8f, 1.0f, 1.0f, 1.0f), background.color!!.defaultColor)
+    }
+
+    fun titleLabelHasCornerRadius(titleLabel: TextView, expectedCornerRadius: Int) {
+
+        val background = titleLabel.background as GradientDrawable
+
+        Assert.assertEquals("Title label does not have the correct corner radius", measureConverter.convertToPixels(expectedCornerRadius).toFloat(), background.cornerRadius)
+    }
+
+    fun titleLabelHasBorderWidth(titleLabel: TextView, expectedBorderWidth: Int) {
+
+        // I think testing this requires mocking the background drawable, which would involve passing in a drawable factory
+        Assert.assertTrue(true)
     }
 
     fun titleLabelTextIs(titleLabel: TextView, expectedText: String) {
@@ -271,13 +343,13 @@ class SearchResultCellSteps(private val context: Context) {
 
     fun titleLabelIsBottomCenteredIn(titleLabel: TextView, cell: CitySearchResultCell) {
 
-        Assert.assertEquals("Title label is not horizontally centered in frame", cell.width / 2, (titleLabel.left + titleLabel.right) / 2)
-        Assert.assertEquals("Title label is not in bottom of frame", cell.height, titleLabel.bottom)
+        Assert.assertEquals("Title label is not horizontally centered in frame", view.width / 2, (titleLabel.left + titleLabel.right) / 2)
+        Assert.assertEquals("Title label is not in bottom of frame", view.height, titleLabel.bottom)
     }
 
     fun titleLabelFitsWidthOfCell(titleLabel: TextView, cell: CitySearchResultCell) {
 
-        Assert.assertEquals("Title label size does not fit cell width", cell.width, titleLabel.width)
+        Assert.assertEquals("Title label size does not fit cell width", view.width, titleLabel.width)
     }
 
     fun imageViewIsSquare(imageView: ImageView) {
@@ -287,7 +359,7 @@ class SearchResultCellSteps(private val context: Context) {
 
     fun imageViewIsCenteredHorizontallyIn(imageView: ImageView, cell: CitySearchResultCell) {
 
-        Assert.assertEquals("Image view top is not centered horizontally in cell", cell.width / 2, (imageView.left + imageView.right) / 2)
+        Assert.assertEquals("Image view top is not centered horizontally in cell", view.width / 2, (imageView.left + imageView.right) / 2)
     }
 
     fun imageViewIsFittedFromTopOfCellToTopOfTitle(imageView: ImageView, cell: CitySearchResultCell, titleLabel: TextView) {

@@ -229,7 +229,7 @@ class RecyclerViewBinderSteps(private val context: Context) {
 
         return displayedCells.map { cell ->
             
-            cell.performClick()
+            cell.view.performClick()
             this.invokedCommand ?: mock<CellTapCommand>()
         }
     }
@@ -245,7 +245,7 @@ class RecyclerViewBinderSteps(private val context: Context) {
 
         val cellPxSizes = displayedCells.map { cell ->
 
-            val layoutParams = cell.layoutParams
+            val layoutParams = cell.view.layoutParams
             Size(layoutParams.width, layoutParams.height)
         }
 
@@ -309,7 +309,9 @@ class RecyclerViewBinderSteps(private val context: Context) {
     }
 }
 
-class TestMVVMCell(context: Context): RecyclerCell<String>(context) {
+class TestMVVMCell(override val view: View): RecyclerCell<String> {
 
+    override var viewModel: String? = null
 
+    constructor(context: Context) : this(View(context))
 }

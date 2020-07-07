@@ -14,6 +14,7 @@ import com.example.citysearch.R
 import com.example.citysearch.data.CitySearchResult
 import com.example.citysearch.data.CitySearchResults
 import com.example.citysearch.reactive.RecyclerCell
+import com.example.citysearch.reactive.RecyclerViewBindingAdapter
 import com.example.citysearch.search.OpenDetailsCommand
 import com.example.citysearch.search.OpenDetailsCommandFactory
 import com.example.citysearch.search.searchresults.SearchResultsModelImp
@@ -195,7 +196,8 @@ class SearchResultsSteps(private val context: Context) {
 
             val model = resultModelFactory.resultModel(searchResult, openDetailsCommandFactory)
             val viewModel = resultViewModelFactory.resultViewModel(context, model)
-            val cell = CitySearchResultCell(context)
+            val view = LayoutInflater.from(context).inflate(R.layout.citysearchresultcell, null)
+            val cell = CitySearchResultCell(view)
             cell.viewModel = viewModel
             cell
         })
@@ -242,7 +244,7 @@ class SearchResultsSteps(private val context: Context) {
             cell.viewModel === viewModel
         }
 
-        cell.performClick()
+        cell.view.performClick()
     }
 
     fun searchResultsCellsAreDisplayedIn(expectedCells: List<CitySearchResultCell>, searchResultsView: SearchResultsViewImp) {
@@ -288,8 +290,8 @@ class SearchResultsSteps(private val context: Context) {
         for(cell in displayedResults) {
 
             val sizeIsCorrect =
-                cell.layoutParams.width == width &&
-                cell.layoutParams.height == height
+                cell.view.layoutParams.width == width &&
+                cell.view.layoutParams.height == height
 
             Assert.assertTrue("Displayed cells does not have the correct size", sizeIsCorrect)
         }
@@ -307,7 +309,7 @@ class RecyclerViewTestUtilities {
 
         fun<ViewModel, CellType: RecyclerCell<ViewModel>> captureDisplayedData(context: Context, recyclerView: RecyclerView, results: ArrayList<CellType>) {
 
-            val adapter = recyclerView.adapter!!
+            val adapter = recyclerView.adapter!! as RecyclerViewBindingAdapter<ViewModel, CellType>
 
             val updater = object: RecyclerView.AdapterDataObserver() {
 
@@ -321,7 +323,7 @@ class RecyclerViewTestUtilities {
 
                         val holder = adapter.onCreateViewHolder(parent, 0)
                         adapter.onBindViewHolder(holder, index)
-                        results.add(holder.itemView as CellType)
+                        results.add(holder.cell as CellType)
                     }
                 }
             }

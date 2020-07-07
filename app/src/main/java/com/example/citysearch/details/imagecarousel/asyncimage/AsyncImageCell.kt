@@ -1,20 +1,17 @@
 package com.example.citysearch.details.imagecarousel.asyncimage
 
-import android.content.Context
+import android.view.View
 import android.widget.ImageView
-import androidx.constraintlayout.widget.ConstraintSet
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.citysearch.R
 import com.example.citysearch.reactive.RecyclerCell
 import com.example.citysearch.reactive.ViewBinder
 import com.example.citysearch.reactive.ViewBinderImp
-import com.example.citysearch.utilities.ConstraintSetFactory
-import com.example.citysearch.utilities.ConstraintSetFactoryImp
 import io.reactivex.disposables.Disposable
 
-class AsyncImageCell(context: Context,
+class AsyncImageCell(override val view: ConstraintLayout,
                      private val imageView: ImageView,
-                     private val binder: ViewBinder,
-                     private val constraintSetFactory: ConstraintSetFactory): RecyclerCell<AsyncImageViewModel>(context) {
+                     private val binder: ViewBinder): RecyclerCell<AsyncImageViewModel> {
 
     override var viewModel: AsyncImageViewModel? = null
         set(value) {
@@ -31,34 +28,9 @@ class AsyncImageCell(context: Context,
 
     private var imageBinding: Disposable? = null
 
-    constructor(context: Context) : this(context, ImageView(context), ViewBinderImp(), ConstraintSetFactoryImp())
+    constructor(view: View) : this(view as ConstraintLayout)
 
-    init {
-
-        setupView()
-        buildLayout()
-    }
-
-    private fun setupView() {
-
-        this.id = R.id.view
-
-        imageView.id = R.id.imageView
-        addView(imageView)
-    }
-
-    private fun buildLayout() {
-
-        val constraints = constraintSetFactory.constraintSet()
-
-        // Image View
-        constraints.connect(imageView.id, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT)
-        constraints.connect(imageView.id, ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT)
-        constraints.connect(imageView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
-        constraints.connect(imageView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
-
-        constraints.applyTo(this)
-    }
+    constructor(view: ConstraintLayout) : this(view, view.findViewById(R.id.imageView), ViewBinderImp())
 
     private fun bindViews(viewModel: AsyncImageViewModel) {
 

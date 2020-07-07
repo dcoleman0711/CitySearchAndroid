@@ -1,10 +1,10 @@
 package com.example.citysearch.reactive
 
-import android.content.Context
 import android.view.View
-import androidx.constraintlayout.widget.ConstraintLayout
 
-open class RecyclerCell<ViewModel>(context: Context): ConstraintLayout(context) {
+interface RecyclerCell<ViewModel> {
 
-    open var viewModel: ViewModel? = null
+    val view: View
+
+    var viewModel: ViewModel?
 }

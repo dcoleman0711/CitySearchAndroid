@@ -8,6 +8,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import com.example.citysearch.R
 import com.example.citysearch.reactive.RecyclerCell
@@ -17,14 +18,14 @@ import com.example.citysearch.utilities.*
 import io.reactivex.disposables.Disposable
 import java.util.*
 
-class CitySearchResultCell(context: Context,
+class CitySearchResultCell(override val view: ConstraintLayout,
                            private val titleLabel: TextView,
                            private val imageView: ImageView,
-                           private val binder: ViewBinder,
-                           private val constraintSetFactory: ConstraintSetFactory,
-                           private val measureConverter: MeasureConverter): RecyclerCell<CitySearchResultViewModel>(context) {
+                           private val binder: ViewBinder): RecyclerCell<CitySearchResultViewModel> {
 
-    constructor(context: Context) : this(context, TextView(context), ImageView(context), ViewBinderImp(), ConstraintSetFactoryImp(), MeasureConverterImp(context))
+    constructor(view: View) : this(view as ConstraintLayout)
+
+    constructor(view: ConstraintLayout) : this(view, view.findViewById(R.id.titleLabel), view.findViewById(R.id.imageView), ViewBinderImp())
 
     override var viewModel: CitySearchResultViewModel? = null
     set(value) {
@@ -44,52 +45,7 @@ class CitySearchResultCell(context: Context,
 
     init {
 
-        setupView()
-        buildLayout()
-    }
-
-    private fun setupView() {
-
-        imageView.setBackgroundColor(Color.GREEN)
-        this.id = R.id.view
-
-        titleLabel.id = R.id.titleLabel
-        val titleBackground = GradientDrawable()
-        titleBackground.setColor(Color.argb(0.8f, 1.0f, 1.0f, 1.0f))
-        titleBackground.setStroke(measureConverter.convertToPixels(1), Color.BLACK)
-        titleBackground.cornerRadius = measureConverter.convertToPixels(8).toFloat()
-        titleLabel.background = titleBackground
-        titleLabel.gravity = Gravity.CENTER
-        addView(titleLabel)
-
-        imageView.id = R.id.imageView
-        val imageViewBackground = GradientDrawable()
-        imageViewBackground.setColor(Color.argb(0.2f, 0.0f, 0.0f, 0.0f))
-        imageViewBackground.cornerRadius = measureConverter.convertToPixels(52).toFloat()
-        imageView.background = imageViewBackground
-        imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-        imageView.clipToOutline = true
-        addView(imageView)
-    }
-
-    private fun buildLayout() {
-
-        val constraints = constraintSetFactory.constraintSet()
-
-        // TitleLabel
-        constraints.connect(titleLabel.id, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT)
-        constraints.connect(titleLabel.id, ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT)
-        constraints.connect(titleLabel.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
-        constraints.constrainHeight(titleLabel.id, View.MeasureSpec.makeMeasureSpec(measureConverter.convertToPixels(24), MeasureSpec.EXACTLY))
-
-        // ImageView
-        constraints.connect(imageView.id, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT)
-        constraints.connect(imageView.id, ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT)
-        constraints.connect(imageView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
-        constraints.connect(imageView.id, ConstraintSet.BOTTOM, titleLabel.id, ConstraintSet.TOP)
-        constraints.setDimensionRatio(imageView.id, "W,1:1")
-
-        constraints.applyTo(this)
+        imageView.clipToOutline = true // LOL: https://issuetracker.google.com/issues/37036728
     }
 
     private fun bindToViewModel(viewModel: CitySearchResultViewModel) {

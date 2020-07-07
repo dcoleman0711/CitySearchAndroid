@@ -6,6 +6,7 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.citysearch.R
 import com.example.citysearch.details.imagecarousel.asyncimage.AsyncImageCell
 import com.example.citysearch.details.imagecarousel.asyncimage.AsyncImageViewModel
 import com.example.citysearch.reactive.RecyclerViewBinder
@@ -25,7 +26,7 @@ class ImageCarouselViewImp(override val view: RecyclerView,
 
     constructor(context: Context,
                 view: RecyclerView,
-                viewModel: ImageCarouselViewModel) : this(view, viewModel, RecyclerViewBinderImp(context, ::AsyncImageCell))
+                viewModel: ImageCarouselViewModel) : this(view, viewModel, RecyclerViewBinderImp<AsyncImageViewModel, AsyncImageCell>(context, R.layout.asyncimagecell, ::AsyncImageCell))
 
     init {
 

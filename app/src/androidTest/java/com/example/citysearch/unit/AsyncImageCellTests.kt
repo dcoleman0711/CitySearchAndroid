@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.widget.ImageView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -47,18 +48,11 @@ class AsyncImageCellTests {
 
         Then.imageViewIsBoundToViewModel(imageView, viewModel)
     }
-
-    @Test
-    fun testImageViewConstraints() {
-
-        val imageView = Given.imageView()
-        val imageCell = When.imageCellIsCreated(imageView = imageView)
-
-        Then.imageViewFillsParent(imageView, imageCell)
-    }
 }
 
 class AsyncImageCellSteps(private val context: Context) {
+
+    private val view = ConstraintLayout(context)
 
     private val imageView = ImageView(context)
 
@@ -70,13 +64,6 @@ class AsyncImageCellSteps(private val context: Context) {
     }
 
     private val binder = mock<ViewBinder> {  }
-
-    private val constraints = mock<ConstraintSet> {  }
-
-    private val constraintSetFactory = mock<ConstraintSetFactory> {
-
-        on { constraintSet() }.thenReturn(constraints)
-    }
 
     fun binder(): ViewBinder {
         
@@ -101,7 +88,7 @@ class AsyncImageCellSteps(private val context: Context) {
 
     fun imageCellIsCreated(imageView: ImageView = this.imageView, binder: ViewBinder = this.binder): AsyncImageCell {
 
-        return AsyncImageCell(context, imageView, binder, constraintSetFactory)
+        return AsyncImageCell(view, imageView, binder)
     }
 
     fun assignViewModelToCell(viewModel: AsyncImageViewModel, cell: AsyncImageCell) {
@@ -112,13 +99,5 @@ class AsyncImageCellSteps(private val context: Context) {
     fun imageViewIsBoundToViewModel(imageView: ImageView, viewModel: AsyncImageViewModel) {
 
         verify(binder).bindImageView(imageView, viewModelImage)
-    }
-
-    fun imageViewFillsParent(imageView: ImageView, cell: AsyncImageCell) {
-
-        verify(constraints, atLeastOnce()).connect(imageView.id, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT)
-        verify(constraints, atLeastOnce()).connect(imageView.id, ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT)
-        verify(constraints, atLeastOnce()).connect(imageView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
-        verify(constraints, atLeastOnce()).connect(imageView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
     }
 }

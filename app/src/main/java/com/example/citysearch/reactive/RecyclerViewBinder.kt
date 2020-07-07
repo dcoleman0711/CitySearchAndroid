@@ -2,6 +2,7 @@ package com.example.citysearch.reactive
 
 import android.content.Context
 import android.graphics.Rect
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
@@ -20,6 +21,12 @@ interface  RecyclerViewBinder<ViewModel, CellType: RecyclerCell<ViewModel>> {
 class RecyclerViewBinderImp<ViewModel, CellType: RecyclerCell<ViewModel>>(private val cellConstructor: (Context) -> CellType, private val measureConverter: MeasureConverter): RecyclerViewBinder<ViewModel, CellType> {
 
     constructor(context: Context, constructor: (Context) -> CellType) : this(constructor, MeasureConverterImp(context))
+
+    constructor(context: Context, layout: Int, cellConstructor: (View) -> CellType) : this(context, { context ->
+
+        val view = LayoutInflater.from(context).inflate(layout, null)
+        cellConstructor(view)
+    })
 
     override fun bindCells(view: RecyclerView, viewModelUpdates: Observable<RecyclerViewModel<ViewModel>>): Disposable {
 
@@ -46,10 +53,7 @@ class RecyclerViewBinderImp<ViewModel, CellType: RecyclerCell<ViewModel>>(privat
 
 open class RecyclerViewBindingAdapter<ViewModel, CellType: RecyclerCell<ViewModel>>(private val constructor: (Context) -> CellType, private val measureConverter: MeasureConverter): RecyclerView.Adapter<RecyclerViewBindingAdapter<ViewModel, CellType>.CellHolder>() {
 
-    inner class CellHolder(val cell: RecyclerCell<ViewModel>): RecyclerView.ViewHolder(cell) {
-
-
-    }
+    inner class CellHolder(val cell: RecyclerCell<ViewModel>): RecyclerView.ViewHolder(cell.view)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CellHolder {
 
@@ -70,12 +74,14 @@ open class RecyclerViewBindingAdapter<ViewModel, CellType: RecyclerCell<ViewMode
         val viewModel = cellData.viewModel
         cell.viewModel = viewModel
 
-        cell.setOnClickListener({ cellData.tapCommand?.invoke() })
+        val view = cell.view
 
-        val layoutParams = cell.getLayoutParams() as? RecyclerView.LayoutParams ?: RecyclerView.LayoutParams(0, 0)
+        view.setOnClickListener({ cellData.tapCommand?.invoke() })
+
+        val layoutParams = view.getLayoutParams() as? RecyclerView.LayoutParams ?: RecyclerView.LayoutParams(0, 0)
         layoutParams.width = measureConverter.convertToPixels(cellData.size.width)
         layoutParams.height = measureConverter.convertToPixels(cellData.size.height)
-        cell.setLayoutParams(layoutParams)
+        view.setLayoutParams(layoutParams)
     }
 
     var cellData: List<CellData<ViewModel>> = arrayListOf()
