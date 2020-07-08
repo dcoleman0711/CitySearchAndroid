@@ -15,7 +15,7 @@ import com.example.citysearch.search.searchresults.SearchResultsModel
 import com.example.citysearch.search.searchresults.SearchResultsViewImp
 import com.example.citysearch.search.searchresults.SearchResultsViewModelImp
 
-class SearchFragment(context: Context, private val searchResultsModel: SearchResultsModel): Fragment() {
+open class SearchFragment(context: Context, private val searchResultsModel: SearchResultsModel): Fragment() {
 
     private val parallaxViewModel: ParallaxViewModelImp
     private val searchResultsViewModel: SearchResultsViewModelImp

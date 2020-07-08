@@ -11,8 +11,9 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.example.citysearch.R
 import com.example.citysearch.data.CitySearchResult
 import com.example.citysearch.data.CitySearchResults
+import com.example.citysearch.details.CityDetailsFragment
 import com.example.citysearch.details.CityDetailsView
-import com.example.citysearch.details.CityDetailsViewFactory
+import com.example.citysearch.details.CityDetailsFragmentFactory
 import com.example.citysearch.parallax.ParallaxView
 import com.example.citysearch.parallax.ParallaxViewImp
 import com.example.citysearch.parallax.ParallaxViewModel
@@ -135,21 +136,21 @@ class SearchScreenSteps(private val context: Context) {
 
     private val searchResultsContentOffset = BehaviorSubject.create<Point>()
 
-    private val detailsViews = HashMap<String, CityDetailsView>()
-    private val detailsViewFactory = mock<CityDetailsViewFactory> {
+    private val detailsFragments = HashMap<String, CityDetailsFragment>()
+    private val detailsFragmentFactory = mock<CityDetailsFragmentFactory> {
 
-        on { detailsView(any(), any()) }.then { invocation ->
+        on { detailsFragment(any(), any()) }.then { invocation ->
 
             val searchResult = invocation.getArgument<CitySearchResult>(1)
-            val detailsView = mock<CityDetailsView>()// realDetailsViewFactory.detailsView(context, searchResult)
-            detailsViews[searchResult.name] = detailsView
+            val detailsFragment = mock<CityDetailsFragment>()
+            detailsFragments[searchResult.name] = detailsFragment
 
-            detailsView
+            detailsFragment
         }
     }
 
     private var openDetailsCommands = HashMap<String, OpenDetailsCommand>()
-    private val realOpenDetailsCommandFactory = OpenDetailsCommandFactoryImp(context, fragmentManager, detailsViewFactory)
+    private val realOpenDetailsCommandFactory = OpenDetailsCommandFactoryImp(context, fragmentManager, detailsFragmentFactory)
     private val openDetailsCommandFactory = mock<OpenDetailsCommandFactory> {
 
         on { openDetailsCommand(any()) }.then { invocation ->
@@ -299,7 +300,7 @@ class SearchScreenSteps(private val context: Context) {
 
     fun detailsScreenIsPushedOntoNavigationStack(searchResult: CitySearchResult) {
 
-        val detailsScreen = detailsViews[searchResult.name]
+        val detailsScreen = detailsFragments[searchResult.name]
         if(detailsScreen == null) {
             Assert.fail("Details View for search result was not created")
             return

@@ -112,7 +112,7 @@ class StartupTransitionSteps(private val context: Context) {
         on { searchResultsModel(any()) }.thenReturn(searchResultsModel)
     }
 
-    private val searchFragment = SearchFragment(context, searchResultsModel)
+    private val searchFragment = mock<SearchFragment>()
 
     private val searchFragmentFactory = mock<SearchFragmentFactory> {
 

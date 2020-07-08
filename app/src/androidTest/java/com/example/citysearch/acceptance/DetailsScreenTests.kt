@@ -19,6 +19,7 @@ import com.example.citysearch.data.ImageSearchResults
 import com.example.citysearch.data.ImageSearchService
 import com.example.citysearch.details.CityDetailsModelImp
 import com.example.citysearch.details.CityDetailsView
+import com.example.citysearch.details.CityDetailsViewImp
 import com.example.citysearch.details.CityDetailsViewModelImp
 import com.example.citysearch.details.imagecarousel.ImageCarouselModelImp
 import com.example.citysearch.details.imagecarousel.ImageCarouselView
@@ -342,7 +343,7 @@ class DetailsScreenSteps(private val context: Context) {
 
         buildDetailsScreen = {
 
-            CityDetailsView(
+            CityDetailsViewImp(
                 detailsView,
                 titleLabel,
                 populationTitleLabel,
@@ -372,7 +373,7 @@ class DetailsScreenSteps(private val context: Context) {
 
     fun detailsScreenBackgroundIsLightGrayWhite(detailsScreen: CityDetailsView) {
 
-        val detailsView = detailsScreen.onCreateView(LayoutInflater.from(context), null, null)!!
+        val detailsView = detailsScreen.view
         val backgroundColor = (detailsView.background as ColorDrawable).color
 
         Assert.assertEquals("Details screen background is not white", Color.argb(1.0f, 0.8f, 0.8f, 0.8f), backgroundColor)

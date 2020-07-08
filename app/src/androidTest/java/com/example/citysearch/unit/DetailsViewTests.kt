@@ -8,6 +8,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.citysearch.StubMeasureConverter
 import com.example.citysearch.animations.ShimmeringLoaderView
 import com.example.citysearch.details.CityDetailsView
+import com.example.citysearch.details.CityDetailsViewImp
 import com.example.citysearch.details.CityDetailsViewModel
 import com.example.citysearch.details.imagecarousel.ImageCarouselView
 import com.example.citysearch.details.map.MapView
@@ -175,7 +176,7 @@ class DetailsViewSteps {
                              viewModel: CityDetailsViewModel = this.viewModel,
                              binder: ViewBinder = this.viewBinder): CityDetailsView {
 
-        return CityDetailsView(view, titleLabel, populationTitleLabel, populationLabel, mapView, imageCarouselView, shimmeringLoader, viewModel, binder)
+        return CityDetailsViewImp(view, titleLabel, populationTitleLabel, populationLabel, mapView, imageCarouselView, shimmeringLoader, viewModel, binder)
     }
 
     fun viewModelPublishesShowLoader(viewModel: CityDetailsViewModel) {

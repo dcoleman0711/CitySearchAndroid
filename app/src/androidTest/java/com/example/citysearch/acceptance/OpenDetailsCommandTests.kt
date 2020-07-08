@@ -8,8 +8,8 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.citysearch.data.CitySearchResult
-import com.example.citysearch.details.CityDetailsView
-import com.example.citysearch.details.CityDetailsViewFactory
+import com.example.citysearch.details.CityDetailsFragment
+import com.example.citysearch.details.CityDetailsFragmentFactory
 import com.example.citysearch.search.OpenDetailsCommandFactoryImp
 import com.example.citysearch.search.OpenDetailsCommandImp
 import com.example.citysearch.stub.CitySearchResultsStub
@@ -54,7 +54,7 @@ class OpenDetailsCommandTests {
 
 class OpenDetailsCommandSteps(private val context: Context) {
 
-    private val cityDetailsViewFactory = mock<CityDetailsViewFactory> {  }
+    private val cityDetailsViewFactory = mock<CityDetailsFragmentFactory> {  }
 
     private val searchView = mock<SearchView> {  }
 
@@ -128,11 +128,11 @@ class OpenDetailsCommandSteps(private val context: Context) {
         return factory.openDetailsCommand(searchResult) as OpenDetailsCommandImp
     }
 
-    fun detailsScreen(searchResult: CitySearchResult): CityDetailsView {
+    fun detailsScreen(searchResult: CitySearchResult): CityDetailsFragment {
 
-        val detailsScreen = mock<CityDetailsView>()
+        val detailsScreen = mock<CityDetailsFragment>()
         
-        whenever(cityDetailsViewFactory.detailsView(context, searchResult)).thenReturn(detailsScreen)
+        whenever(cityDetailsViewFactory.detailsFragment(context, searchResult)).thenReturn(detailsScreen)
         
         return detailsScreen
     }
@@ -142,7 +142,7 @@ class OpenDetailsCommandSteps(private val context: Context) {
         detailsCommand.invoke()
     }
 
-    fun detailsScreenIsPushedOntoStack(detailsScreen: CityDetailsView, navigationStack: FragmentManager) {
+    fun detailsScreenIsPushedOntoStack(detailsScreen: CityDetailsFragment, navigationStack: FragmentManager) {
 
         Assert.assertEquals("Details screen was not pushed onto navigation stack", arrayListOf(detailsScreen), pushedFragments)
     }

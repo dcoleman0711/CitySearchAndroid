@@ -3,11 +3,10 @@ package com.example.citysearch.startup
 import android.content.Context
 import androidx.fragment.app.FragmentManager
 import com.example.citysearch.data.CitySearchResults
-import com.example.citysearch.details.CityDetailsViewFactoryImp
+import com.example.citysearch.details.CityDetailsFragmentFactoryImp
 import com.example.citysearch.search.*
 import com.example.citysearch.search.searchresults.SearchResultsModelFactory
 import com.example.citysearch.search.searchresults.SearchResultsModelFactoryImp
-import com.example.citysearch.search.searchresults.SearchResultsModelImp
 
 interface StartupTransitionCommand {
 
@@ -30,7 +29,7 @@ class StartupTransitionCommandImp(private val context: Context,
 
     override fun invoke(initialResults: CitySearchResults) {
 
-        val openDetailsCommandFactory = OpenDetailsCommandFactoryImp(context, fragmentManager, CityDetailsViewFactoryImp())
+        val openDetailsCommandFactory = OpenDetailsCommandFactoryImp(context, fragmentManager, CityDetailsFragmentFactoryImp())
         val searchResultsModel = searchResultsModelFactory.searchResultsModel(openDetailsCommandFactory)
         searchResultsModel.setResults(initialResults)
         val searchView = searchFragmentFactory.searchFragment(context, searchResultsModel)

@@ -3,7 +3,7 @@ package com.example.citysearch.search
 import android.content.Context
 import androidx.fragment.app.FragmentManager
 import com.example.citysearch.data.CitySearchResult
-import com.example.citysearch.details.CityDetailsViewFactory
+import com.example.citysearch.details.CityDetailsFragmentFactory
 
 interface OpenDetailsCommandFactory {
 
@@ -12,10 +12,10 @@ interface OpenDetailsCommandFactory {
 
 class OpenDetailsCommandFactoryImp(private val context: Context,
                                    private val fragmentManager: FragmentManager,
-                                   private val detailsViewFactory: CityDetailsViewFactory): OpenDetailsCommandFactory {
+                                   private val detailsFragmentFactory: CityDetailsFragmentFactory): OpenDetailsCommandFactory {
 
     override fun openDetailsCommand(searchResult: CitySearchResult): OpenDetailsCommand {
 
-        return OpenDetailsCommandImp(context, fragmentManager, detailsViewFactory, searchResult)
+        return OpenDetailsCommandImp(context, fragmentManager, detailsFragmentFactory, searchResult)
     }
 }
