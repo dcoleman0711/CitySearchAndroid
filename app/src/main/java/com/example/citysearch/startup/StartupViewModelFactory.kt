@@ -8,15 +8,14 @@ import com.example.citysearch.data.CitySearchService
 import com.example.citysearch.data.CitySearchServiceImp
 
 // JetPack factory for StartupViewModel, to support passing in the context and fragment manager
-class StartupViewModelFactory(private val context: Context,
-                              private val fragmentManager: FragmentManager): ViewModelProvider.Factory {
+class StartupViewModelFactory(private val fragmentManager: FragmentManager): ViewModelProvider.Factory {
 
     var transitionCommand: StartupTransitionCommand? = null
     var searchService: CitySearchService = CitySearchServiceImp()
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 
-        val transitionCommand = this.transitionCommand ?: StartupTransitionCommandImp(context, fragmentManager)
+        val transitionCommand = this.transitionCommand ?: StartupTransitionCommandImp(fragmentManager)
         val model = StartupModelImp(transitionCommand, searchService)
         return StartupViewModelImp(model) as T
     }

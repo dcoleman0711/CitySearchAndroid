@@ -155,7 +155,7 @@ class StartupScreenSteps(private val context: Context) {
 
     private val initialResults = CitySearchResults.emptyResults()
 
-    private val startupViewModelFactory = StartupViewModelFactory(context, mock())
+    private val startupViewModelFactory = StartupViewModelFactory(mock())
 
     private lateinit var startupViewModel: StartupViewModelImp
 

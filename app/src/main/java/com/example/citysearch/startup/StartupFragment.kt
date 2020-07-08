@@ -29,7 +29,7 @@ class StartupFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val viewModelFactory = StartupViewModelFactory(requireContext(), parentFragmentManager)
+        val viewModelFactory = StartupViewModelFactory(parentFragmentManager)
         val viewModel: StartupViewModelImp by activityViewModels { viewModelFactory }
 
         val view = inflater.inflate(R.layout.startup, null)

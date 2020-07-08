@@ -14,15 +14,12 @@ interface StartupTransitionCommand {
     fun invoke(initialResults: CitySearchResults)
 }
 
-class StartupTransitionCommandImp(private val context: Context,
-                                  private val fragmentManager: FragmentManager,
+class StartupTransitionCommandImp(private val fragmentManager: FragmentManager,
                                   private val searchResultsModelFactory: SearchResultsModelFactory,
                                   private val searchFragmentFactory: SearchFragmentFactory): StartupTransitionCommand {
 
-    constructor(context: Context,
-                fragmentManager: FragmentManager):
+    constructor(fragmentManager: FragmentManager):
             this(
-                context,
                 fragmentManager,
                 SearchResultsModelFactoryImp(),
                 SearchFragmentFactoryImp()

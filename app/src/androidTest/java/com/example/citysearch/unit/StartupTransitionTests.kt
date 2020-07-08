@@ -121,7 +121,7 @@ class StartupTransitionSteps(private val context: Context) {
 
     fun transitionCommand(): StartupTransitionCommandImp {
 
-        return StartupTransitionCommandImp(context, fragmentManager, searchResultsModelFactory, searchFragmentFactory)
+        return StartupTransitionCommandImp(fragmentManager, searchResultsModelFactory, searchFragmentFactory)
     }
 
     fun initialResults(): CitySearchResults {
