@@ -5,11 +5,9 @@ import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import com.example.citysearch.utilities.MeasureConverter
 import com.example.citysearch.utilities.MeasureConverterImp
-import com.example.citysearch.utilities.ViewUtilities
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 
@@ -41,8 +39,7 @@ class RecyclerViewBinderImp<ViewModel, CellType: RecyclerCell<ViewModel>>(privat
             val spacingDecoration = SpacingDecoration<ViewModel>(viewModel.horSpacing, viewModel.verSpacing, measureConverter)
             view.addItemDecoration(spacingDecoration)
 
-            adapter.cellData = viewModel.cells
-            adapter.notifyDataSetChanged()
+            adapter.submitList(viewModel.cells)
 
         }, { error ->
 
@@ -51,7 +48,9 @@ class RecyclerViewBinderImp<ViewModel, CellType: RecyclerCell<ViewModel>>(privat
     }
 }
 
-open class RecyclerViewBindingAdapter<ViewModel, CellType: RecyclerCell<ViewModel>>(private val constructor: (Context) -> CellType, private val measureConverter: MeasureConverter): RecyclerView.Adapter<RecyclerViewBindingAdapter<ViewModel, CellType>.CellHolder>() {
+open class RecyclerViewBindingAdapter<ViewModel, CellType: RecyclerCell<ViewModel>>(private val constructor: (Context) -> CellType,
+                                                                                    private val measureConverter: MeasureConverter):
+    ListAdapter<CellData<ViewModel>, RecyclerViewBindingAdapter<ViewModel, CellType>.CellHolder>(ItemCallBack()) {
 
     inner class CellHolder(val cell: RecyclerCell<ViewModel>): RecyclerView.ViewHolder(cell.view)
 
@@ -61,14 +60,9 @@ open class RecyclerViewBindingAdapter<ViewModel, CellType: RecyclerCell<ViewMode
         return CellHolder(view)
     }
 
-    override fun getItemCount(): Int {
-
-        return cellData.size
-    }
-
     override fun onBindViewHolder(holder: CellHolder, position: Int) {
 
-        val cellData = cellData[position]
+        val cellData = getItem(position)
 
         val cell = holder.cell
         val viewModel = cellData.viewModel
@@ -84,7 +78,24 @@ open class RecyclerViewBindingAdapter<ViewModel, CellType: RecyclerCell<ViewMode
         view.setLayoutParams(layoutParams)
     }
 
-    var cellData: List<CellData<ViewModel>> = arrayListOf()
+    private class ItemCallBack<ViewModel>: DiffUtil.ItemCallback<CellData<ViewModel>>() {
+
+        override fun areItemsTheSame(
+            oldItem: CellData<ViewModel>,
+            newItem: CellData<ViewModel>
+        ): Boolean {
+
+            return oldItem.hashCode() == newItem.hashCode()
+        }
+
+        override fun areContentsTheSame(
+            oldItem: CellData<ViewModel>,
+            newItem: CellData<ViewModel>
+        ): Boolean {
+
+            return true // Don't need to support updating cell contents yet
+        }
+    }
 }
 
 class SpacingDecoration<ViewModel>(private val horSpacing: Int, private val verSpacing: Int, private val measureConverter: MeasureConverter): RecyclerView.ItemDecoration() {

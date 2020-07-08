@@ -2,6 +2,7 @@ package com.example.citysearch.unit
 
 import android.content.Context
 import android.graphics.Rect
+import android.os.ConditionVariable
 import android.view.View
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,6 +20,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.concurrent.locks.Condition
 
 @RunWith(AndroidJUnit4::class)
 class RecyclerViewBinderTests {
@@ -153,16 +155,7 @@ class RecyclerViewBinderSteps(private val context: Context) {
 
                 override fun onChanged() {
 
-                    displayedCells.clear()
-
-                    val parent = FrameLayout(context)
-
-                    for(index in 0 until adapter.itemCount) {
-
-                        val holder = adapter.onCreateViewHolder(parent, 0)
-                        adapter.onBindViewHolder(holder, index)
-                        displayedCells.add(holder.cell as TestMVVMCell)
-                    }
+                   captureRecyclerViewCells()
                 }
             })
 
@@ -223,6 +216,7 @@ class RecyclerViewBinderSteps(private val context: Context) {
     fun updateViewModels(viewModel: RecyclerViewModel<String>) {
 
         cellUpdates.onNext(viewModel)
+        captureRecyclerViewCells()
     }
 
     fun tapOnCells(recyclerView: RecyclerView): List<CellTapCommand> {
@@ -306,6 +300,22 @@ class RecyclerViewBinderSteps(private val context: Context) {
         itemDecoration.getItemOffsets(rect, cell, recyclerView, RecyclerView.State())
 
         Assert.assertEquals("Cell spacing is not correct", measureConverter.convertToPixels(expectedSpacing), rect.top)
+    }
+
+    private fun captureRecyclerViewCells() {
+
+        val adapter = adapter!!
+
+        displayedCells.clear()
+
+        val parent = FrameLayout(context)
+
+        for(index in 0 until adapter.itemCount) {
+
+            val holder = adapter.onCreateViewHolder(parent, 0)
+            adapter.onBindViewHolder(holder, index)
+            displayedCells.add(holder.cell as TestMVVMCell)
+        }
     }
 }
 
