@@ -230,23 +230,11 @@ class DetailsScreenTests {
 
         Then.imageCarouselIsWidthOfViewWithCorrectHeight(imageCarousel, detailsScreen)
     }
-
-    @Test
-    fun testContentSize() {
-
-        val imageCarousel = Given.imageCarousel()
-        Given.detailsScreen(imageCarousel = imageCarousel)
-        val detailsScreen = Given.detailsScreenIsLoaded()
-
-        When.detailsScreenIsLayedOut(detailsScreen)
-
-        Then.detailsScreenContentSizeExtendsToBottomOf(detailsScreen, imageCarousel)
-    }
 }
 
 class DetailsScreenSteps(private val context: Context) {
 
-    private val detailsView = LayoutInflater.from(context).inflate(R.layout.citydetails, null) as ScrollView
+    private val detailsView = LayoutInflater.from(context).inflate(R.layout.citydetails, null) as ConstraintLayout
 
     private val titleLabel = detailsView.findViewById<TextView>(R.id.titleLabel)
     private val populationTitleLabel = detailsView.findViewById<TextView>(R.id.populationTitleLabel)
@@ -356,7 +344,6 @@ class DetailsScreenSteps(private val context: Context) {
 
             CityDetailsView(
                 detailsView,
-                ConstraintLayout(context),
                 titleLabel,
                 populationTitleLabel,
                 populationLabel,
@@ -394,8 +381,8 @@ class DetailsScreenSteps(private val context: Context) {
     fun titleLabelIsInTopLeftCornerOfScreen(titleLabel: TextView, screen: CityDetailsView) {
 
         val isInTopLeftCorner =
-            titleLabel.left == 0 &&
-            titleLabel.top == 0
+            titleLabel.left == measureConverter.convertToPixels(16) &&
+            titleLabel.top == measureConverter.convertToPixels(16)
 
         Assert.assertTrue("Title label is not in top-left corner of screen", isInTopLeftCorner)
     }
@@ -434,8 +421,8 @@ class DetailsScreenSteps(private val context: Context) {
     fun mapIsInTopRightCornerOfScreen(map: MapView, detailsScreen: CityDetailsView) {
 
         val topRightIsCorrect =
-            mapViewView.right == detailsView.width &&
-            mapViewView.top == 0
+            mapViewView.right == detailsView.width - measureConverter.convertToPixels(16) &&
+            mapViewView.top == measureConverter.convertToPixels(16)
 
         Assert.assertTrue("Map is not positioned correctly", topRightIsCorrect)
     }
@@ -455,14 +442,6 @@ class DetailsScreenSteps(private val context: Context) {
     fun imageCarouselIsWidthOfViewWithCorrectHeight(imageCarousel: ImageCarouselView, detailsScreen: CityDetailsView) {
 
         Assert.assertEquals("Image carousel is not width of details screen screen", detailsView.width, imageCarouselViewView.width)
-        Assert.assertEquals("Image carousel does not have the correct height", measureConverter.convertToPixels(256), imageCarouselViewView.height)
-    }
-
-    fun detailsScreenContentSizeExtendsToBottomOf(detailsScreen: CityDetailsView, imageCarousel: ImageCarouselView) {
-
-        val contentView = detailsView.getChildAt(0)
-
-        Assert.assertEquals("Details screen should not scroll horizontally", detailsView.width, contentView.width)
-        Assert.assertEquals("Details screen content bottom is not image carousel bottom", imageCarouselViewView.bottom, contentView.height)
+        Assert.assertEquals("Image carousel does not have the correct height", detailsView.bottom - measureConverter.convertToPixels(16), imageCarouselViewView.bottom)
     }
 }

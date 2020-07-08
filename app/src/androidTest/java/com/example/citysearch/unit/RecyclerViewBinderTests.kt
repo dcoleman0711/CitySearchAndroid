@@ -83,6 +83,34 @@ class RecyclerViewBinderTests {
     }
 
     @Test
+    fun testBindRecyclerViewLeftMargin() {
+
+        val recyclerView = Given.recyclerView()
+        val binder = Given.binder()
+        val cellUpdate = Given.bindCells(binder, recyclerView)
+        val horMargins = Given.horMargins();
+        val viewModel = Given.viewModel(horMargins = horMargins)
+
+        When.updateViewModels(viewModel)
+
+        Then.recyclerViewHasLeftHorMargin(recyclerView, horMargins)
+    }
+
+    @Test
+    fun testBindRecyclerViewRightMargin() {
+
+        val recyclerView = Given.recyclerView()
+        val binder = Given.binder()
+        val cellUpdate = Given.bindCells(binder, recyclerView)
+        val horMargins = Given.horMargins();
+        val viewModel = Given.viewModel(horMargins = horMargins)
+
+        When.updateViewModels(viewModel)
+
+        Then.recyclerViewHasRightHorMargin(recyclerView, horMargins)
+    }
+
+    @Test
     fun testBindRecyclerViewLineSpacing() {
 
         val recyclerView = Given.recyclerView()
@@ -208,9 +236,14 @@ class RecyclerViewBinderSteps(private val context: Context) {
         return 14
     }
 
-    fun viewModel(cellData: List<CellData<String>> = arrayListOf(), horSpacing: Int = 0, verSpacing: Int = 0): RecyclerViewModel<String> {
+    fun horMargins(): Int {
 
-        return RecyclerViewModel<String>(cellData, horSpacing, verSpacing)
+        return 20
+    }
+
+    fun viewModel(cellData: List<CellData<String>> = arrayListOf(), horSpacing: Int = 0, verSpacing: Int = 0, horMargins: Int = 0): RecyclerViewModel<String> {
+
+        return RecyclerViewModel<String>(cellData, horSpacing, verSpacing, horMargins)
     }
 
     fun updateViewModels(viewModel: RecyclerViewModel<String>) {
@@ -265,18 +298,49 @@ class RecyclerViewBinderSteps(private val context: Context) {
         val itemDecoration = itemDecorationCaptor.firstValue
 
         val cell = mock<View> { }
+        whenever(recyclerView.getChildLayoutPosition(cell)).thenReturn(2)
+
+        val rect = Rect(0, 0, 0, 0)
+        itemDecoration.getItemOffsets(rect, cell, recyclerView, RecyclerView.State())
+
+        Assert.assertEquals("Cell spacing is not correct", measureConverter.convertToPixels(expectedSpacing), rect.left)
+    }
+
+    fun recyclerViewHasLeftHorMargin(recyclerView: RecyclerView, expectedSpacing: Int) {
+
+        // Doesn't test multi-row layouts
+        val itemDecorationCaptor = argumentCaptor<RecyclerView.ItemDecoration>()
+        verify(recyclerView).addItemDecoration(itemDecorationCaptor.capture())
+
+        val itemDecoration = itemDecorationCaptor.firstValue
+
+        val cell = mock<View> { }
         whenever(recyclerView.getChildLayoutPosition(cell)).thenReturn(0)
 
         val rect = Rect(0, 0, 0, 0)
         itemDecoration.getItemOffsets(rect, cell, recyclerView, RecyclerView.State())
 
-        Assert.assertEquals("First cell offset should be 0", 0, rect.left)
+        Assert.assertEquals("First cell left space should be horizontal margin", measureConverter.convertToPixels(expectedSpacing), rect.left)
+    }
 
-        whenever(recyclerView.getChildLayoutPosition(cell)).thenReturn(2)
+    fun recyclerViewHasRightHorMargin(recyclerView: RecyclerView, expectedSpacing: Int) {
 
+        // Doesn't test multi-row layouts
+        val itemDecorationCaptor = argumentCaptor<RecyclerView.ItemDecoration>()
+        verify(recyclerView).addItemDecoration(itemDecorationCaptor.capture())
+
+        val itemDecoration = itemDecorationCaptor.firstValue
+
+        val cellCount = 50
+
+        val cell = mock<View> { }
+        whenever(recyclerView.childCount).thenReturn(cellCount)
+        whenever(recyclerView.getChildLayoutPosition(cell)).thenReturn(cellCount - 1)
+
+        val rect = Rect(0, 0, 0, 0)
         itemDecoration.getItemOffsets(rect, cell, recyclerView, RecyclerView.State())
 
-        Assert.assertEquals("Cell spacing is not correct", measureConverter.convertToPixels(expectedSpacing), rect.left)
+        Assert.assertEquals("Last cell right space should be horizontal margin", measureConverter.convertToPixels(expectedSpacing), rect.right)
     }
 
     fun recyclerViewHasVerSpacing(recyclerView: RecyclerView, expectedSpacing: Int) {

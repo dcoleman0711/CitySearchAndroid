@@ -7,6 +7,7 @@
     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
     app:spanCount="1"
     android:orientation="horizontal"
+    android:scrollX="0dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 

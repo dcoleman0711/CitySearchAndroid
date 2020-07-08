@@ -28,8 +28,7 @@ import com.example.citysearch.reactive.ViewBinderImp
 import com.example.citysearch.utilities.*
 import io.reactivex.disposables.Disposable
 
-open class CityDetailsView(private val view: ScrollView,
-                           private val contentView: ConstraintLayout,
+open class CityDetailsView(private val view: ConstraintLayout,
                            private val titleLabel: TextView,
                            private val populationTitleLabel: TextView,
                            private val populationLabel: TextView,
@@ -44,13 +43,12 @@ open class CityDetailsView(private val view: ScrollView,
     private lateinit var populationBinding: Disposable
     private lateinit var showLoaderBinding: Disposable
 
-    constructor(view: ScrollView,
+    constructor(view: ConstraintLayout,
                 mapView: MapView,
                 imageCarouselView: ImageCarouselView,
                 viewModel: CityDetailsViewModel
     ) : this(
         view,
-        view.findViewById(R.id.contentView),
         view.findViewById(R.id.titleLabel),
         view.findViewById(R.id.populationTitleLabel),
         view.findViewById(R.id.populationLabel),

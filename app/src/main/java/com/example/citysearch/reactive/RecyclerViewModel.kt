@@ -15,4 +15,4 @@ data class CellData<ViewModel>(val viewModel: ViewModel, val size: Size, val tap
     }
 }
 
-data class RecyclerViewModel<ViewModel>(val cells: List<CellData<ViewModel>>, val horSpacing: Int, val verSpacing: Int)
+data class RecyclerViewModel<ViewModel>(val cells: List<CellData<ViewModel>>, val horSpacing: Int, val verSpacing: Int, val horMargins: Int = 0)

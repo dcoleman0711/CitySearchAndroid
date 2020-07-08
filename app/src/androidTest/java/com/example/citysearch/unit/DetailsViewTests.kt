@@ -100,9 +100,7 @@ class DetailsViewTests {
 
 class DetailsViewSteps {
 
-    private val view = mock<ScrollView> {  }
-
-    private val contentView = mock<ConstraintLayout> {  }
+    private val view = mock<ConstraintLayout> {  }
 
     private val titleLabel = mock<TextView> {  }
     private val populationTitleLabel = mock<TextView> {  }
@@ -168,8 +166,7 @@ class DetailsViewSteps {
         return viewBinder
     }
 
-    fun detailsViewIsCreated(contentView: ConstraintLayout = this.contentView,
-                             titleLabel: TextView = this.titleLabel,
+    fun detailsViewIsCreated(titleLabel: TextView = this.titleLabel,
                              populationTitleLabel: TextView = this.populationTitleLabel,
                              populationLabel: TextView = this.populationLabel,
                              mapView: MapView = this.mapView,
@@ -178,7 +175,7 @@ class DetailsViewSteps {
                              viewModel: CityDetailsViewModel = this.viewModel,
                              binder: ViewBinder = this.viewBinder): CityDetailsView {
 
-        return CityDetailsView(view, contentView, titleLabel, populationTitleLabel, populationLabel, mapView, imageCarouselView, shimmeringLoader, viewModel, binder)
+        return CityDetailsView(view, titleLabel, populationTitleLabel, populationLabel, mapView, imageCarouselView, shimmeringLoader, viewModel, binder)
     }
 
     fun viewModelPublishesShowLoader(viewModel: CityDetailsViewModel) {

@@ -22,7 +22,7 @@ class CityDetailsViewFactoryImp: CityDetailsViewFactory {
 
     override fun detailsView(context: Context, searchResult: CitySearchResult): CityDetailsView {
 
-        val view = LayoutInflater.from(context).inflate(R.layout.citydetails, null) as ScrollView
+        val view = LayoutInflater.from(context).inflate(R.layout.citydetails, null) as ConstraintLayout
 
         val mapModel = MapModelImp(searchResult)
         val mapViewModel = MapViewModelImp(context, mapModel)

@@ -53,6 +53,6 @@ class SearchResultsViewModelImp(private val context: Context, private val model:
 
     private fun cellViewModel(cellData: List<CellData<CitySearchResultViewModel>>): RecyclerViewModel<CitySearchResultViewModel> {
 
-        return RecyclerViewModel(cells = cellData, horSpacing = this.horSpacing, verSpacing = this.verSpacing)
+        return RecyclerViewModel(cells = cellData, horSpacing = this.horSpacing, verSpacing = this.verSpacing, horMargins = horSpacing)
     }
 }

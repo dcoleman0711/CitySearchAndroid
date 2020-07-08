@@ -36,7 +36,7 @@ class RecyclerViewBinderImp<ViewModel, CellType: RecyclerCell<ViewModel>>(privat
             for(decIndex in 0 until view.itemDecorationCount)
                 view.removeItemDecorationAt(decIndex)
 
-            val spacingDecoration = SpacingDecoration<ViewModel>(viewModel.horSpacing, viewModel.verSpacing, measureConverter)
+            val spacingDecoration = SpacingDecoration<ViewModel>(viewModel.horSpacing, viewModel.verSpacing, viewModel.horMargins, measureConverter)
             view.addItemDecoration(spacingDecoration)
 
             adapter.submitList(viewModel.cells)
@@ -98,7 +98,7 @@ open class RecyclerViewBindingAdapter<ViewModel, CellType: RecyclerCell<ViewMode
     }
 }
 
-class SpacingDecoration<ViewModel>(private val horSpacing: Int, private val verSpacing: Int, private val measureConverter: MeasureConverter): RecyclerView.ItemDecoration() {
+class SpacingDecoration<ViewModel>(private val horSpacing: Int, private val verSpacing: Int, private val horMargins: Int, private val measureConverter: MeasureConverter): RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(
         outRect: Rect,
@@ -113,10 +113,15 @@ class SpacingDecoration<ViewModel>(private val horSpacing: Int, private val verS
         val column = index / spanCount
         val row = index % spanCount
 
-        if(column > 0)
-            outRect.left = measureConverter.convertToPixels(horSpacing)
+        val lastColumn = parent.childCount / spanCount - 1;
 
-        if(row > 0)
-            outRect.top = measureConverter.convertToPixels(verSpacing)
+        val leftSpace = if(column > 0) horSpacing else horMargins;
+        outRect.left = measureConverter.convertToPixels(leftSpace)
+
+        val rightSpace = if(column < lastColumn) 0 else horMargins;
+        outRect.right = measureConverter.convertToPixels(rightSpace)
+
+        val topSpace = if(row > 0) verSpacing else 0;
+        outRect.top = measureConverter.convertToPixels(topSpace)
     }
 }
