@@ -92,7 +92,7 @@ class StartupViewSteps {
 
     fun startupViewIsCreated(appTitleLabel: RollingAnimationLabel = this.appTitleLabel, startupModel: StartupModel = this.startupModel, startupViewModel: StartupViewModel = this.viewModel): StartupViewImp {
 
-        return StartupViewImp(viewModel, view, appTitleLabel)
+        return StartupViewImp(view, viewModel, appTitleLabel)
     }
 
     fun appTitleLabel(): RollingAnimationLabel {

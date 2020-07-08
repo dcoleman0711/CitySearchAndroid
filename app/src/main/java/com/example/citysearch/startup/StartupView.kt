@@ -15,14 +15,14 @@ interface StartupView {
     val view: View
 }
 
-class StartupViewImp(private val viewModel: StartupViewModel,
-                     override val view: View,
+class StartupViewImp(override val view: View,
+                     private val viewModel: StartupViewModel,
                      private val appTitleLabel: RollingAnimationLabel): StartupView {
 
 
     private lateinit var appTitleBinding: Disposable
 
-    constructor(view: View, viewModel: StartupViewModel) : this(viewModel, view, view.findViewById(R.id.appTitleLabel))
+    constructor(view: View, viewModel: StartupViewModel) : this(view, viewModel, view.findViewById(R.id.appTitleLabel))
 
     init {
 

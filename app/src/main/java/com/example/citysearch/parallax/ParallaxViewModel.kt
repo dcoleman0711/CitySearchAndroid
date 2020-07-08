@@ -1,6 +1,7 @@
 package com.example.citysearch.parallax
 
 import android.graphics.Bitmap
+import androidx.lifecycle.ViewModel
 import com.example.citysearch.utilities.Point
 import io.reactivex.Observable
 import io.reactivex.Scheduler
@@ -18,7 +19,7 @@ interface ParallaxViewModel {
 }
 
 class ParallaxViewModelImp(private val model: ParallaxModel,
-                           private val resultsQueue: Scheduler): ParallaxViewModel {
+                           private val resultsQueue: Scheduler): ParallaxViewModel, ViewModel() {
 
     constructor(model: ParallaxModel) : this(model, AndroidSchedulers.mainThread())
 

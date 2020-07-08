@@ -32,7 +32,7 @@ class StartupTransitionCommandImp(private val context: Context,
         val openDetailsCommandFactory = OpenDetailsCommandFactoryImp(context, fragmentManager, CityDetailsFragmentFactoryImp())
         val searchResultsModel = searchResultsModelFactory.searchResultsModel(openDetailsCommandFactory)
         searchResultsModel.setResults(initialResults)
-        val searchView = searchFragmentFactory.searchFragment(context, searchResultsModel)
+        val searchView = searchFragmentFactory.searchFragment(searchResultsModel)
 
         val transaction = fragmentManager.beginTransaction()
 

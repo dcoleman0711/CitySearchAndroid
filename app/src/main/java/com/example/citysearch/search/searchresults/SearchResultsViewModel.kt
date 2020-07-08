@@ -1,6 +1,7 @@
 package com.example.citysearch.search.searchresults
 
 import android.content.Context
+import androidx.lifecycle.ViewModel
 import com.example.citysearch.reactive.CellData
 import com.example.citysearch.reactive.RecyclerViewModel
 import com.example.citysearch.search.searchresults.citysearchresultcell.CitySearchResultModel
@@ -21,7 +22,9 @@ interface SearchResultsViewModel {
     fun provideContentOffset(contentOffset: Observable<Point>)
 }
 
-class SearchResultsViewModelImp(private val context: Context, private val model: SearchResultsModel, private val viewModelFactory: CitySearchResultViewModelFactory): SearchResultsViewModel {
+class SearchResultsViewModelImp(private val context: Context,
+                                private val model: SearchResultsModel,
+                                private val viewModelFactory: CitySearchResultViewModelFactory): SearchResultsViewModel, ViewModel() {
 
     override val resultsViewModels: Observable<RecyclerViewModel<CitySearchResultViewModel>>
 

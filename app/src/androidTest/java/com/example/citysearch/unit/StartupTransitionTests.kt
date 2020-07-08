@@ -116,7 +116,7 @@ class StartupTransitionSteps(private val context: Context) {
 
     private val searchFragmentFactory = mock<SearchFragmentFactory> {
 
-        on { searchFragment(any(), any()) }.thenReturn(searchFragment)
+        on { searchFragment(any()) }.thenReturn(searchFragment)
     }
 
     fun transitionCommand(): StartupTransitionCommandImp {
@@ -151,7 +151,7 @@ class StartupTransitionSteps(private val context: Context) {
 
     fun searchViewIsCreatedWithInitialResults(expectedResults: CitySearchResults) {
 
-        verify(searchFragmentFactory).searchFragment(any(), eq(searchResultsModel))
+        verify(searchFragmentFactory).searchFragment(eq(searchResultsModel))
         verify(searchResultsModel).setResults(expectedResults)
     }
 }

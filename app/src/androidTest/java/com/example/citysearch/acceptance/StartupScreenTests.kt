@@ -67,40 +67,6 @@ class StartupScreenTests {
     }
 
     @Test
-    fun testAppTitleIsVisible() {
-
-        val appTitleLabel = Given.appTitleLabel()
-        Given.startupScreen(appTitleLabel)
-
-        val startupScreen = When.startupScreenIsShown()
-
-        Then.appTitleIsVisible(startupScreen, appTitleLabel)
-    }
-
-    @Test
-    fun testAppTitleCenter() {
-
-        val screenSizes = Given.screenSizes()
-
-        for(screenSize in screenSizes) {
-
-            testAppTitleCenter(screenSize)
-
-            setUp()
-        }
-    }
-
-    fun testAppTitleCenter(screenSize: Size) {
-
-        val appTitleLabel = Given.appTitleLabel()
-        Given.startupScreen(appTitleLabel)
-        val startupScreen = Given.startupScreenIsShown()
-
-        When.startupScreenSizeBecomes(startupScreen, screenSize)
-        Then.appTitleLabelIsCentered(appTitleLabel, screenSize)
-    }
-
-    @Test
     fun testAppTitleText() {
 
         val appTitleLabel = Given.appTitleLabel()
@@ -253,7 +219,7 @@ class StartupScreenSteps(private val context: Context) {
     fun startupScreenLoadedAtTime(): Instant {
 
         val view = LayoutInflater.from(context).inflate(R.layout.startup, null)
-        this.startupScreen = StartupViewImp(view, startupViewModel)
+        this.startupScreen = StartupViewImp(view, startupViewModel, appTitleLabel)
         return Instant.now()
     }
 
@@ -321,17 +287,6 @@ class StartupScreenSteps(private val context: Context) {
         }
 
         assertEquals(background.color, Color.WHITE)
-    }
-
-    fun appTitleIsVisible(startupScreen: StartupView, appTitleLabel: RollingAnimationLabel) {
-
-        assertTrue("App title is not visible on startup screen",  ViewUtilities.isDescendantOf(appTitleLabel, startupScreen.view))
-    }
-
-    fun appTitleLabelIsCentered(appTitleLabel: RollingAnimationLabel, screenSize: Size) {
-
-        val center = ViewUtilities.center(appTitleLabel)
-        assertEquals("App title center is not screen center", ViewUtilities.center(appTitleLabel), Point(x = screenSize.width / 2, y = screenSize.height / 2))
     }
 
     fun appTitleLabelTextIs(appTitleLabel: RollingAnimationLabel, expectedText: String) {
