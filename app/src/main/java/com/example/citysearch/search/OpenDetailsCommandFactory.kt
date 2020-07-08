@@ -10,12 +10,11 @@ interface OpenDetailsCommandFactory {
     fun openDetailsCommand(searchResult: CitySearchResult): OpenDetailsCommand
 }
 
-class OpenDetailsCommandFactoryImp(private val context: Context,
-                                   private val fragmentManager: FragmentManager,
+class OpenDetailsCommandFactoryImp(private val fragmentManager: FragmentManager,
                                    private val detailsFragmentFactory: CityDetailsFragmentFactory): OpenDetailsCommandFactory {
 
     override fun openDetailsCommand(searchResult: CitySearchResult): OpenDetailsCommand {
 
-        return OpenDetailsCommandImp(context, fragmentManager, detailsFragmentFactory, searchResult)
+        return OpenDetailsCommandImp(fragmentManager, detailsFragmentFactory, searchResult)
     }
 }

@@ -7,34 +7,37 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.example.citysearch.R
 import com.example.citysearch.data.CitySearchResult
-import com.example.citysearch.details.imagecarousel.ImageCarouselModelImp
-import com.example.citysearch.details.imagecarousel.ImageCarouselViewImp
-import com.example.citysearch.details.imagecarousel.ImageCarouselViewModelImp
-import com.example.citysearch.details.map.MapModelImp
-import com.example.citysearch.details.map.MapViewImp
-import com.example.citysearch.details.map.MapViewModelImp
+import com.example.citysearch.details.imagecarousel.*
+import com.example.citysearch.details.map.*
 
-open class CityDetailsFragment(context: Context, searchResult: CitySearchResult): Fragment() {
+open class CityDetailsFragment(private val searchResult: CitySearchResult): Fragment() {
 
-    private val mapViewModel: MapViewModelImp
-    private val imageCarouselViewModel: ImageCarouselViewModelImp
+    private lateinit var mapViewModel: MapViewModel
+    private lateinit var imageCarouselViewModel: ImageCarouselViewModel
 
-    private val viewModel: CityDetailsViewModelImp
+    private lateinit var viewModel: CityDetailsViewModel
 
-    private lateinit var detailsView: CityDetailsView
+    private var detailsView: CityDetailsView? = null
 
-    init {
+    override fun onAttach(context: Context) {
+
+        super.onAttach(context)
 
         val mapModel = MapModelImp(searchResult)
-        mapViewModel = MapViewModelImp(context, mapModel)
+        val mapViewModel: MapViewModelImp by viewModels { MapViewModelFactory(context, mapModel) }
 
         val imageCarouselModel = ImageCarouselModelImp(context)
-        imageCarouselViewModel = ImageCarouselViewModelImp(imageCarouselModel)
+        val imageCarouselViewModel: ImageCarouselViewModelImp by viewModels { ImageCarouselViewModelFactory(imageCarouselModel) }
 
         val model = CityDetailsModelImp(searchResult, imageCarouselModel)
-        viewModel = CityDetailsViewModelImp(model)
+        val viewModel: CityDetailsViewModelImp by viewModels { CityDetailsViewModelFactory(model) }
+
+        this.mapViewModel = mapViewModel
+        this.imageCarouselViewModel = imageCarouselViewModel
+        this.viewModel = viewModel
     }
 
     override fun onCreateView(
@@ -43,6 +46,10 @@ open class CityDetailsFragment(context: Context, searchResult: CitySearchResult)
         savedInstanceState: Bundle?
     ): View? {
 
+        val detailsView = this.detailsView
+        if(detailsView != null)
+            return detailsView.view
+
         val view = LayoutInflater.from(context).inflate(R.layout.citydetails, null) as ConstraintLayout
 
         val context = requireContext()
@@ -50,8 +57,15 @@ open class CityDetailsFragment(context: Context, searchResult: CitySearchResult)
         val mapView = MapViewImp(context, view.findViewById(R.id.mapView), mapViewModel)
         val imageCarouselView = ImageCarouselViewImp(context, view.findViewById(R.id.imageCarouselView), imageCarouselViewModel)
 
-        detailsView = CityDetailsViewImp(view, mapView, imageCarouselView, viewModel)
+        this.detailsView = CityDetailsViewImp(view, mapView, imageCarouselView, viewModel)
 
         return view
+    }
+
+    override fun onDestroyView() {
+
+        super.onDestroyView()
+
+        detailsView = null
     }
 }

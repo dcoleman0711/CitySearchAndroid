@@ -139,9 +139,9 @@ class SearchScreenSteps(private val context: Context) {
     private val detailsFragments = HashMap<String, CityDetailsFragment>()
     private val detailsFragmentFactory = mock<CityDetailsFragmentFactory> {
 
-        on { detailsFragment(any(), any()) }.then { invocation ->
+        on { detailsFragment(any()) }.then { invocation ->
 
-            val searchResult = invocation.getArgument<CitySearchResult>(1)
+            val searchResult = invocation.getArgument<CitySearchResult>(0)
             val detailsFragment = mock<CityDetailsFragment>()
             detailsFragments[searchResult.name] = detailsFragment
 
@@ -150,7 +150,7 @@ class SearchScreenSteps(private val context: Context) {
     }
 
     private var openDetailsCommands = HashMap<String, OpenDetailsCommand>()
-    private val realOpenDetailsCommandFactory = OpenDetailsCommandFactoryImp(context, fragmentManager, detailsFragmentFactory)
+    private val realOpenDetailsCommandFactory = OpenDetailsCommandFactoryImp(fragmentManager, detailsFragmentFactory)
     private val openDetailsCommandFactory = mock<OpenDetailsCommandFactory> {
 
         on { openDetailsCommand(any()) }.then { invocation ->

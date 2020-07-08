@@ -29,7 +29,7 @@ class StartupTransitionCommandImp(private val context: Context,
 
     override fun invoke(initialResults: CitySearchResults) {
 
-        val openDetailsCommandFactory = OpenDetailsCommandFactoryImp(context, fragmentManager, CityDetailsFragmentFactoryImp())
+        val openDetailsCommandFactory = OpenDetailsCommandFactoryImp(fragmentManager, CityDetailsFragmentFactoryImp())
         val searchResultsModel = searchResultsModelFactory.searchResultsModel(openDetailsCommandFactory)
         searchResultsModel.setResults(initialResults)
         val searchView = searchFragmentFactory.searchFragment(searchResultsModel)

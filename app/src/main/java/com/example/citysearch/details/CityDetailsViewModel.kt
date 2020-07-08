@@ -1,6 +1,7 @@
 package com.example.citysearch.details
 
 import android.graphics.Typeface
+import androidx.lifecycle.ViewModel
 import com.example.citysearch.data.CitySearchResult
 import com.example.citysearch.reactive.TextViewModel
 import com.example.citysearch.utilities.Font
@@ -17,7 +18,7 @@ interface CityDetailsViewModel {
     val showLoader: Observable<Boolean>
 }
 
-class CityDetailsViewModelImp(private val model: CityDetailsModel): CityDetailsViewModel {
+class CityDetailsViewModelImp(private val model: CityDetailsModel): CityDetailsViewModel, ViewModel() {
 
     override val title: Observable<TextViewModel>
 

@@ -2,6 +2,7 @@ package com.example.citysearch.details.map
 
 import android.content.Context
 import android.graphics.Bitmap
+import androidx.lifecycle.ViewModel
 import com.example.citysearch.data.GeoPoint
 import com.example.citysearch.utilities.ImageLoader
 import com.example.citysearch.utilities.Point
@@ -22,7 +23,8 @@ interface MapViewModel {
     val markerFrame: Observable<Rect>
 }
 
-class MapViewModelImp(context: Context, private val model: MapModel): MapViewModel {
+class MapViewModelImp(context: Context,
+                      private val model: MapModel): MapViewModel, ViewModel() {
 
     override val backgroundImage: Observable<Optional<Bitmap>>
     override val markerImage: Observable<Optional<Bitmap>>

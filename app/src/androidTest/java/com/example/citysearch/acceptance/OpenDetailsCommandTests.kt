@@ -54,7 +54,7 @@ class OpenDetailsCommandTests {
 
 class OpenDetailsCommandSteps(private val context: Context) {
 
-    private val cityDetailsViewFactory = mock<CityDetailsFragmentFactory> {  }
+    private val detailsFragmentFactory = mock<CityDetailsFragmentFactory> {  }
 
     private val searchView = mock<SearchView> {  }
 
@@ -124,7 +124,7 @@ class OpenDetailsCommandSteps(private val context: Context) {
 
     fun openDetailsCommand(searchResult: CitySearchResult, searchScreen: SearchView): OpenDetailsCommandImp {
 
-        val factory = OpenDetailsCommandFactoryImp(context, fragmentManager, cityDetailsViewFactory)
+        val factory = OpenDetailsCommandFactoryImp(fragmentManager, detailsFragmentFactory)
         return factory.openDetailsCommand(searchResult) as OpenDetailsCommandImp
     }
 
@@ -132,7 +132,7 @@ class OpenDetailsCommandSteps(private val context: Context) {
 
         val detailsScreen = mock<CityDetailsFragment>()
         
-        whenever(cityDetailsViewFactory.detailsFragment(context, searchResult)).thenReturn(detailsScreen)
+        whenever(detailsFragmentFactory.detailsFragment(searchResult)).thenReturn(detailsScreen)
         
         return detailsScreen
     }

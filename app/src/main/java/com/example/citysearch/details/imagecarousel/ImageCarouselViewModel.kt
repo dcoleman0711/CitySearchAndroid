@@ -1,6 +1,7 @@
 package com.example.citysearch.details.imagecarousel
 
 import android.graphics.Bitmap
+import androidx.lifecycle.ViewModel
 import com.example.citysearch.details.imagecarousel.asyncimage.AsyncImageModel
 import com.example.citysearch.details.imagecarousel.asyncimage.AsyncImageViewModel
 import com.example.citysearch.details.imagecarousel.asyncimage.AsyncImageViewModelFactory
@@ -23,7 +24,7 @@ interface ImageCarouselViewModel {
 class ImageCarouselViewModelImp(private val model: ImageCarouselModel,
                                 private val viewModelFactory: AsyncImageViewModelFactory,
                                 private val workQueue: Scheduler,
-                                private val resultsQueue: Scheduler): ImageCarouselViewModel {
+                                private val resultsQueue: Scheduler): ImageCarouselViewModel, ViewModel() {
 
     constructor(model: ImageCarouselModel) : this(model, AsyncImageViewModelFactoryImp(), Schedulers.computation(), AndroidSchedulers.mainThread())
 

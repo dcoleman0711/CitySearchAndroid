@@ -8,14 +8,13 @@ import com.example.citysearch.reactive.CellTapCommand
 
 interface OpenDetailsCommand: CellTapCommand
 
-class OpenDetailsCommandImp(private val context: Context,
-                            private val fragmentManager: FragmentManager,
+class OpenDetailsCommandImp(private val fragmentManager: FragmentManager,
                             private val detailsFragmentFactory: CityDetailsFragmentFactory,
                             private val searchResult: CitySearchResult): OpenDetailsCommand {
 
     override fun invoke() {
 
-        val detailsView = detailsFragmentFactory.detailsFragment(context, searchResult)
+        val detailsView = detailsFragmentFactory.detailsFragment(searchResult)
         val transaction = fragmentManager.beginTransaction()
 
         transaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
