@@ -323,12 +323,12 @@ class DetailsScreenSteps(private val context: Context) {
 
     fun searchResult(): CitySearchResult {
 
-        return CitySearchResult("Test City", 1234567, GeoPoint(0.0, 0.0))
+        return CitySearchResult("Test City", 1234567, GeoPoint(0.0, 0.0), adminCode = "BS")
     }
 
     fun titleText(searchResult: CitySearchResult): String {
 
-        return searchResult.name
+        return searchResult.nameAndState
     }
 
     fun detailsScreen(searchResult: CitySearchResult = CitySearchResultsStub.stubResults().results[0],

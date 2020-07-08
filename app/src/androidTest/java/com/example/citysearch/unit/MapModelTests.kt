@@ -44,7 +44,7 @@ class MapModelSteps {
 
     fun searchResult(): CitySearchResult {
 
-        return CitySearchResult("Test City", 0, GeoPoint(34.0, 45.0))
+        return CitySearchResult("Test City", 0, GeoPoint(34.0, 45.0), "QZ")
     }
 
     fun geoCoordinates(searchResult: CitySearchResult): GeoPoint {

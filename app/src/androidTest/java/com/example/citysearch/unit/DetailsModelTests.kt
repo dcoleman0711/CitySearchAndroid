@@ -156,7 +156,7 @@ class DetailsModelSteps {
 
     fun titleText(searchResult: CitySearchResult): String {
 
-        return searchResult.name
+        return searchResult.nameAndState
     }
 
     fun population(searchResult: CitySearchResult): Int {
@@ -171,7 +171,7 @@ class DetailsModelSteps {
 
     fun imageSearchQuery(city: CitySearchResult): String {
 
-        return city.name
+        return city.nameAndState
     }
 
     fun imageResults(): ImageSearchResults {

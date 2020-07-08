@@ -8,6 +8,8 @@ import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.net.URL
 
@@ -44,6 +46,19 @@ class ImageServiceImp(private val client: OkHttpClient,
         if(inputStream == null)
             throw IOException("Cannot parse empty response")
 
-        return BitmapFactory.decodeStream(inputStream)
+        val bytes = inputStream.readBytes()
+        val bufferedStream = ByteArrayInputStream(bytes)
+
+        val options = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+        BitmapFactory.decodeStream(bufferedStream, null, options)
+        val width = options.outWidth
+        val height = options.outHeight
+
+        if(width > 2048 || height > 2048)
+            throw IOException("Android will choke on this image!")
+
+        bufferedStream.reset()
+
+        return BitmapFactory.decodeStream(bufferedStream)
     }
 }

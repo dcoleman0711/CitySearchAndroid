@@ -35,7 +35,7 @@ class CitySearchResultModelTests {
 
         val model = When.modelIsCreated(searchResult = searchResult)
 
-        Then.modelTitleIs(model, searchResult.name)
+        Then.modelTitleIs(model, searchResult.nameAndState)
     }
 
     @Test
@@ -69,7 +69,7 @@ class CitySearchResultModelSteps {
     fun searchResult(): CitySearchResult {
 
         // This only tests one population class.  There should be one test for each class that produces a distinct output
-        return CitySearchResult("Test City", 100000, GeoPoint(0.0, 0.0))
+        return CitySearchResult("Test City", 100000, GeoPoint(0.0, 0.0), adminCode = "QZ")
     }
 
     fun populationClass(searchResult: CitySearchResult): PopulationClass {

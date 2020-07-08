@@ -22,7 +22,7 @@ class CitySearchResultModelImp(searchResult: CitySearchResult, openDetailsComman
 
     init {
 
-        title = Observable.just(searchResult.name)
+        title = Observable.just(searchResult.nameAndState)
         populationClass = Observable.just(populationClass(searchResult.population))
 
         openDetailsCommand = openDetailsCommandFactory.openDetailsCommand(searchResult)

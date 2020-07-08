@@ -246,7 +246,7 @@ class SearchResultCellSteps(private val context: Context, targetContext: Context
 
     fun titleText(searchResult: CitySearchResult): String {
 
-        return searchResult.name
+        return searchResult.nameAndState
     }
 
     fun titleText(): String {

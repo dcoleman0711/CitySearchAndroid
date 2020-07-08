@@ -116,16 +116,16 @@ class CitySearchServiceSteps(private val context: Context) {
     fun expectedResults(): CitySearchResults {
 
         return CitySearchResults(arrayListOf(
-            CitySearchResult("la Massana", 7211, GeoPoint(42.54499, 1.51483)),
-            CitySearchResult("El Tarter", 1052, GeoPoint(42.57952, 1.65362)),
-            CitySearchResult("Arinsal", 1419, GeoPoint(42.57205, 1.48453)),
-            CitySearchResult("les Escaldes", 15853, GeoPoint(42.50729, 1.53414)),
-            CitySearchResult("Canillo", 3292, GeoPoint(42.5676, 1.59756)),
-            CitySearchResult("Pas de la Casa", 2363, GeoPoint(42.54277, 1.73361)),
-            CitySearchResult("Andorra la Vella", 20430, GeoPoint(42.50779, 1.52109)),
-            CitySearchResult("Encamp", 11223, GeoPoint(42.53474, 1.58014)),
-            CitySearchResult("Ordino", 3066, GeoPoint(42.55623, 1.53319)),
-            CitySearchResult("Sant Julià de Lòria", 8022, GeoPoint(42.46372, 1.49129))
+            CitySearchResult("la Massana", 7211, GeoPoint(42.54499, 1.51483), "04"),
+            CitySearchResult("El Tarter", 1052, GeoPoint(42.57952, 1.65362), "02"),
+            CitySearchResult("Arinsal", 1419, GeoPoint(42.57205, 1.48453), "04"),
+            CitySearchResult("les Escaldes", 15853, GeoPoint(42.50729, 1.53414), "08"),
+            CitySearchResult("Canillo", 3292, GeoPoint(42.5676, 1.59756), "02"),
+            CitySearchResult("Pas de la Casa", 2363, GeoPoint(42.54277, 1.73361), "03"),
+            CitySearchResult("Andorra la Vella", 20430, GeoPoint(42.50779, 1.52109), "07"),
+            CitySearchResult("Encamp", 11223, GeoPoint(42.53474, 1.58014), "03"),
+            CitySearchResult("Ordino", 3066, GeoPoint(42.55623, 1.53319), "05"),
+            CitySearchResult("Sant Julià de Lòria", 8022, GeoPoint(42.46372, 1.49129), "06")
         ))
     }
 

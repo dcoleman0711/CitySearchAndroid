@@ -4,15 +4,12 @@ import android.content.Context
 import android.view.View
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
-import androidx.constraintlayout.widget.Guideline
 import androidx.constraintlayout.widget.Placeholder
 import com.example.citysearch.R
 import com.example.citysearch.reactive.ViewBinder
 import com.example.citysearch.reactive.ViewBinderImp
 import com.example.citysearch.utilities.*
 import io.reactivex.disposables.Disposable
-import java.util.*
 
 interface MapView {
 

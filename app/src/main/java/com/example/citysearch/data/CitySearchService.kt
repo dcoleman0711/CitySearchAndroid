@@ -15,12 +15,35 @@ import retrofit2.http.Headers
 import retrofit2.http.Query
 import java.io.InputStreamReader
 import java.util.*
+import kotlin.collections.HashMap
 
 typealias CitySearchFuture = Observable<CitySearchResults>
 
 interface CitySearchService {
 
     fun citySearch(): CitySearchFuture
+}
+
+data class CountryFilter(val objectId: String) {
+
+    companion object {
+
+        val unitedStates = CountryFilter("BXkZTl2omc")
+    }
+
+    val __type = "Pointer"
+    val className = "Continentscountriescities_Country"
+}
+
+class FilterValue {
+
+    companion object {
+
+        fun greaterThan(value: Int): Map<String, Any> {
+
+            return hashMapOf("\$gt" to value)
+        }
+    }
 }
 
 class CitySearchServiceImp(private val client: OkHttpClient,
@@ -47,7 +70,10 @@ class CitySearchServiceImp(private val client: OkHttpClient,
             "$appKeyKey: $appKey"
         )
         @GET(path)
-        fun citySearch(@Query("skip") start: Int, @Query("limit") count: Int): CitySearchFuture
+        fun citySearch(@Query("skip") start: Int,
+                       @Query("limit") count: Int,
+                       @Query("where") filter: String,
+                       @Query("order") orderBy: String): CitySearchFuture
     }
 
     private val api: CitySearchApi
@@ -68,10 +94,18 @@ class CitySearchServiceImp(private val client: OkHttpClient,
 
     override fun citySearch(): CitySearchFuture {
 
-        val start = 4000
+        val start = 0
         val count = 80
 
-        return api.citySearch(start, count)
+        val countryFilter: Map<String, Any> = hashMapOf(
+            "country" to CountryFilter.unitedStates,
+            "population" to FilterValue.greaterThan(0)
+        )
+
+        val gson = Gson()
+        val filter = gson.toJson(countryFilter)
+
+        return api.citySearch(start, count, filter, "name")
             .subscribeOn(queue)
     }
 }

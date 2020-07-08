@@ -16,7 +16,7 @@ class CitySearchResultsStub {
             val items = itemIndices.map { index ->
 
                 val stubName = "Stub City #$index"
-                CitySearchResult(stubName,(index + 1) * 1000, GeoPoint(index.toDouble() * 20.0, index.toDouble() * 40.0))
+                CitySearchResult(stubName,(index + 1) * 1000, GeoPoint(index.toDouble() * 20.0, index.toDouble() * 40.0), adminCode = "QZ")
 
             }
 

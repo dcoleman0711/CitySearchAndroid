@@ -33,7 +33,7 @@ class CityDetailsModelImp(private val searchResult: CitySearchResult,
 
     init {
 
-        title = Observable.just(searchResult.name)
+        title = Observable.just(searchResult.nameAndState)
         population = Observable.just(searchResult.population)
 
         loading = BehaviorSubject.create()
@@ -44,7 +44,7 @@ class CityDetailsModelImp(private val searchResult: CitySearchResult,
 
     private fun loadImages() {
 
-        val imageSearch = imageSearchService.imageSearch(searchResult.name)
+        val imageSearch = imageSearchService.imageSearch(searchResult.nameAndState)
         val imageURLEvents = imageSearch.map { results -> results.images_results.mapNotNull { result -> result.original }.map { urlStr -> URL(urlStr) }.take(20) }
 
         var subscriber: Disposable? = null
