@@ -1,14 +1,13 @@
 package com.example.citysearch.startup
 
-import android.app.ActivityOptions
 import android.content.Context
-import android.content.Intent
+import androidx.fragment.app.FragmentManager
 import com.example.citysearch.data.CitySearchResults
-import com.example.citysearch.search.SearchRoot
-import com.example.citysearch.search.SearchView
-import com.example.citysearch.utilities.IntentFactory
-import com.example.citysearch.utilities.IntentFactoryImp
-import com.google.gson.Gson
+import com.example.citysearch.details.CityDetailsViewFactoryImp
+import com.example.citysearch.search.*
+import com.example.citysearch.search.searchresults.SearchResultsModelFactory
+import com.example.citysearch.search.searchresults.SearchResultsModelFactoryImp
+import com.example.citysearch.search.searchresults.SearchResultsModelImp
 
 interface StartupTransitionCommand {
 
@@ -16,15 +15,31 @@ interface StartupTransitionCommand {
 }
 
 class StartupTransitionCommandImp(private val context: Context,
-                                  private val intentFactory: IntentFactory): StartupTransitionCommand {
+                                  private val fragmentManager: FragmentManager,
+                                  private val searchResultsModelFactory: SearchResultsModelFactory,
+                                  private val searchFragmentFactory: SearchFragmentFactory): StartupTransitionCommand {
 
-    constructor(context: Context) : this(context, IntentFactoryImp())
+    constructor(context: Context,
+                fragmentManager: FragmentManager):
+            this(
+                context,
+                fragmentManager,
+                SearchResultsModelFactoryImp(),
+                SearchFragmentFactoryImp()
+            )
 
     override fun invoke(initialResults: CitySearchResults) {
 
-        val intent = intentFactory.intent(context, SearchRoot::class.java)
-        intent.putExtra(SearchRoot.initialResultsKey, Gson().toJson(initialResults))
-        val options = ActivityOptions.makeCustomAnimation(context, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-        context.startActivity(intent, options.toBundle())
+        val openDetailsCommandFactory = OpenDetailsCommandFactoryImp(context, fragmentManager, CityDetailsViewFactoryImp())
+        val searchResultsModel = searchResultsModelFactory.searchResultsModel(openDetailsCommandFactory)
+        searchResultsModel.setResults(initialResults)
+        val searchView = searchFragmentFactory.searchFragment(context, searchResultsModel)
+
+        val transaction = fragmentManager.beginTransaction()
+
+        transaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+
+        transaction.replace(android.R.id.content, searchView)
+            .commit()
     }
 }

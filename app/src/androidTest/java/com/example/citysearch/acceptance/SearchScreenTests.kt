@@ -1,15 +1,11 @@
 package com.example.citysearch.acceptance
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.ScrollView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import androidx.recyclerview.widget.RecyclerView
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.citysearch.R
@@ -17,7 +13,6 @@ import com.example.citysearch.data.CitySearchResult
 import com.example.citysearch.data.CitySearchResults
 import com.example.citysearch.details.CityDetailsView
 import com.example.citysearch.details.CityDetailsViewFactory
-import com.example.citysearch.details.CityDetailsViewFactoryImp
 import com.example.citysearch.parallax.ParallaxView
 import com.example.citysearch.parallax.ParallaxViewImp
 import com.example.citysearch.parallax.ParallaxViewModel
@@ -26,12 +21,14 @@ import com.example.citysearch.search.searchresults.*
 import com.example.citysearch.stub.CitySearchResultsStub
 import com.example.citysearch.utilities.*
 import com.nhaarman.mockitokotlin2.*
+import io.reactivex.Observable
+import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.BehaviorSubject
-import kotlinx.android.synthetic.main.search.view.*
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import kotlin.collections.HashMap
 
 class SearchScreenTestConstants {
 
@@ -173,15 +170,22 @@ class SearchScreenSteps(private val context: Context) {
     private val searchResultsView = SearchResultsViewImp(context, searchView.findViewById(R.id.searchResults), searchResultsViewModel)
     private val parallaxView = ParallaxViewImp(context, searchView.findViewById(R.id.parallaxView), parallaxViewModel)
 
+    private var parallaxOffset: Point? = null
+    private var parallaxSubscriber: Disposable? = null
+
     private lateinit var buildSearchScreen: () -> SearchView
     private lateinit var searchScreen: SearchView
+
+    val contentOffsetCaptor = argumentCaptor<Observable<Point>>()
 
     init {
 
         whenever(fragmentTransaction.replace(any(), any())).thenReturn(fragmentTransaction)
         whenever(fragmentTransaction.addToBackStack(anyOrNull())).thenReturn(fragmentTransaction)
 
-        searchResultsViewModel.contentOffset = searchResultsContentOffset
+        searchResultsViewModel.provideContentOffset(searchResultsContentOffset)
+
+        doNothing().whenever(parallaxViewModel).contentOffset = contentOffsetCaptor.capture()
     }
 
     fun initialData(): CitySearchResults {
@@ -213,7 +217,7 @@ class SearchScreenSteps(private val context: Context) {
 
         this.buildSearchScreen = {
 
-            SearchView(searchView,
+            SearchViewImp(searchView,
                 searchViewModel,
                 searchResultsView,
                 parallaxView)
@@ -228,6 +232,11 @@ class SearchScreenSteps(private val context: Context) {
     }
 
     fun searchResultsScrollsTo(contentOffset: Point) {
+
+        parallaxSubscriber = contentOffsetCaptor.firstValue.subscribe { contentOffset ->
+
+            parallaxOffset = contentOffset
+        }
 
         searchResultsContentOffset.onNext(contentOffset)
     }
@@ -249,18 +258,17 @@ class SearchScreenSteps(private val context: Context) {
 
     fun parallaxViewOffsetIsBoundToSearchResults(parallaxView: ParallaxView, contentOffset: Point) {
 
-        verify(parallaxViewModel).contentOffset = searchResultsContentOffset
+        Assert.assertEquals("Parallax offset is not bound to Search Sesults", contentOffset, parallaxOffset)
     }
 
     fun searchResultsIsDisplayedIn(searchResults: SearchResultsView, searchScreen: SearchView) {
 
-        val searchView = searchScreen.onCreateView(LayoutInflater.from(context), null, null)!!
-        Assert.assertTrue("Search results are not displayed in search view", ViewUtilities.isDescendantOf(searchResults.view, searchView))
+        Assert.assertTrue("Search results are not displayed in search view", ViewUtilities.isDescendantOf(searchResults.view, searchScreen.view))
     }
 
     fun searchResultsFillsHorizontallyAndIsCenteredVerticallyInSafeArea(searchScreen: SearchView, searchResults: SearchResultsView) {
 
-        val searchView = searchScreen.onCreateView(LayoutInflater.from(context), null, null)!!
+        val searchView = searchScreen.view
 
         searchView.measure(View.MeasureSpec.makeMeasureSpec(2048, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(1536, View.MeasureSpec.EXACTLY))
         searchView.layout(0, 0, 2048, 1536)
@@ -280,7 +288,7 @@ class SearchScreenSteps(private val context: Context) {
 
     fun parallaxViewIsFullScreenIn(parallaxView: ParallaxView, searchScreen: SearchView) {
 
-        val searchView = searchScreen.onCreateView(LayoutInflater.from(context), null, null)!!
+        val searchView = searchScreen.view
 
         val fillsView =
             parallaxView.view.left == 0 && parallaxView.view.right == searchView.width &&

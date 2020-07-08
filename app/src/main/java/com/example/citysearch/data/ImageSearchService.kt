@@ -1,7 +1,6 @@
 package com.example.citysearch.data
 
-import com.example.citysearch.startup.StartupActivity
-import com.example.citysearch.startup.StartupView
+import com.example.citysearch.startup.StartupFragment
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import io.reactivex.Observable
@@ -69,7 +68,7 @@ class ImageSearchServiceStub(): ImageSearchService {
 
     override fun imageSearch(query: String): ImageSearchFuture {
 
-        val stubFile = StartupActivity.context.assets.open("stubImageResponse.json")
+        val stubFile = StartupFragment.context.assets.open("stubImageResponse.json")
         val stubResults = Gson().fromJson(InputStreamReader(stubFile), ImageSearchResults::class.java)
 
         return Observable.just(stubResults)

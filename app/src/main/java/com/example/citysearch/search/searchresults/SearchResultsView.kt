@@ -27,7 +27,7 @@ class SearchResultsViewImp(context: Context, override val view: RecyclerView, pr
 
         recyclerViewBinding = binder.bindCells(view, viewModel.resultsViewModels)
 
-        viewModel.contentOffset = Observable.create { emitter ->
+        viewModel.provideContentOffset(Observable.create { emitter ->
 
             val point = Point(0, 0)
 
@@ -41,6 +41,6 @@ class SearchResultsViewImp(context: Context, override val view: RecyclerView, pr
                     emitter.onNext(point)
                 }
             })
-        }
+        })
     }
 }

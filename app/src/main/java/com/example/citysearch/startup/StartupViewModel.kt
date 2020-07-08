@@ -1,6 +1,7 @@
 package com.example.citysearch.startup
 
 import android.graphics.Typeface
+import androidx.lifecycle.ViewModel
 import com.example.citysearch.reactive.TextViewModel
 import com.example.citysearch.utilities.Font
 import io.reactivex.Observable
@@ -12,7 +13,7 @@ interface StartupViewModel {
     val appTitle: Observable<TextViewModel>
 }
 
-class StartupViewModelImp(override val model: StartupModel) : StartupViewModel {
+class StartupViewModelImp(override val model: StartupModel) : StartupViewModel, ViewModel() {
 
     private val titleFont = Font(Typeface.DEFAULT, 64.0)
 

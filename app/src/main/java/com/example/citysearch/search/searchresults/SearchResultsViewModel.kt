@@ -10,19 +10,24 @@ import com.example.citysearch.search.searchresults.citysearchresultcell.CitySear
 import com.example.citysearch.utilities.Point
 import com.example.citysearch.utilities.Size
 import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
 
 interface SearchResultsViewModel {
 
     val resultsViewModels: Observable<RecyclerViewModel<CitySearchResultViewModel>>
 
-    var contentOffset: Observable<Point>
+    val contentOffset: Observable<Point>
+
+    fun provideContentOffset(contentOffset: Observable<Point>)
 }
 
 class SearchResultsViewModelImp(private val context: Context, private val model: SearchResultsModel, private val viewModelFactory: CitySearchResultViewModelFactory): SearchResultsViewModel {
 
     override val resultsViewModels: Observable<RecyclerViewModel<CitySearchResultViewModel>>
 
-    override lateinit var contentOffset: Observable<Point>
+    private val contentOffsetStreams = BehaviorSubject.create<Observable<Point>>()
+
+    override val contentOffset = contentOffsetStreams.flatMap { point -> point }
 
     private val cellSize = Size(width = 128, height = 128)
     private val horSpacing = 16
@@ -33,6 +38,11 @@ class SearchResultsViewModelImp(private val context: Context, private val model:
     init {
 
         resultsViewModels = model.resultsModels.map { resultsModels -> mapResults(resultsModels) }
+    }
+
+    override fun provideContentOffset(contentOffset: Observable<Point>) {
+
+        contentOffsetStreams.onNext(contentOffset)
     }
 
     private fun mapResults(models: List<CitySearchResultModel>): RecyclerViewModel<CitySearchResultViewModel> {

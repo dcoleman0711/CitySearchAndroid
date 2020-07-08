@@ -1,17 +1,21 @@
 package com.example.citysearch.unit
 
-import android.app.ActivityOptions
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import com.example.citysearch.data.CitySearchResults
-import com.example.citysearch.search.SearchRoot
+import com.example.citysearch.search.SearchFragment
+import com.example.citysearch.search.SearchFragmentFactory
+import com.example.citysearch.search.searchresults.SearchResultsModel
+import com.example.citysearch.search.searchresults.SearchResultsModelFactory
 import com.example.citysearch.startup.StartupTransitionCommandImp
 import com.example.citysearch.stub.CitySearchResultsStub
-import com.example.citysearch.utilities.IntentFactory
-import com.google.gson.Gson
 import com.nhaarman.mockitokotlin2.*
+import io.reactivex.Observable
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -29,29 +33,27 @@ class StartupTransitionTests {
     @Before
     fun setUp() {
 
-        steps = StartupTransitionSteps()
+        steps = StartupTransitionSteps(InstrumentationRegistry.getInstrumentation().targetContext)
     }
 
     @Test
     fun testTransitionTargetActivity() {
 
-        val searchViewRootType = Given.searchRootType()
         val transitionCommand = Given.transitionCommand()
 
         When.transitionCommandIsInvoked(transitionCommand)
 
-        Then.transitionTargetActivityTypeIs(searchViewRootType)
+        Then.transitionTargetIsSearchView()
     }
 
     @Test
     fun testTransitionAnimations() {
 
-        val animations = Given.animations()
         val transitionCommand = Given.transitionCommand()
 
         When.transitionCommandIsInvoked(transitionCommand)
 
-        Then.transitionCommandIsInvokedWithAnimations(animations)
+        Then.transitionCommandIsInvokedWithAnimations()
     }
 
 
@@ -67,33 +69,59 @@ class StartupTransitionTests {
     }
 }
 
-class StartupTransitionSteps {
+class StartupTransitionSteps(private val context: Context) {
 
-    private val context = mock<Context> {  }
+    private var rootFragment: Fragment? = null
 
-    private val intent = mock<Intent> {  }
+    private val transaction = mock<FragmentTransaction> {  }
 
-    private val searchRootType = SearchRoot::class.java
+    private val fragmentManager = mock<FragmentManager> {
 
-    private val intentFactory = mock<IntentFactory> {
+        on { beginTransaction() }.then { invocation ->
 
-        on { intent(context, searchRootType) }.thenReturn(intent)
+            var fragment: Fragment? = null
+
+            whenever(transaction.replace(any(), any())).then { invocation ->
+
+                val viewId = invocation.getArgument<Int>(0)
+
+                if(viewId == android.R.id.content)
+                    fragment = invocation.getArgument<Fragment>(1)
+
+                transaction
+            }
+
+            whenever(transaction.commit()).then { invocation ->
+
+                rootFragment = fragment
+
+                null
+            }
+
+            transaction
+        }
     }
 
-    fun searchRootType(): Class<SearchRoot> {
+    private val searchResultsModel = mock<SearchResultsModel> {
 
-        return searchRootType
+        on { resultsModels }.thenReturn(Observable.never())
     }
 
-    fun animations(): Bundle {
+    private val searchResultsModelFactory = mock<SearchResultsModelFactory> {
 
-        val options = ActivityOptions.makeCustomAnimation(context, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-        return options.toBundle()
+        on { searchResultsModel(any()) }.thenReturn(searchResultsModel)
+    }
+
+    private val searchFragment = SearchFragment(context, searchResultsModel)
+
+    private val searchFragmentFactory = mock<SearchFragmentFactory> {
+
+        on { searchFragment(any(), any()) }.thenReturn(searchFragment)
     }
 
     fun transitionCommand(): StartupTransitionCommandImp {
 
-        return StartupTransitionCommandImp(context, intentFactory)
+        return StartupTransitionCommandImp(context, fragmentManager, searchResultsModelFactory, searchFragmentFactory)
     }
 
     fun initialResults(): CitySearchResults {
@@ -111,23 +139,19 @@ class StartupTransitionSteps {
         transitionCommand.invoke(initialResults)
     }
 
-    fun transitionTargetActivityTypeIs(expectedType: Class<SearchRoot>) {
+    fun transitionTargetIsSearchView() {
 
-        verify(intentFactory).intent(any(), eq(expectedType))
+        Assert.assertEquals("New root fragment is not search fragment", searchFragment, rootFragment)
     }
 
-    fun transitionCommandIsInvokedWithAnimations(animations: Bundle) {
+    fun transitionCommandIsInvokedWithAnimations() {
 
-        val intentCaptor = argumentCaptor<Intent>()
-        val bundleCaptor = argumentCaptor<Bundle>()
-        verify(context).startActivity(intentCaptor.capture(), bundleCaptor.capture())
-        Assert.assertEquals("Transition was not invoked", intent, intentCaptor.firstValue)
-        Assert.assertEquals("Transition was not invoked with correct animations", animations.toString(), bundleCaptor.firstValue.toString())
+        verify(transaction).setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
     }
 
     fun searchViewIsCreatedWithInitialResults(expectedResults: CitySearchResults) {
 
-        val resultsStr = Gson().toJson(expectedResults)
-        verify(intent).putExtra(eq(SearchRoot.initialResultsKey), eq(resultsStr))
+        verify(searchFragmentFactory).searchFragment(any(), eq(searchResultsModel))
+        verify(searchResultsModel).setResults(expectedResults)
     }
 }

@@ -5,18 +5,16 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.os.ConditionVariable
-import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import androidx.fragment.app.FragmentManager
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.citysearch.R
 import com.example.citysearch.animations.RollingAnimationLabel
 import com.example.citysearch.data.CitySearchResults
 import com.example.citysearch.data.CitySearchService
-import com.example.citysearch.startup.StartupTransitionCommand
-import com.example.citysearch.startup.StartupView
-import com.example.citysearch.startup.StartupViewBuilder
+import com.example.citysearch.startup.*
 import com.example.citysearch.utilities.Font
 import com.example.citysearch.utilities.Point
 import com.example.citysearch.utilities.Size
@@ -191,17 +189,19 @@ class StartupScreenSteps(private val context: Context) {
 
     private val initialResults = CitySearchResults.emptyResults()
 
-    val startupViewBuilder = StartupViewBuilder()
+    private val startupViewModelFactory = StartupViewModelFactory(context, mock())
 
-    val transitionCommand = mock<StartupTransitionCommand> {  }
+    private lateinit var startupViewModel: StartupViewModelImp
 
-    val appTitleLabel = RollingAnimationLabelTest(context)
+    private val transitionCommand = mock<StartupTransitionCommand> {  }
 
-    val searchResultsFuture = BehaviorSubject.create<CitySearchResults>()
+    private val appTitleLabel = RollingAnimationLabelTest(context)
 
-    val resultsArrivedCondition = ConditionVariable()
+    private val searchResultsFuture = BehaviorSubject.create<CitySearchResults>()
 
-    val searchService = mock<CitySearchService> {
+    private val resultsArrivedCondition = ConditionVariable()
+
+    private val searchService = mock<CitySearchService> {
 
         on { citySearch() }.thenReturn(searchResultsFuture)
     }
@@ -252,7 +252,8 @@ class StartupScreenSteps(private val context: Context) {
 
     fun startupScreenLoadedAtTime(): Instant {
 
-        this.startupScreen = startupViewBuilder.build(context, LayoutInflater.from(context).inflate(R.layout.startup, null))
+        val view = LayoutInflater.from(context).inflate(R.layout.startup, null)
+        this.startupScreen = StartupViewImp(view, startupViewModel)
         return Instant.now()
     }
 
@@ -278,9 +279,10 @@ class StartupScreenSteps(private val context: Context) {
 
     fun startupScreen(appTitleLabel: RollingAnimationLabel = this.appTitleLabel, transitionCommand: StartupTransitionCommand = this.transitionCommand, searchService: CitySearchService = this.searchService) {
 
-        startupViewBuilder.appTitleLabel = appTitleLabel
-        startupViewBuilder.transitionCommand = transitionCommand
-        startupViewBuilder.searchService = searchService
+        startupViewModelFactory.transitionCommand = transitionCommand
+        startupViewModelFactory.searchService = searchService
+
+        startupViewModel = startupViewModelFactory.create(StartupViewModelImp::class.java)
     }
 
     fun searchServiceHasReturnedInitialResults(searchService: CitySearchService) {

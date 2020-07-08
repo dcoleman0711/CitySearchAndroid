@@ -1,7 +1,6 @@
 package com.example.citysearch.data
 
-import com.example.citysearch.startup.StartupActivity
-import com.example.citysearch.startup.StartupView
+import com.example.citysearch.startup.StartupFragment
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import io.reactivex.Observable
@@ -16,7 +15,6 @@ import retrofit2.http.Headers
 import retrofit2.http.Query
 import java.io.InputStreamReader
 import java.util.*
-import kotlin.collections.ArrayList
 
 typealias CitySearchFuture = Observable<CitySearchResults>
 
@@ -82,7 +80,7 @@ class CitySearchServiceStub(): CitySearchService {
 
     override fun citySearch(): CitySearchFuture {
 
-        val stubFile = StartupActivity.context.assets.open("stubCityResponse.json")
+        val stubFile = StartupFragment.context.assets.open("stubCityResponse.json")
         val stubFileContents = Gson().fromJson(InputStreamReader(stubFile), CitySearchResults::class.java)
 
         val stubResults = CitySearchResults(Collections.nCopies(5, stubFileContents.results ).flatten())
