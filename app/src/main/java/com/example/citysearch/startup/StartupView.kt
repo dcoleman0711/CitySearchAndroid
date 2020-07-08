@@ -1,15 +1,11 @@
 package com.example.citysearch.startup
 
-import android.content.Context
-import android.graphics.Color
 import android.view.View
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import com.example.citysearch.R
 import com.example.citysearch.animations.RollingAnimationLabel
-import com.example.citysearch.utilities.*
 import io.reactivex.disposables.Disposable
 
+// View for Startup MVVM.  Handles binding to the ViewModel.  This is separate from the Fragment because that allows easier testing without any direct coupling to Android classes.
 interface StartupView {
 
     val view: View

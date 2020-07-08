@@ -5,6 +5,7 @@ import com.example.citysearch.search.OpenDetailsCommand
 import com.example.citysearch.search.OpenDetailsCommandFactory
 import io.reactivex.Observable
 
+// Model for CitySearchResult MVVM.  Exposes the properties of the search result for display, and categorizes the population into one of 4 classes
 interface CitySearchResultModel {
 
     val title: Observable<String>
@@ -39,6 +40,8 @@ class CitySearchResultModelImp(searchResult: CitySearchResult, openDetailsComman
     }
 }
 
+// PopulationClass is basically a beefed up enum.  There are four "cases", each of which is implemented as a concrete subtype.
+// The Visitor pattern is used to extend the polymorphic structure (i.e. provide additional functions that vary with the 4 subclasses)
 interface PopulationClass {
 
     val range: IntRange

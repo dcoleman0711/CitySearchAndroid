@@ -5,7 +5,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.citysearch.parallax.ParallaxViewModel
 import com.example.citysearch.search.searchresults.SearchResultsViewModel
 
-class SearchViewModelFactory(private val model: SearchModel, private val parallaxViewModel: ParallaxViewModel, private val searchResultsViewModel: SearchResultsViewModel): ViewModelProvider.Factory {
+// JetPack factory for SearchViewModel, to support passing in the model and child view-models
+class SearchViewModelFactory(private val model: SearchModel,
+                             private val parallaxViewModel: ParallaxViewModel,
+                             private val searchResultsViewModel: SearchResultsViewModel): ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 

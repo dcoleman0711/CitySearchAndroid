@@ -12,6 +12,7 @@ import java.util.*
 
 fun<T> Optional<T>.toNullable(): T? = orElse(null)
 
+// Handles binding various "simple" widgets to observable streams of their associated displayed data
 interface ViewBinder {
 
     fun bindTextView(view: TextView, viewModelUpdates: Observable<TextViewModel>): Disposable

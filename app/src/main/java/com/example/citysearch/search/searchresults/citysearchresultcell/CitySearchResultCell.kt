@@ -1,23 +1,16 @@
 package com.example.citysearch.search.searchresults.citysearchresultcell
 
-import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.GradientDrawable
-import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import com.example.citysearch.R
 import com.example.citysearch.reactive.RecyclerCell
 import com.example.citysearch.reactive.ViewBinder
 import com.example.citysearch.reactive.ViewBinderImp
-import com.example.citysearch.utilities.*
 import io.reactivex.disposables.Disposable
-import java.util.*
 
+// View for CitySearchResult MVVM.  Handles binding to the view-model
 class CitySearchResultCell(override val view: ConstraintLayout,
                            private val titleLabel: TextView,
                            private val imageView: ImageView,

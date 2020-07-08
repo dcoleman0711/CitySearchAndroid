@@ -19,11 +19,13 @@ import kotlin.collections.HashMap
 
 typealias CitySearchFuture = Observable<CitySearchResults>
 
+// Interface for a City Search Service
 interface CitySearchService {
 
     fun citySearch(): CitySearchFuture
 }
 
+// Data class to specify a country filter to the city search results
 data class CountryFilter(val objectId: String) {
 
     companion object {
@@ -35,6 +37,7 @@ data class CountryFilter(val objectId: String) {
     val className = "Continentscountriescities_Country"
 }
 
+// Filter values are used to encode conditions like "greater than" or "less than" for search queries
 class FilterValue {
 
     companion object {
@@ -46,6 +49,7 @@ class FilterValue {
     }
 }
 
+// Implementation of the search service that uses the REST web service
 class CitySearchServiceImp(private val client: OkHttpClient,
                            private val queue: Scheduler): CitySearchService {
 
@@ -110,6 +114,7 @@ class CitySearchServiceImp(private val client: OkHttpClient,
     }
 }
 
+// Stub service that returns locally stored results, useful for development
 class CitySearchServiceStub(): CitySearchService {
 
     override fun citySearch(): CitySearchFuture {

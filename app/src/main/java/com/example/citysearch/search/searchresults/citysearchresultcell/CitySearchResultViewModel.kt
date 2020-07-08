@@ -3,7 +3,6 @@ package com.example.citysearch.search.searchresults.citysearchresultcell
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Typeface
-import android.graphics.drawable.Drawable
 import com.example.citysearch.reactive.TextViewModel
 import com.example.citysearch.search.OpenDetailsCommand
 import com.example.citysearch.utilities.Font
@@ -11,6 +10,7 @@ import com.example.citysearch.utilities.ImageLoader
 import io.reactivex.Observable
 import java.util.*
 
+// ViewModel for CitySearchResult MVVM.  Defines the font and maps population classes to icons
 interface CitySearchResultViewModel {
 
     val title: Observable<TextViewModel>

@@ -12,6 +12,7 @@ import com.example.citysearch.R
 import com.example.citysearch.parallax.*
 import com.example.citysearch.search.searchresults.*
 
+// Fragment for Search.  Handles building the various components and managing the lifecycle
 open class SearchFragment(private val searchResultsModel: SearchResultsModel): Fragment() {
 
     private lateinit var parallaxViewModel: ParallaxViewModel

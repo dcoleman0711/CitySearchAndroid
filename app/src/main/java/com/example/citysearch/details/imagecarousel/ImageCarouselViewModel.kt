@@ -16,6 +16,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 
+// ViewModel for ImageCarousel MVVM.  Handles conversion of the the model's list of cell models into a RecyclerViewModel.
+// Since the loading of one cell's image alter's the size of the associated cell, the view-model needs to ensure that an updated RecyclerViewModel is published every time either the cells themselves change, or any of their images loads
 interface ImageCarouselViewModel {
 
     val results: Observable<RecyclerViewModel<AsyncImageViewModel>>

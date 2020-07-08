@@ -12,6 +12,7 @@ import com.example.citysearch.reactive.ViewBinder
 import com.example.citysearch.reactive.ViewBinderImp
 import io.reactivex.disposables.Disposable
 
+// View for CityDetails MVVM.  Handles binding to the ViewModel.  This is separate from the Fragment because that allows easier testing without any direct coupling to Android classes.
 interface CityDetailsView {
 
     val view: View

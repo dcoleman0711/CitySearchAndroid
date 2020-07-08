@@ -6,21 +6,14 @@ import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.Choreographer
 import android.view.Gravity
-import android.view.View
-import android.view.textclassifier.TextLanguage
 import android.widget.FrameLayout
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatTextView
-import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.widget.TextViewCompat
 import com.example.citysearch.utilities.*
 import java.time.Duration
-import java.time.Instant
-import java.util.function.BiConsumer
-import java.util.function.Supplier
 import kotlin.math.max
 import kotlin.math.min
 
+// Implementation for the animation seen on the title screen
 open class RollingAnimationLabel(context: Context, attributeSet: AttributeSet?): FrameLayout(context, attributeSet), Choreographer.FrameCallback {
 
     private var text: String = ""
@@ -183,8 +176,6 @@ open class RollingAnimationLabel(context: Context, attributeSet: AttributeSet?):
             view.layoutParams = layoutParams
 
             view.forceLayout()
-//            view.measure(0, 0)
-//            view.la
         }
     }
 
@@ -205,14 +196,3 @@ open class RollingAnimationLabel(context: Context, attributeSet: AttributeSet?):
         }()
     }
 }
-
-//open class RollingAnimationLabel(context: Context): AppCompatTextView(context) {
-//
-//    fun start(text: String, font: Font) {
-//
-//        this.setTextColor(Color.BLACK)
-//        this.text = text
-//
-//        TextViewUtilities.setFont(this, font)
-//    }
-//}

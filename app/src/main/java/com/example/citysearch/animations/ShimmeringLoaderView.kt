@@ -1,6 +1,5 @@
 package com.example.citysearch.animations
 
-import android.content.Context
 import android.graphics.Color
 import android.view.Choreographer
 import android.view.View
@@ -8,6 +7,7 @@ import com.example.citysearch.utilities.ChoreographerWrapper
 import com.example.citysearch.utilities.ChoreographerWrapperImp
 import kotlin.math.sin
 
+// Implements the loading effect seen on the image carousel
 interface ShimmeringLoaderView {
 
     val view: View

@@ -8,6 +8,7 @@ import com.example.citysearch.search.*
 import com.example.citysearch.search.searchresults.SearchResultsModelFactory
 import com.example.citysearch.search.searchresults.SearchResultsModelFactoryImp
 
+// Command for transitioning from startup to search.  Handles creating the search fragment and handling the fragment transactions
 interface StartupTransitionCommand {
 
     fun invoke(initialResults: CitySearchResults)

@@ -1,9 +1,6 @@
 package com.example.citysearch.startup
 
-import android.content.Context
-import android.os.Looper
 import android.util.Log
-import android.view.Window
 import com.example.citysearch.data.*
 import com.example.citysearch.reactive.ObservableFactory
 import com.example.citysearch.reactive.ObservableFactoryImp
@@ -13,10 +10,10 @@ import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
+// Model for Startup MVVM.  It fetches the initial city search results, and ensures the startup screen remains visible for at least 4 seconds.  Also exposes the text to display.
 interface StartupModel {
 
     val appTitle: Observable<String>

@@ -16,11 +16,13 @@ import java.io.InputStreamReader
 
 typealias ImageSearchFuture = Observable<ImageSearchResults>
 
+// Interface for an image search service, which provides a service to do an image search with a text query
 interface ImageSearchService {
 
     fun imageSearch(query: String): ImageSearchFuture
 }
 
+// Implementation of an image search service using the REST web service
 class ImageSearchServiceImp(private val client: OkHttpClient,
                             private val queue: Scheduler): ImageSearchService {
 
@@ -64,6 +66,7 @@ class ImageSearchServiceImp(private val client: OkHttpClient,
     }
 }
 
+// Stub service that returns locally stored results, useful for development
 class ImageSearchServiceStub(): ImageSearchService {
 
     override fun imageSearch(query: String): ImageSearchFuture {

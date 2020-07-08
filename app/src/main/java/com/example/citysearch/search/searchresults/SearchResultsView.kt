@@ -12,6 +12,7 @@ import com.example.citysearch.utilities.Point
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 
+// View for SearchResults MVVM.  Binds the RecyclerView to the view-model, and passes its content offset back to the view-model as an observable stream
 interface SearchResultsView {
 
     val view: View

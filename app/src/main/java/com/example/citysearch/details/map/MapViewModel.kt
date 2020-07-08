@@ -11,6 +11,7 @@ import com.example.citysearch.utilities.Size
 import io.reactivex.Observable
 import java.util.*
 
+// Model for Map MVVM.  Converts the model's geo-location into a percentage-based visual location, and the pin's size.  Also defines the images for the Earth background and pin
 interface MapViewModel {
 
     companion object {

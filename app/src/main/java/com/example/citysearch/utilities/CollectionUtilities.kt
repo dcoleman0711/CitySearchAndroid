@@ -6,6 +6,7 @@ class CollectionUtilities {
 
     companion object {
 
+        // Surprisingly, Java/Kotlin doesn't have all the tools for "spatial" collections that Rx has for "temporal" collections
         fun<T1, T2> zip(first: Array<T1>, second: List<T2>): List<Pair<T1, T2>> {
 
             return zip(first.toList(), second)

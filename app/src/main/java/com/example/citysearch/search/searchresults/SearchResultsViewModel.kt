@@ -13,12 +13,15 @@ import com.example.citysearch.utilities.Size
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 
+// ViewModel for SearchResults MVVM.  Handles building the RecyclerViewModel out of the model's list of cell models.  Also provides a way to accept the recycler view's content offset event stream from the view
 interface SearchResultsViewModel {
 
     val resultsViewModels: Observable<RecyclerViewModel<CitySearchResultViewModel>>
 
     val contentOffset: Observable<Point>
 
+    // In a better world, the SDK components would be following something like MVVM too, and a RecyclerView would delegate state like its content offset to its view-model.  Then this view-model would own that as a child view-model.
+    // Unfortunately, almost all the time SDK components are all bundled together as a single class, so we have to delegate this from the view back to the view-model
     fun provideContentOffset(contentOffset: Observable<Point>)
 }
 

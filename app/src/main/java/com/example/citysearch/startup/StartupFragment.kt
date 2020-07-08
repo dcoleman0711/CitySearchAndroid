@@ -13,6 +13,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.citysearch.R
 
+// Fragment for Startup.  Handles building the various components and managing the lifecycle
 class StartupFragment: Fragment() {
 
     companion object {

@@ -11,6 +11,7 @@ import com.example.citysearch.reactive.ViewBinderImp
 import com.example.citysearch.utilities.*
 import io.reactivex.disposables.Disposable
 
+// View for Map MVVM.  Converts the view-models pin location into layout constraints
 interface MapView {
 
     val view: View

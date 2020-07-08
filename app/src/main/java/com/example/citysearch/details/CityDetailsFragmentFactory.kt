@@ -1,8 +1,8 @@
 package com.example.citysearch.details
 
-import android.content.Context
 import com.example.citysearch.data.CitySearchResult
 
+// Factory for creating CityDetailsFragments.  Useful for testing
 interface CityDetailsFragmentFactory {
 
     fun detailsFragment(searchResult: CitySearchResult): CityDetailsFragment

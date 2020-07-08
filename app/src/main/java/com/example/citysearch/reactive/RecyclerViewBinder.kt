@@ -11,6 +11,7 @@ import com.example.citysearch.utilities.MeasureConverterImp
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 
+// Handles binding of a RecyclerView to a stream of RecyclerViewModels.
 interface  RecyclerViewBinder<ViewModel, CellType: RecyclerCell<ViewModel>> {
 
     fun bindCells(view: RecyclerView, viewModelUpdates: Observable<RecyclerViewModel<ViewModel>>): Disposable

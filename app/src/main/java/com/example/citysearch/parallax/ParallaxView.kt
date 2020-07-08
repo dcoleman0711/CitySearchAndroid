@@ -3,12 +3,12 @@ package com.example.citysearch.parallax
 import android.content.Context
 import android.graphics.Bitmap
 import android.view.View
-import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import com.example.citysearch.utilities.*
 import io.reactivex.disposables.Disposable
 
+// View for Parallax MVVM.  Converts the view-models offsets into layout constraints
 interface ParallaxView {
 
     val view: View

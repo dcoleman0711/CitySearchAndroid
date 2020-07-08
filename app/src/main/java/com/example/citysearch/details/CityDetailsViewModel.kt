@@ -8,6 +8,7 @@ import com.example.citysearch.utilities.Font
 import io.reactivex.Observable
 import java.text.DecimalFormat
 
+// ViewModel for CityDetails MVVM.  Provides additional "decoration" visual state, and defines fonts
 interface CityDetailsViewModel {
 
     val title: Observable<TextViewModel>

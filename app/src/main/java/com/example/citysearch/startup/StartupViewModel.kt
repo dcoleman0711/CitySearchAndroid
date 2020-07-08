@@ -6,6 +6,7 @@ import com.example.citysearch.reactive.TextViewModel
 import com.example.citysearch.utilities.Font
 import io.reactivex.Observable
 
+// ViewModel for Startup MVVM.  Defines the presentation of the title text
 interface StartupViewModel {
 
     val model: StartupModel

@@ -1,15 +1,13 @@
 package com.example.citysearch.utilities
 
-import android.content.Context
-import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
-import kotlin.math.ceil
 
 class ViewUtilities {
 
     companion object {
 
+        // Measures a view's size (aka the "wrap-content" size) and returns it
         fun intrinsicSize(view: View): Size {
 
             val currentMeasuredWidth = view.getMeasuredWidth()
@@ -24,6 +22,7 @@ class ViewUtilities {
             return result;
         }
 
+        // More iOS-y stuff
         fun frame(view: View): Rect {
 
             return Rect(Point(x = view.left, y = view.top), Size(width = view.width, height = view.height))
@@ -51,6 +50,7 @@ class ViewUtilities {
     }
 }
 
+// Extends a TextView to work with the Font data type
 class TextViewUtilities {
 
     companion object {

@@ -8,6 +8,7 @@ import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import java.net.URL
 
+// Model for ImageCarousel MVVM.  Exposes a configurable stream of image URL lists, and handles converting a URL list into a list of cell models
 interface ImageCarouselModel {
 
     val resultsModels: Observable<List<AsyncImageModel>>

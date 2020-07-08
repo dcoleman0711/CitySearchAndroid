@@ -13,6 +13,7 @@ import com.example.citysearch.reactive.RecyclerViewBinder
 import com.example.citysearch.reactive.RecyclerViewBinderImp
 import io.reactivex.disposables.Disposable
 
+// View for ImageCarousel MVVM.  Handles binding the RecyclerView to the view-model
 interface ImageCarouselView {
 
     val view: View

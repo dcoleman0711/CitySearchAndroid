@@ -5,6 +5,7 @@ import android.util.DisplayMetrics
 import android.util.TypedValue
 import kotlin.math.ceil
 
+// Helper class to allow use of "dp" units in programmatic layout.
 interface MeasureConverter {
 
     fun convertToPixels(dp: Int): Int

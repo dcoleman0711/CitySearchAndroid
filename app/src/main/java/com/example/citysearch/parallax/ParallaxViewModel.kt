@@ -10,6 +10,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
 import io.reactivex.subjects.BehaviorSubject
 
+// ViewModel for Parallax MVVM.  Exposes settable content offset, and converts the model's parallax layers into offsets for the displayed images
 interface ParallaxViewModel {
 
     val images: Observable<List<Bitmap>>
@@ -49,7 +50,9 @@ class ParallaxViewModelImp(private val model: ParallaxModel,
 
     private fun createOffsetsPipe(contentOffset: Observable<Point>) {
 
-        // We subscribe and publish to a subject instead of just assigning the offsets observable directly, because changing the offsets observable (part of the public interface of this ViewModel class) would mean the subscribers to it are subscribed to an obsolete observable.  This way, subscribers can stay subscribed to a permanent observable and always receive the up-to-date event stream
+        // We subscribe and publish to a subject instead of just assigning the offsets observable directly, because changing the offsets observable (part of the public interface of this ViewModel class)
+        // would mean the subscribers to it are subscribed to an obsolete observable.  This way, subscribers can stay subscribed to a permanent observable and always receive the up-to-date event stream
+        // Another way to do this (see the Image Carousel model for an example) is to flat or switch-map an observable of observables
         val offsetsEvents: Observable<List<Point>> = Observable.combineLatest(model.layers, contentOffset, BiFunction({ layers, offset -> offsets(layers, offset) }))
 
         offsetsBinding = offsetsEvents
