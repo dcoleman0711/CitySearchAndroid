@@ -27,7 +27,9 @@ class CityDetailsModelImp(private val searchResult: CitySearchResult,
 
     override val title: Observable<String>
     override val population: Observable<Int>
-    override val loading: BehaviorSubject<Boolean>
+    override val loading: Observable<Boolean>
+
+    private val maxImageResults = 20
 
     constructor(searchResult: CitySearchResult, imageCarouselModel: ImageCarouselModel) : this(searchResult, imageCarouselModel, ImageSearchServiceImp(), Schedulers.computation())
 
@@ -36,31 +38,21 @@ class CityDetailsModelImp(private val searchResult: CitySearchResult,
         title = Observable.just(searchResult.nameAndState)
         population = Observable.just(searchResult.population)
 
-        loading = BehaviorSubject.create()
-        loading.onNext(true)
-
-        loadImages()
-    }
-
-    private fun loadImages() {
-
         val imageSearch = imageSearchService.imageSearch(searchResult.nameAndState)
-        val imageURLEvents = imageSearch.map { results -> results.images_results.mapNotNull { result -> result.original }.map { urlStr -> URL(urlStr) }.take(20) }
+        val imageURLEvents = imageSearch.map { results ->
+            results.images_results
+                .mapNotNull { result ->
+                    result.original
+                }
+                .map { urlStr ->
+                    URL(urlStr)
+                }
+                .take(maxImageResults)
+        }.observeOn(resultsQueue)
 
-        var subscriber: Disposable? = null
-        subscriber = imageURLEvents
-            .observeOn(resultsQueue)
-            .subscribe({ imageURLs ->
+        loading = Observable.just(true)
+            .mergeWith(imageURLEvents.map { false })
 
-                loading.onNext(false)
-                imageCarouselModel.setResults(imageURLs)
-
-                subscriber = null
-
-            }, { error ->
-
-                loading.onNext(false)
-                subscriber = null
-            })
+        imageCarouselModel.results = imageURLEvents
     }
 }

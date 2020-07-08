@@ -8,10 +8,8 @@ import com.example.citysearch.details.CityDetailsModelImp
 import com.example.citysearch.details.imagecarousel.ImageCarouselModel
 import com.example.citysearch.stub.CitySearchResultsStub
 import com.example.citysearch.stub.ImageSearchResultsStub
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.times
-import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.*
+import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.TestScheduler
@@ -136,19 +134,17 @@ class DetailsModelSteps {
         on { imageSearch(any()) }.thenReturn(imageSearch)
     }
 
-    private val imageCarouselModel = mock<ImageCarouselModel> {
+    private val imageCarouselResultsCaptor = argumentCaptor<Observable<List<URL>>>()
 
-        on { setResults(any()) }.then { invocation ->
-
-            carouselModelResults = invocation.getArgument<List<URL>>(0)
-            resultsSetOnResultsQueue = isOnResultsQueue
-
-            null
-        }
-    }
+    private val imageCarouselModel = mock<ImageCarouselModel>()
     
     private val resultsQueue = TestScheduler()
-    
+
+    init {
+
+        doNothing().whenever(imageCarouselModel).results = imageCarouselResultsCaptor.capture()
+    }
+
     fun searchResult(): CitySearchResult {
 
         return CitySearchResultsStub.stubResults().results[0]
@@ -245,6 +241,12 @@ class DetailsModelSteps {
     }
 
     fun carouselModelResultsAreSetToURLsOnQueue(carouselModel: ImageCarouselModel, expectedUrls: List<URL>, resultsQueue: Scheduler) {
+
+        imageCarouselResultsCaptor.firstValue.subscribe { results ->
+
+            carouselModelResults = results
+            resultsSetOnResultsQueue = isOnResultsQueue
+        }
 
         isOnResultsQueue = true
         this.resultsQueue.triggerActions()

@@ -12,7 +12,7 @@ interface ImageCarouselModel {
 
     val resultsModels: Observable<List<AsyncImageModel>>
 
-    fun setResults(results: List<URL>)
+    var results: Observable<List<URL>>
 }
 
 class ImageCarouselModelImp(modelFactory: AsyncImageModelFactory): ImageCarouselModel {
@@ -21,15 +21,23 @@ class ImageCarouselModelImp(modelFactory: AsyncImageModelFactory): ImageCarousel
 
     override val resultsModels: Observable<List<AsyncImageModel>>
 
-    private val results = BehaviorSubject.create<List<URL>>()
+    override var results = Observable.empty<List<URL>>()
+    set(value) {
+
+        field = value
+        resultsStreams.onNext(value)
+    }
+
+    private val resultsStreams = BehaviorSubject.create<Observable<List<URL>>>()
 
     init {
 
-        resultsModels = results.map { results -> results.map { url -> modelFactory.imageModel(url) } }
-    }
-
-    override fun setResults(results: List<URL>) {
-
-        this.results.onNext(results)
+        resultsModels = resultsStreams.switchMap { resultsStream ->
+            resultsStream.map { results ->
+                results.map { url ->
+                    modelFactory.imageModel(url)
+                }
+            }
+        }
     }
 }

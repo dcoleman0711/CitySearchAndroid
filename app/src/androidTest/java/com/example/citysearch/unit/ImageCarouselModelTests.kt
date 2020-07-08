@@ -7,6 +7,7 @@ import com.example.citysearch.details.imagecarousel.asyncimage.AsyncImageModelFa
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
+import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import org.junit.Assert
 import org.junit.Before
@@ -34,10 +35,11 @@ class ImageCarouselModelTests {
 
         val imageURLs = Given.imageURLs()
         val expectedResultModels = Given.models(imageURLs)
+        val imageURLEvents = Given.imageURLEvents(imageURLs)
         val imageCarouselModel = Given.imageCarouselModelCreated()
         val observer = Given.observeSearchResults(imageCarouselModel)
 
-        When.imageCarouselModelDataIsSetToURLs(imageCarouselModel, imageURLs)
+        When.imageCarouselModelDataIsSetToURLs(imageCarouselModel, imageURLEvents)
 
         Then.observerIsNotifiedWithValue(expectedResultModels)
     }
@@ -78,14 +80,19 @@ class ImageCarouselModelSteps {
         return imageURLs.map( { url -> imageModelFactory.imageModel(url) } )
     }
 
+    fun imageURLEvents(imageURLs: List<URL>): Observable<List<URL>> {
+
+        return Observable.just(imageURLs)
+    }
+
     fun imageCarouselModelCreated(): ImageCarouselModelImp {
 
         return ImageCarouselModelImp(imageModelFactory)
     }
 
-    fun imageCarouselModelDataIsSetToURLs(imageCarouselsModel: ImageCarouselModelImp, imageURLs: List<URL>) {
+    fun imageCarouselModelDataIsSetToURLs(imageCarouselsModel: ImageCarouselModelImp, imageURLEvents: Observable<List<URL>>) {
 
-        imageCarouselsModel.setResults(imageURLs)
+        imageCarouselsModel.results = imageURLEvents
     }
 
     fun observeSearchResults(model: ImageCarouselModelImp): Disposable {
