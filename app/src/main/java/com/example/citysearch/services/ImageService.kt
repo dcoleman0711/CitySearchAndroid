@@ -27,9 +27,10 @@ interface ImageService {
  *
  * Uses OkHttp and RxSchedulers
  */
-class ImageServiceImp(private val client: OkHttpClient,
-                      private val queue: Scheduler):
-    ImageService {
+class ImageServiceImp(
+    private val client: OkHttpClient,
+    private val queue: Scheduler
+): ImageService {
 
     constructor() : this(OkHttpClient.Builder().build(), Schedulers.io())
 
@@ -50,9 +51,7 @@ class ImageServiceImp(private val client: OkHttpClient,
 
     private fun parseResponse(response: Response): Bitmap {
 
-        val inputStream = response.body()?.byteStream()
-        if(inputStream == null)
-            throw IOException("Cannot parse empty response")
+        val inputStream = response.body()?.byteStream() ?: throw IOException("Cannot parse empty response")
 
         val bytes = inputStream.readBytes()
         val bufferedStream = ByteArrayInputStream(bytes)

@@ -19,10 +19,12 @@ interface SearchResultsModel {
     fun setResults(results: CitySearchResults)
 }
 
-class SearchResultsModelImp(private val modelFactory: CitySearchResultModelFactory, private val openDetailsCommandFactory: OpenDetailsCommandFactory):
-    SearchResultsModel {
+class SearchResultsModelImp(
+    private val modelFactory: CitySearchResultModelFactory,
+    private val openDetailsCommandFactory: OpenDetailsCommandFactory
+): SearchResultsModel {
 
-    override val resultsModels: BehaviorSubject<List<CitySearchResultModel>> = BehaviorSubject.create()
+    override val resultsModels = BehaviorSubject.create<List<CitySearchResultModel>>()
 
     constructor(openDetailsCommandFactory: OpenDetailsCommandFactory) : this(
         CitySearchResultModelFactoryImp(), openDetailsCommandFactory)

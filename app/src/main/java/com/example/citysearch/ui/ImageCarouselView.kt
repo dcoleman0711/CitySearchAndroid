@@ -20,17 +20,23 @@ interface ImageCarouselView {
     val view: View
 }
 
-class ImageCarouselViewImp(override val view: RecyclerView,
-                           private val viewModel: ImageCarouselViewModel,
-                           private val binder: RecyclerViewBinder<AsyncImageViewModel, AsyncImageCell>):
-    ImageCarouselView {
+class ImageCarouselViewImp(
+    override val view: RecyclerView,
+    private val viewModel: ImageCarouselViewModel,
+    private val binder: RecyclerViewBinder<AsyncImageViewModel, AsyncImageCell>
+): ImageCarouselView {
 
     private lateinit var cellsBinding: Disposable
 
-    constructor(context: Context,
-                view: RecyclerView,
-                viewModel: ImageCarouselViewModel
-    ) : this(view, viewModel, RecyclerViewBinderImp<AsyncImageViewModel, AsyncImageCell>(context, R.layout.asyncimagecell, ::AsyncImageCell))
+    constructor(
+        context: Context,
+        view: RecyclerView,
+        viewModel: ImageCarouselViewModel
+    ) : this(
+        view,
+        viewModel,
+        RecyclerViewBinderImp<AsyncImageViewModel, AsyncImageCell>(context, R.layout.asyncimagecell, ::AsyncImageCell)
+    )
 
     init {
 

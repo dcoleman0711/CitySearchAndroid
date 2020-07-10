@@ -17,7 +17,10 @@ import java.time.Duration
 /**
  * Implementation for the animation seen on the title screen
  */
-open class RollingAnimationLabel(context: Context, attributeSet: AttributeSet?): FrameLayout(context, attributeSet), Choreographer.FrameCallback {
+open class RollingAnimationLabel(
+    context: Context,
+    attributeSet: AttributeSet?
+): FrameLayout(context, attributeSet), Choreographer.FrameCallback {
 
     private var text: String = ""
     private var font: Font = Font(Typeface.DEFAULT, 12.0)

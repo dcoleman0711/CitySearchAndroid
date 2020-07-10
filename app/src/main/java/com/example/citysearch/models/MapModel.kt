@@ -17,10 +17,5 @@ interface MapModel {
 class MapModelImp(private val searchResult: CitySearchResult):
     MapModel {
 
-    override val geoCoordinates: Observable<GeoPoint>
-
-    init {
-
-        geoCoordinates = Observable.just(searchResult.location)
-    }
+    override val geoCoordinates = Observable.just(searchResult.location)
 }

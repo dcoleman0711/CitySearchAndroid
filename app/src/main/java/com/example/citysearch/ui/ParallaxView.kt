@@ -23,12 +23,12 @@ interface ParallaxView {
     val view: View
 }
 
-class ParallaxViewImp(override val view: ConstraintLayout,
-                      private val viewModel: ParallaxViewModel,
-                      private val viewFactory: ViewFactory,
-                      private val constraintSetFactory: ConstraintSetFactory
-):
-    ParallaxView {
+class ParallaxViewImp(
+    override val view: ConstraintLayout,
+    private val viewModel: ParallaxViewModel,
+    private val viewFactory: ViewFactory,
+    private val constraintSetFactory: ConstraintSetFactory
+): ParallaxView {
 
     private lateinit var imagesBindings: Disposable
     private lateinit var offsetsBindings: Disposable

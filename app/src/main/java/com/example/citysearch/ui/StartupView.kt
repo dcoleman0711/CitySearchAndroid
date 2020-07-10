@@ -16,9 +16,10 @@ interface StartupView {
     val view: View
 }
 
-class StartupViewImp(override val view: View,
-                     private val viewModel: StartupViewModel,
-                     private val appTitleLabel: RollingAnimationLabel
+class StartupViewImp(
+    override val view: View,
+    private val viewModel: StartupViewModel,
+    private val appTitleLabel: RollingAnimationLabel
 ): StartupView {
 
 

@@ -25,15 +25,16 @@ interface MapView {
     val view: View
 }
 
-class MapViewImp(override val view: ConstraintLayout,
-                 private val backgroundImageView: ImageView,
-                 private val markerImageView: ImageView,
-                 private val placeholder: Placeholder,
-                 private val binder: ViewBinder,
-                 private val viewModel: MapViewModel,
-                 private val constraintSetFactory: ConstraintSetFactory,
-                 private val measureConverter: MeasureConverter):
-    MapView {
+class MapViewImp(
+    override val view: ConstraintLayout,
+    private val backgroundImageView: ImageView,
+    private val markerImageView: ImageView,
+    private val placeholder: Placeholder,
+    private val binder: ViewBinder,
+    private val viewModel: MapViewModel,
+    private val constraintSetFactory: ConstraintSetFactory,
+    private val measureConverter: MeasureConverter
+): MapView {
 
     constructor(context: Context, view: ConstraintLayout, viewModel: MapViewModel): this(
         view,

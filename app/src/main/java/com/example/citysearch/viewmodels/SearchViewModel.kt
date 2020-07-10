@@ -10,8 +10,11 @@ import com.example.citysearch.models.SearchModel
  */
 interface SearchViewModel
 
-class SearchViewModelImp(private val model: SearchModel, private val parallaxViewModel: ParallaxViewModel, private val searchResultsViewModel: SearchResultsViewModel): SearchViewModel,
-    ViewModel() {
+class SearchViewModelImp(
+    private val model: SearchModel, // Held on this class to keep it alive
+    private val parallaxViewModel: ParallaxViewModel,
+    private val searchResultsViewModel: SearchResultsViewModel
+): SearchViewModel, ViewModel() {
 
     init {
 

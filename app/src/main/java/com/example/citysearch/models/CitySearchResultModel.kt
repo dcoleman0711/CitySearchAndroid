@@ -18,25 +18,19 @@ interface CitySearchResultModel {
     val openDetailsCommand: OpenDetailsCommand
 }
 
-class CitySearchResultModelImp(searchResult: CitySearchResult, openDetailsCommandFactory: OpenDetailsCommandFactory):
-    CitySearchResultModel {
+class CitySearchResultModelImp(
+    searchResult: CitySearchResult,
+    openDetailsCommandFactory: OpenDetailsCommandFactory
+): CitySearchResultModel {
 
-    override val title: Observable<String>
-    override val populationClass: Observable<PopulationClass>
-
-    override val openDetailsCommand: OpenDetailsCommand
-
-    init {
-
-        title = Observable.just(searchResult.nameAndState)
-        populationClass = Observable.just(
-            populationClass(
-                searchResult.population
-            )
+    override val title = Observable.just(searchResult.nameAndState)
+    override val populationClass = Observable.just(
+        populationClass(
+            searchResult.population
         )
+    )
 
-        openDetailsCommand = openDetailsCommandFactory.openDetailsCommand(searchResult)
-    }
+    override val openDetailsCommand = openDetailsCommandFactory.openDetailsCommand(searchResult)
 
     companion object {
 
@@ -54,8 +48,10 @@ class CitySearchResultModelImp(searchResult: CitySearchResult, openDetailsComman
     }
 }
 
-// PopulationClass is basically a beefed up enum.  There are four "cases", each of which is implemented as a concrete subtype.
-// The Visitor pattern is used to extend the polymorphic structure (i.e. provide additional functions that vary with the 4 subclasses)
+// PopulationClass is basically a beefed up enum.  There are four "cases",
+// each of which is implemented as a concrete subtype.
+// The Visitor pattern is used to extend the polymorphic structure
+// (i.e. provide additional functions that vary with the 4 subclasses)
 interface PopulationClass {
 
     val range: IntRange
@@ -75,7 +71,10 @@ class PopulationClassSmall: PopulationClass {
 
     override val range: IntRange = IntRange(0, 9999)
 
-    override fun<T, V: PopulationClassVisitor<T>> accept(visitor: V): T { return visitor.visitSmall(this) }
+    override fun<T, V: PopulationClassVisitor<T>> accept(visitor: V): T {
+
+        return visitor.visitSmall(this)
+    }
 
     override fun equals(other: Any?): Boolean {
 
@@ -92,7 +91,10 @@ class PopulationClassMedium: PopulationClass {
 
     override val range: IntRange = IntRange(10000, 99999)
 
-    override fun<T, V: PopulationClassVisitor<T>> accept(visitor: V): T { return visitor.visitMedium(this) }
+    override fun<T, V: PopulationClassVisitor<T>> accept(visitor: V): T {
+
+        return visitor.visitMedium(this)
+    }
 
     override fun equals(other: Any?): Boolean {
 
@@ -109,7 +111,10 @@ class PopulationClassLarge: PopulationClass {
 
     override val range: IntRange = IntRange(100000, 999999)
 
-    override fun<T, V: PopulationClassVisitor<T>> accept(visitor: V): T { return visitor.visitLarge(this) }
+    override fun<T, V: PopulationClassVisitor<T>> accept(visitor: V): T {
+
+        return visitor.visitLarge(this)
+    }
 
     override fun equals(other: Any?): Boolean {
 
@@ -126,7 +131,10 @@ class PopulationClassVeryLarge: PopulationClass {
 
     override val range: IntRange = IntRange(1000000, Int.MAX_VALUE)
 
-    override fun<T, V: PopulationClassVisitor<T>> accept(visitor: V): T { return visitor.visitVeryLarge(this) }
+    override fun<T, V: PopulationClassVisitor<T>> accept(visitor: V): T {
+
+        return visitor.visitVeryLarge(this)
+    }
 
     override fun equals(other: Any?): Boolean {
 

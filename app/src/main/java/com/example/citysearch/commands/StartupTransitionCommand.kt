@@ -17,9 +17,10 @@ interface StartupTransitionCommand {
  *
  * Handles creating the search fragment and handling the fragment transactions
  */
-class StartupTransitionCommandImp(private val fragmentManager: FragmentManager,
-                                  private val searchResultsModelFactory: SearchResultsModelFactory,
-                                  private val searchFragmentFactory: SearchFragmentFactory
+class StartupTransitionCommandImp(
+    private val fragmentManager: FragmentManager,
+    private val searchResultsModelFactory: SearchResultsModelFactory,
+    private val searchFragmentFactory: SearchFragmentFactory
 ): StartupTransitionCommand {
 
     constructor(fragmentManager: FragmentManager):

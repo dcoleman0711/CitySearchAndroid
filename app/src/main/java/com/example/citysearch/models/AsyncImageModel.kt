@@ -18,8 +18,10 @@ interface AsyncImageModel {
     val image: Observable<Bitmap>
 }
 
-class AsyncImageModelImp(context: Context, imageURL: URL, imageService: ImageService):
-    AsyncImageModel {
+class AsyncImageModelImp(
+    context: Context, imageURL:
+    URL, imageService: ImageService
+): AsyncImageModel {
 
     override val image: ConnectableObservable<Bitmap>
 

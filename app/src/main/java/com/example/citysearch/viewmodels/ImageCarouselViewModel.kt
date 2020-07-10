@@ -15,9 +15,12 @@ import io.reactivex.schedulers.Schedulers
 import java.util.*
 
 /**
- * ViewModel for ImageCarousel MVVM.  Handles conversion of the the model's list of cell models into a RecyclerViewModel.
+ * ViewModel for ImageCarousel MVVM.
  *
- * Since the loading of one cell's image alter's the size of the associated cell, the view-model needs to ensure that an updated RecyclerViewModel is published
+ * Handles conversion of the the model's list of cell models into a RecyclerViewModel.
+ *
+ * Since the loading of one cell's image alter's the size of the associated cell, t
+ * he view-model needs to ensure that an updated RecyclerViewModel is published
  * every time either the cells themselves change, or any of their images loads
  */
 interface ImageCarouselViewModel {
@@ -25,10 +28,12 @@ interface ImageCarouselViewModel {
     val results: Observable<RecyclerViewModel<AsyncImageViewModel>>
 }
 
-class ImageCarouselViewModelImp(private val model: ImageCarouselModel,
-                                private val viewModelFactory: AsyncImageViewModelFactory,
-                                private val workQueue: Scheduler,
-                                private val resultsQueue: Scheduler): ImageCarouselViewModel, ViewModel() {
+class ImageCarouselViewModelImp(
+    private val model: ImageCarouselModel,
+    private val viewModelFactory: AsyncImageViewModelFactory,
+    private val workQueue: Scheduler,
+    private val resultsQueue: Scheduler
+): ImageCarouselViewModel, ViewModel() {
 
     constructor(model: ImageCarouselModel) : this(model,
         AsyncImageViewModelFactoryImp(), Schedulers.computation(), AndroidSchedulers.mainThread())
@@ -39,28 +44,38 @@ class ImageCarouselViewModelImp(private val model: ImageCarouselModel,
 
     init {
 
-        // The recycler view should update when the results list is published, and each time any of the images loads, in order to resize the cell for the loaded image.
-        // A cell should be square until its image is loaded, and then it should resize to have the same aspect ratio as its image.
-        // To do this, we take each cell model's image observable, map it to an *optional* image observable and merge it with an immediately published "null".
-        // We want to publish a new view model to the recycler view on every image load, so we use combineLatest,
-        // which publishes an event every time *any* of the image observables publishes a new event.
-        // combineLatest will only publish an event after every input stream has published at least one event.
+        // The recycler view should update when the results list is published,
+        // and each time any of the images loads,
+        // in order to resize the cell for the loaded image.
+        // A cell should be square until its image is loaded,
+        // and then it should resize to have the same aspect ratio as its image.
+        // To do this, we take each cell model's image observable,
+        // map it to an *optional* image observable and merge it with an immediately published "null".
+        // We want to publish a new view model to the recycler view on every image load,
+        // so we use combineLatest, which publishes an event every time *any* of the
+        // image observables publishes a new event.
+        // combineLatest will only publish an event after every input stream has published
+        // at least one event.
         // But since every image stream is prepended with an immediately published "null",
         // combineLatest will publish an event combining all these "null"s immediately.
-        // This event is the initial recycler view load, where it knows how many cells to display, but no images are loaded yet,
+        // This event is the initial recycler view load, where it knows how many cells to display,
+        // but no images are loaded yet,
         // and all displayed cells will be "loading" cells
         results = model.resultsModels.flatMap { resultModels: List<AsyncImageModel> ->
 
             val cellDataUpdates = resultModels.map { resultModel ->
 
-                val imageEvents = Observable.merge(Observable.just(Optional.empty()), resultModel.image.map { image -> Optional.of(image) } )
+                Observable
+                    .merge(
+                        Observable.just(Optional.empty()),
+                        resultModel.image
+                            .map { image -> Optional.of(image) }
+                    )
                     .subscribeOn(workQueue)
+                    .map { image ->
 
-                imageEvents.map { image ->
-
-                    cellData(resultModel, image.toNullable())
-
-                }
+                        cellData(resultModel, image.toNullable())
+                    }
             }
 
             Observable.combineLatest(cellDataUpdates) { cellData ->
@@ -76,7 +91,10 @@ class ImageCarouselViewModelImp(private val model: ImageCarouselModel,
         }.observeOn(resultsQueue)
     }
 
-    private fun cellData(resultModel: AsyncImageModel, image: Bitmap?): CellData<AsyncImageViewModel> {
+    private fun cellData(
+        resultModel: AsyncImageModel,
+        image: Bitmap?
+    ): CellData<AsyncImageViewModel> {
 
         return CellData(
             viewModelFactory.viewModel(

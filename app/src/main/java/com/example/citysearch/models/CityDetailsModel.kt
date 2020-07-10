@@ -20,14 +20,15 @@ interface CityDetailsModel {
     val loading: Observable<Boolean>
 }
 
-class CityDetailsModelImp(private val searchResult: CitySearchResult,
-                          private val imageCarouselModel: ImageCarouselModel,
-                          private val imageSearchService: ImageSearchService,
-                          private val resultsQueue: Scheduler):
-    CityDetailsModel {
+class CityDetailsModelImp(
+    private val searchResult: CitySearchResult,
+    private val imageCarouselModel: ImageCarouselModel,
+    private val imageSearchService: ImageSearchService,
+    private val resultsQueue: Scheduler
+): CityDetailsModel {
 
-    override val title: Observable<String>
-    override val population: Observable<Int>
+    override val title = Observable.just(searchResult.nameAndState)
+    override val population = Observable.just(searchResult.population)
     override val loading: Observable<Boolean>
 
     private val maxImageResults = 20
@@ -36,9 +37,6 @@ class CityDetailsModelImp(private val searchResult: CitySearchResult,
         ImageSearchServiceImp(), Schedulers.computation())
 
     init {
-
-        title = Observable.just(searchResult.nameAndState)
-        population = Observable.just(searchResult.population)
 
         val imageSearch = imageSearchService.imageSearch(searchResult.nameAndState)
         val imageURLEvents = imageSearch.map { results ->

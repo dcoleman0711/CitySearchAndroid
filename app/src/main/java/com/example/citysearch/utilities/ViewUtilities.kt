@@ -16,12 +16,23 @@ class ViewUtilities {
          */
         fun intrinsicSize(view: View): Size {
 
-            val currentMeasuredWidth = view.getMeasuredWidth()
-            val currentMeasuredHeight = view.getMeasuredHeight()
+            val currentMeasuredWidth = view.measuredWidth
+            val currentMeasuredHeight = view.measuredHeight
 
-            view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
+            view.measure(
+                View.MeasureSpec.makeMeasureSpec(
+                    0,
+                    View.MeasureSpec.UNSPECIFIED
+                ), View.MeasureSpec.makeMeasureSpec(
+                    0,
+                    View.MeasureSpec.UNSPECIFIED
+                )
+            )
 
-            val result = Size(View.MeasureSpec.getSize(view.measuredWidth), View.MeasureSpec.getSize(view.measuredHeight))
+            val result = Size(
+                View.MeasureSpec.getSize(view.measuredWidth),
+                View.MeasureSpec.getSize(view.measuredHeight)
+            )
 
             view.measure(currentMeasuredWidth, currentMeasuredHeight)
 

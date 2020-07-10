@@ -17,8 +17,10 @@ interface AsyncImageViewModel {
     val image: Observable<Optional<Bitmap>>
 }
 
-class AsyncImageViewModelImp(private val model: AsyncImageModel, private val resultsQueue: Scheduler):
-    AsyncImageViewModel {
+class AsyncImageViewModelImp(
+    private val model: AsyncImageModel,
+    private val resultsQueue: Scheduler
+): AsyncImageViewModel {
 
     constructor(model: AsyncImageModel) : this(model, AndroidSchedulers.mainThread())
 

@@ -1,6 +1,5 @@
 package com.example.citysearch.viewmodels
 
-import android.graphics.Typeface
 import com.example.citysearch.utilities.Font
 
 /**
@@ -9,13 +8,4 @@ import com.example.citysearch.utilities.Font
  * @property text The text to display
  * @property font The font to use for the displayed text
  */
-data class TextViewModel(val text: String, val font: Font) {
-
-    companion object {
-
-        val emptyData = TextViewModel(
-            "",
-            Font(Typeface.DEFAULT, 12.0)
-        )
-    }
-}
+data class TextViewModel(val text: String, val font: Font)

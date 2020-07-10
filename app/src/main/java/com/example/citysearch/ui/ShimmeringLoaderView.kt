@@ -21,8 +21,10 @@ interface ShimmeringLoaderView {
 /**
  * Implements the loading effect seen on the image carousel
  */
-class ShimmeringLoaderViewImp(override val view: View,
-                              private val choreographer: ChoreographerWrapper): ShimmeringLoaderView, Choreographer.FrameCallback {
+class ShimmeringLoaderViewImp(
+    override val view: View,
+    private val choreographer: ChoreographerWrapper
+): ShimmeringLoaderView, Choreographer.FrameCallback {
 
     constructor(view: View) : this(view, ChoreographerWrapperImp())
 

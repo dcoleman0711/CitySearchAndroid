@@ -14,10 +14,11 @@ import io.reactivex.disposables.Disposable
  *
  * Displays a single image in its full bounds
  */
-class AsyncImageCell(override val view: ConstraintLayout,
-                     private val imageView: ImageView,
-                     private val binder: ViewBinder):
-    RecyclerCell<AsyncImageViewModel> {
+class AsyncImageCell(
+    override val view: ConstraintLayout,
+    private val imageView: ImageView,
+    private val binder: ViewBinder
+): RecyclerCell<AsyncImageViewModel> {
 
     override var viewModel: AsyncImageViewModel? = null
         set(value) {

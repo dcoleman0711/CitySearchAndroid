@@ -18,7 +18,11 @@ interface CellTapCommand {
  * @property size The size of the cell
  * @property tapCommand The command invoked when the cell is tapped
  */
-data class CellData<ViewModel>(val viewModel: ViewModel, val size: Size, val tapCommand: CellTapCommand?) {
+data class CellData<ViewModel>(
+    val viewModel: ViewModel,
+    val size: Size,
+    val tapCommand: CellTapCommand?
+) {
 
     override fun hashCode(): Int {
 
@@ -27,9 +31,7 @@ data class CellData<ViewModel>(val viewModel: ViewModel, val size: Size, val tap
 
     override fun equals(other: Any?): Boolean {
 
-        val otherCellData = other as? CellData<*>
-        if(otherCellData == null)
-            return false;
+        val otherCellData = other as? CellData<*> ?: return false
 
         return viewModel == otherCellData.viewModel &&
                 size == otherCellData.size
@@ -45,4 +47,9 @@ data class CellData<ViewModel>(val viewModel: ViewModel, val size: Size, val tap
  * @property verSpacing The vertical spacing between adjacent rows
  * @property horMargins The horizontal spacing between the first column and the left edge, and the last column and the right edge
  */
-data class RecyclerViewModel<ViewModel>(val cells: List<CellData<ViewModel>>, val horSpacing: Int, val verSpacing: Int, val horMargins: Int = 0)
+data class RecyclerViewModel<ViewModel>(
+    val cells: List<CellData<ViewModel>>,
+    val horSpacing: Int,
+    val verSpacing: Int,
+    val horMargins: Int = 0
+)

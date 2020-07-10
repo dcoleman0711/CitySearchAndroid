@@ -13,7 +13,11 @@ import io.reactivex.schedulers.Schedulers
  */
 interface SearchModel
 
-class SearchModelImp(private val context: Context, private val parallaxModel: ParallaxModel, private val searchResultsModel: SearchResultsModel):
+class SearchModelImp(
+    private val context: Context,
+    private val parallaxModel: ParallaxModel,
+    private val searchResultsModel: SearchResultsModel // Held on this class to keep it alive
+):
     SearchModel {
 
     private var subscription: Disposable?

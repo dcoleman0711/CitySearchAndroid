@@ -15,11 +15,12 @@ import io.reactivex.disposables.Disposable
  *
  * Handles binding to the view-model
  */
-class CitySearchResultCell(override val view: ConstraintLayout,
-                           private val titleLabel: TextView,
-                           private val imageView: ImageView,
-                           private val binder: ViewBinder):
-    RecyclerCell<CitySearchResultViewModel> {
+class CitySearchResultCell(
+    override val view: ConstraintLayout,
+    private val titleLabel: TextView,
+    private val imageView: ImageView,
+    private val binder: ViewBinder
+): RecyclerCell<CitySearchResultViewModel> {
 
     constructor(view: View) : this(view as ConstraintLayout)
 

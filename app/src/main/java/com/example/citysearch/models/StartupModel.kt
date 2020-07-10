@@ -27,12 +27,13 @@ interface StartupModel {
     fun startTransitionTimer()
 }
 
-class StartupModelImp(private val transitionCommand: StartupTransitionCommand,
-                      private val searchService: CitySearchService,
-                      private val observableFactory: ObservableFactory,
-                      private val workScheduler: Scheduler,
-                      private val invocationScheduler: Scheduler):
-    StartupModel {
+class StartupModelImp(
+    private val transitionCommand: StartupTransitionCommand,
+    private val searchService: CitySearchService,
+    private val observableFactory: ObservableFactory,
+    private val workScheduler: Scheduler,
+    private val invocationScheduler: Scheduler
+): StartupModel {
 
     constructor(transitionCommand: StartupTransitionCommand, searchService: CitySearchService) : this(
         transitionCommand,
@@ -49,7 +50,11 @@ class StartupModelImp(private val transitionCommand: StartupTransitionCommand,
 
         val timer = observableFactory.timer(4, TimeUnit.SECONDS, workScheduler)
 
-        val beginTransitionEvents = zip(initialResults, timer, BiFunction<CitySearchResults, Long, CitySearchResults> { initialResults, _ -> initialResults })
+        val beginTransitionEvents = zip(
+            initialResults,
+            timer,
+            BiFunction<CitySearchResults, Long, CitySearchResults> { initialResults, _ -> initialResults }
+        )
 
         subscriber = beginTransitionEvents
             .subscribeOn(workScheduler)

@@ -15,12 +15,9 @@ interface SearchView {
     val view: View
 }
 
-class SearchViewImp(override val view: ConstraintLayout,
-                    private val viewModel: SearchViewModel,
-                    private val searchResultsView: SearchResultsView,
-                    private val parallaxView: ParallaxView
-):
-    SearchView {
-
-
-}
+class SearchViewImp(
+    override val view: ConstraintLayout,
+    private val viewModel: SearchViewModel, // Held on this class to keep it alive
+    private val searchResultsView: SearchResultsView, // Held on this class to keep it alive
+    private val parallaxView: ParallaxView // Held on this class to keep it alive
+): SearchView

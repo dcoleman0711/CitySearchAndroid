@@ -19,21 +19,36 @@ import io.reactivex.disposables.Disposable
  */
 interface  RecyclerViewBinder<ViewModel, CellType: RecyclerCell<ViewModel>> {
 
-    fun bindCells(view: RecyclerView, viewModelUpdates: Observable<RecyclerViewModel<ViewModel>>): Disposable
+    fun bindCells(
+        view: RecyclerView,
+        viewModelUpdates: Observable<RecyclerViewModel<ViewModel>>
+    ): Disposable
 }
 
-class RecyclerViewBinderImp<ViewModel, CellType: RecyclerCell<ViewModel>>(private val cellConstructor: (Context) -> CellType,
-                                                                          private val measureConverter: MeasureConverter): RecyclerViewBinder<ViewModel, CellType> {
+class RecyclerViewBinderImp<ViewModel, CellType: RecyclerCell<ViewModel>>(
+    private val cellConstructor: (Context) -> CellType,
+    private val measureConverter: MeasureConverter
+): RecyclerViewBinder<ViewModel, CellType> {
 
-    constructor(context: Context, constructor: (Context) -> CellType) : this(constructor, MeasureConverterImp(context))
+    constructor(
+        context: Context,
+        constructor: (Context) -> CellType
+    ) : this(constructor, MeasureConverterImp(context))
 
-    constructor(context: Context, layout: Int, cellConstructor: (View) -> CellType) : this(context, { ctx ->
+    constructor(
+        context: Context,
+        layout: Int,
+        cellConstructor: (View) -> CellType
+    ) : this(context, { ctx ->
 
         val view = LayoutInflater.from(ctx).inflate(layout, null)
         cellConstructor(view)
     })
 
-    override fun bindCells(view: RecyclerView, viewModelUpdates: Observable<RecyclerViewModel<ViewModel>>): Disposable {
+    override fun bindCells(
+        view: RecyclerView,
+        viewModelUpdates: Observable<RecyclerViewModel<ViewModel>>
+    ): Disposable {
 
         val adapter = RecyclerViewBindingAdapter(cellConstructor, measureConverter)
         view.adapter = adapter
@@ -43,7 +58,13 @@ class RecyclerViewBinderImp<ViewModel, CellType: RecyclerCell<ViewModel>>(privat
             for(decIndex in 0 until view.itemDecorationCount)
                 view.removeItemDecorationAt(decIndex)
 
-            val spacingDecoration = SpacingDecoration(viewModel.horSpacing, viewModel.verSpacing, viewModel.horMargins, measureConverter)
+            val spacingDecoration = SpacingDecoration(
+                viewModel.horSpacing,
+                viewModel.verSpacing,
+                viewModel.horMargins,
+                measureConverter
+            )
+
             view.addItemDecoration(spacingDecoration)
 
             adapter.submitList(viewModel.cells)
@@ -55,9 +76,10 @@ class RecyclerViewBinderImp<ViewModel, CellType: RecyclerCell<ViewModel>>(privat
     }
 }
 
-open class RecyclerViewBindingAdapter<ViewModel, CellType: RecyclerCell<ViewModel>>(private val constructor: (Context) -> CellType,
-                                                                                                                                 private val measureConverter: MeasureConverter):
-    ListAdapter<CellData<ViewModel>, RecyclerViewBindingAdapter<ViewModel, CellType>.CellHolder>(ItemCallBack()) {
+open class RecyclerViewBindingAdapter<ViewModel, CellType: RecyclerCell<ViewModel>>(
+    private val constructor: (Context) -> CellType,
+    private val measureConverter: MeasureConverter
+): ListAdapter<CellData<ViewModel>, RecyclerViewBindingAdapter<ViewModel, CellType>.CellHolder>(ItemCallBack()) {
 
     inner class CellHolder(val cell: RecyclerCell<ViewModel>): RecyclerView.ViewHolder(cell.view)
 
@@ -105,10 +127,12 @@ open class RecyclerViewBindingAdapter<ViewModel, CellType: RecyclerCell<ViewMode
     }
 }
 
-class SpacingDecoration(private val horSpacing: Int,
-                        private val verSpacing: Int,
-                        private val horMargins: Int,
-                        private val measureConverter: MeasureConverter): RecyclerView.ItemDecoration() {
+class SpacingDecoration(
+    private val horSpacing: Int,
+    private val verSpacing: Int,
+    private val horMargins: Int,
+    private val measureConverter: MeasureConverter
+): RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(
         outRect: Rect,

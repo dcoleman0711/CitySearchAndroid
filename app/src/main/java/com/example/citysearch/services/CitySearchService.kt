@@ -32,6 +32,7 @@ interface CitySearchService {
  *
  * @property objectId The unique identifier in the database for the country
  */
+@SuppressWarnings("unused")
 data class CountryFilter(val objectId: String) {
 
     companion object {
@@ -40,6 +41,7 @@ data class CountryFilter(val objectId: String) {
             CountryFilter("BXkZTl2omc")
     }
 
+    // Despite the appearance, these are used, through reflection (JSON encoding)
     val __type = "Pointer"
     val className = "Continentscountriescities_Country"
 }

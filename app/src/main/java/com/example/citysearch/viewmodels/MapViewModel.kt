@@ -30,8 +30,9 @@ interface MapViewModel {
     val markerFrame: Observable<Rect>
 }
 
-class MapViewModelImp(context: Context,
-                      private val model: MapModel
+class MapViewModelImp(
+    context: Context,
+    private val model: MapModel
 ): MapViewModel, ViewModel() {
 
     override val backgroundImage: Observable<Optional<Bitmap>>
@@ -56,8 +57,16 @@ class MapViewModelImp(context: Context,
         val xPercent = ((geoCoordinates.longitude / 360.0) + 0.5).rem(1.0)
         val yPercent = 1.0 - (geoCoordinates.latitude + 90.0) / 180.0
 
-        val position = Point((xPercent * MapViewModel.resolution).toInt(), (yPercent * MapViewModel.resolution).toInt())
+        val position = Point(
+            (xPercent * MapViewModel.resolution).toInt(),
+            (yPercent * MapViewModel.resolution).toInt()
+        )
 
-        return Rect(position.x, position.y, position.x + markerSize.width, position.y + markerSize.height)
+        return Rect(
+            position.x,
+            position.y,
+            position.x + markerSize.width,
+            position.y + markerSize.height
+        )
     }
 }

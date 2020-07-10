@@ -8,7 +8,12 @@ package com.example.citysearch.entities
  * @property location GeoPoint structure for the location on Earth of the city
  * @property adminCode Admin code for the city.  For U.S. cities, this is the two letter abbreviation for state
  */
-data class CitySearchResult(val name: String, val population: Int, val location: GeoPoint, val adminCode: String) {
+data class CitySearchResult(
+    val name: String,
+    val population: Int,
+    val location: GeoPoint,
+    val adminCode: String
+) {
 
     val nameAndState: String get() = "${name}, ${adminCode}"
 }
@@ -18,4 +23,7 @@ data class CitySearchResult(val name: String, val population: Int, val location:
  * @property latitude The latitute, in degrees
  * @property longitude The longitude, in degrees
  */
-data class GeoPoint(val latitude: Double, val longitude: Double)
+data class GeoPoint(
+    val latitude: Double,
+    val longitude: Double
+)

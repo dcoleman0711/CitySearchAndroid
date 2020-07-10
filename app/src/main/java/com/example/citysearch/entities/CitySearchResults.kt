@@ -5,7 +5,9 @@ package com.example.citysearch.entities
  *
  * @property results The list of cities returned by the search
  */
-data class CitySearchResults(val results: List<CitySearchResult>) {
+data class CitySearchResults(
+    val results: List<CitySearchResult>
+) {
 
     companion object {
 

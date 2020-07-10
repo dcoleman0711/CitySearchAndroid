@@ -9,7 +9,10 @@ import com.example.citysearch.viewmodels.SearchResultsViewModelImp
 /**
  * JetPack factory for SearchResultsViewModel, to support passing in the context and a model
  */
-class SearchResultsViewModelFactory(private val context: Context, private val model: SearchResultsModel): ViewModelProvider.Factory {
+class SearchResultsViewModelFactory(
+    private val context: Context,
+    private val model: SearchResultsModel
+): ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {

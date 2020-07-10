@@ -42,7 +42,7 @@ class ImageCarouselModelImp(modelFactory: AsyncImageModelFactory):
     init {
 
         resultsModels = resultsStreams.switchMap { resultsStream ->
-            resultsStream.map { results ->
+            resultsStream.map { results: List<URL> ->
                 results.map { url ->
                     modelFactory.imageModel(url)
                 }

@@ -5,11 +5,15 @@ package com.example.citysearch.entities
  *
  * @property images_results The list of images returned by the search
  */
-data class ImageSearchResults(val images_results: List<ImageSearchResult>)
+data class ImageSearchResults(
+    val images_results: List<ImageSearchResult>
+)
 
 /**
  * Data class for an image search result entity. (JSON codable)
  *
  * @property original The original image URL
  */
-data class ImageSearchResult(val original: String?)
+data class ImageSearchResult(
+    val original: String?
+)

@@ -24,12 +24,7 @@ interface ParallaxModel {
 
 class ParallaxModelImp: ParallaxModel {
 
-    override val layers: BehaviorSubject<List<ParallaxLayer>>
-
-    init {
-
-        layers = BehaviorSubject.create()
-    }
+    override val layers = BehaviorSubject.create<List<ParallaxLayer>>()
 
     override fun setLayers(layers: List<ParallaxLayer>) {
 

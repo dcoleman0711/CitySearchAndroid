@@ -10,9 +10,10 @@ import com.example.citysearch.viewmodels.SearchViewModelImp
 /**
  * JetPack factory for SearchViewModel, to support passing in the model and child view-models
  */
-class SearchViewModelFactory(private val model: SearchModel,
-                             private val parallaxViewModel: ParallaxViewModel,
-                             private val searchResultsViewModel: SearchResultsViewModel
+class SearchViewModelFactory(
+    private val model: SearchModel,
+    private val parallaxViewModel: ParallaxViewModel,
+    private val searchResultsViewModel: SearchResultsViewModel
 ): ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")

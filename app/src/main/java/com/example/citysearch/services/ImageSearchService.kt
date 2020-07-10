@@ -30,8 +30,10 @@ interface ImageSearchService {
  *
  * Uses OkHttp and Rx Schedulers
  */
-class ImageSearchServiceImp(private val client: OkHttpClient,
-                            private val queue: Scheduler):
+class ImageSearchServiceImp(
+    private val client: OkHttpClient,
+    private val queue: Scheduler
+):
     ImageSearchService {
 
     constructor() : this(OkHttpClient.Builder().build(), Schedulers.io())

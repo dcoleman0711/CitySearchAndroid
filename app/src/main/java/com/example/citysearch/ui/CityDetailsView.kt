@@ -19,16 +19,18 @@ interface CityDetailsView {
     val view: View
 }
 
-open class CityDetailsViewImp(override val view: ConstraintLayout,
-                              private val titleLabel: TextView,
-                              private val populationTitleLabel: TextView,
-                              private val populationLabel: TextView,
-                              private val mapView: MapView,
-                              private val imageCarouselView: ImageCarouselView,
-                              private val shimmeringLoader: ShimmeringLoaderView,
-                              private val viewModel: CityDetailsViewModel,
-                              private val binder: ViewBinder):
-    CityDetailsView {
+@SuppressWarnings("unused")
+open class CityDetailsViewImp(
+    override val view: ConstraintLayout,
+    private val titleLabel: TextView,
+    private val populationTitleLabel: TextView,
+    private val populationLabel: TextView,
+    private val mapView: MapView, // Held as a member to keep it alive
+    private val imageCarouselView: ImageCarouselView, // Held as a member to keep it alive
+    private val shimmeringLoader: ShimmeringLoaderView,
+    private val viewModel: CityDetailsViewModel,
+    private val binder: ViewBinder
+): CityDetailsView {
 
     private lateinit var titleBinding: Disposable
     private lateinit var populationTitleBinding: Disposable

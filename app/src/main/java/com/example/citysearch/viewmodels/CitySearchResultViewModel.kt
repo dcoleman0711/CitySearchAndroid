@@ -21,8 +21,10 @@ interface CitySearchResultViewModel {
     val openDetailsCommand: OpenDetailsCommand
 }
 
-class CitySearchResultViewModelImp(context: Context, private val model: CitySearchResultModel):
-    CitySearchResultViewModel {
+class CitySearchResultViewModelImp(
+    context: Context,
+    private val model: CitySearchResultModel
+): CitySearchResultViewModel {
 
     override val title: Observable<TextViewModel>
     override val iconImage: Observable<Optional<Bitmap>>

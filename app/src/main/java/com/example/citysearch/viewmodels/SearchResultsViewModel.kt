@@ -23,14 +23,18 @@ interface SearchResultsViewModel {
 
     val contentOffset: Observable<Point>
 
-    // In a better world, the SDK components would be following something like MVVM too, and a RecyclerView would delegate state like its content offset to its view-model.  Then this view-model would own that as a child view-model.
-    // Unfortunately, almost all the time SDK components are all bundled together as a single class, so we have to delegate this from the view back to the view-model
+    // In a better world, the SDK components would be following something like MVVM too,
+    // and a RecyclerView would delegate state like its content offset to its view-model.
+    // Then this view-model would own that as a child view-model.
+    // Unfortunately, almost all the time SDK components are all bundled together as a single class,
+    // so we have to delegate this from the view back to the view-model
     fun provideContentOffset(contentOffset: Observable<Point>)
 }
 
-class SearchResultsViewModelImp(private val context: Context,
-                                private val model: SearchResultsModel,
-                                private val viewModelFactory: CitySearchResultViewModelFactory
+class SearchResultsViewModelImp(
+    private val context: Context,
+    private val model: SearchResultsModel, // Held on this class to keep it alive
+    private val viewModelFactory: CitySearchResultViewModelFactory
 ): SearchResultsViewModel, ViewModel() {
 
     override val resultsViewModels: Observable<RecyclerViewModel<CitySearchResultViewModel>>
@@ -70,6 +74,7 @@ class SearchResultsViewModelImp(private val context: Context,
     private fun cellDatum(model: CitySearchResultModel): CellData<CitySearchResultViewModel> {
 
         val viewModel = viewModelFactory.resultViewModel(context, model)
+
         return CellData(
             viewModel,
             cellSize,
@@ -77,7 +82,9 @@ class SearchResultsViewModelImp(private val context: Context,
         )
     }
 
-    private fun cellViewModel(cellData: List<CellData<CitySearchResultViewModel>>): RecyclerViewModel<CitySearchResultViewModel> {
+    private fun cellViewModel(
+        cellData: List<CellData<CitySearchResultViewModel>>
+    ): RecyclerViewModel<CitySearchResultViewModel> {
 
         return RecyclerViewModel(
             cells = cellData,

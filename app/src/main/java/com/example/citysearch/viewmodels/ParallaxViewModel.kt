@@ -25,8 +25,10 @@ interface ParallaxViewModel {
     var contentOffset: Observable<Point>?
 }
 
-class ParallaxViewModelImp(private val model: ParallaxModel,
-                           private val resultsQueue: Scheduler): ParallaxViewModel, ViewModel() {
+class ParallaxViewModelImp(
+    private val model: ParallaxModel,
+    private val resultsQueue: Scheduler
+): ParallaxViewModel, ViewModel() {
 
     constructor(model: ParallaxModel) : this(model, AndroidSchedulers.mainThread())
 
@@ -50,16 +52,28 @@ class ParallaxViewModelImp(private val model: ParallaxModel,
 
     init {
 
-        images = model.layers.map { layers -> layers.map { layer -> layer.image } }.observeOn(resultsQueue)
+        images = model.layers
+            .map { layers -> layers.map { layer -> layer.image } }.observeOn(resultsQueue)
+
         offsets = BehaviorSubject.create()
     }
 
     private fun createOffsetsPipe(contentOffset: Observable<Point>) {
 
-        // We subscribe and publish to a subject instead of just assigning the offsets observable directly, because changing the offsets observable (part of the public interface of this ViewModel class)
-        // would mean the subscribers to it are subscribed to an obsolete observable.  This way, subscribers can stay subscribed to a permanent observable and always receive the up-to-date event stream
-        // Another way to do this (see the Image Carousel model for an example) is to flat or switch-map an observable of observables
-        val offsetsEvents: Observable<List<Point>> = Observable.combineLatest(model.layers, contentOffset, BiFunction({ layers, offset -> offsets(layers, offset) }))
+        // We subscribe and publish to a subject instead of just assigning the offsets observable directly,
+        // because changing the offsets observable (part of the public interface of this ViewModel class)
+        // would mean the subscribers to it are subscribed to an obsolete observable.
+        // This way, subscribers can stay subscribed to a permanent observable and always receive
+        // the up-to-date event stream
+        // Another way to do this (see the Image Carousel model for an example)
+        // is to flat or switch-map an observable of observables
+
+        // Note that splitting this out and making the type explicit is to allow the compiler
+        // to deduce the generic types
+        val offsetsEvents: Observable<List<Point>> = Observable
+            .combineLatest(model.layers, contentOffset, BiFunction {
+                    layers, offset -> offsets(layers, offset)
+            })
 
         offsetsBinding = offsetsEvents
             .observeOn(resultsQueue)
@@ -68,6 +82,11 @@ class ParallaxViewModelImp(private val model: ParallaxModel,
 
     private fun offsets(layers: List<ParallaxLayer>, offset: Point): List<Point> {
 
-        return layers.map { layer -> Point((-offset.x.toFloat() / layer.distance).toInt(), (-offset.y.toFloat() / layer.distance).toInt()) }
+        return layers.map { layer ->
+            Point(
+                (-offset.x.toFloat() / layer.distance).toInt(),
+                (-offset.y.toFloat() / layer.distance).toInt()
+            )
+        }
     }
 }

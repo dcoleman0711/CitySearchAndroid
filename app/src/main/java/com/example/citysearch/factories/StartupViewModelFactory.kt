@@ -13,7 +13,9 @@ import com.example.citysearch.viewmodels.StartupViewModelImp
 /**
  * JetPack factory for StartupViewModel, to support passing in the context and fragment manager
  */
-class StartupViewModelFactory(private val fragmentManager: FragmentManager): ViewModelProvider.Factory {
+class StartupViewModelFactory(
+    private val fragmentManager: FragmentManager
+): ViewModelProvider.Factory {
 
     var transitionCommand: StartupTransitionCommand? = null
     var searchService: CitySearchService =

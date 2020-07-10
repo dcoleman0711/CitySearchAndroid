@@ -22,10 +22,13 @@ interface SearchResultsView {
     val view: View
 }
 
-class SearchResultsViewImp(context: Context, override val view: RecyclerView, private val viewModel: SearchResultsViewModel):
-    SearchResultsView {
+class SearchResultsViewImp(
+    context: Context,
+    override val view: RecyclerView,
+    private val viewModel: SearchResultsViewModel
+): SearchResultsView {
 
-    private val binder: RecyclerViewBinder<CitySearchResultViewModel, CitySearchResultCell> = RecyclerViewBinderImp(context, R.layout.citysearchresultcell, ::CitySearchResultCell)
+    private val binder = RecyclerViewBinderImp(context, R.layout.citysearchresultcell, ::CitySearchResultCell)
 
     private val recyclerViewBinding: Disposable
 

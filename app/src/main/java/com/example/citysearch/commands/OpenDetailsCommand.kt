@@ -15,11 +15,11 @@ interface OpenDetailsCommand: CellTapCommand
  *
  * Handles the necessary fragment transactions and creates the right details fragment
  */
-class OpenDetailsCommandImp(private val fragmentManager: FragmentManager,
-                            private val detailsFragmentFactory: CityDetailsFragmentFactory,
-                            private val searchResult: CitySearchResult
-):
-    OpenDetailsCommand {
+class OpenDetailsCommandImp(
+    private val fragmentManager: FragmentManager,
+    private val detailsFragmentFactory: CityDetailsFragmentFactory,
+    private val searchResult: CitySearchResult
+): OpenDetailsCommand {
 
     override fun invoke() {
 
