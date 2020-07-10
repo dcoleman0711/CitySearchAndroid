@@ -4,9 +4,9 @@ import android.content.Context
 import android.graphics.Bitmap
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.example.citysearch.details.imagecarousel.asyncimage.AsyncImageModel
-import com.example.citysearch.details.imagecarousel.asyncimage.AsyncImageViewModelFactory
-import com.example.citysearch.details.imagecarousel.asyncimage.AsyncImageViewModelImp
+import com.example.citysearch.models.AsyncImageModel
+import com.example.citysearch.factories.AsyncImageViewModelFactory
+import com.example.citysearch.viewmodels.AsyncImageViewModelImp
 import com.example.citysearch.utilities.ImageLoader
 import com.nhaarman.mockitokotlin2.mock
 import io.reactivex.Scheduler
@@ -115,7 +115,10 @@ class AsyncImageViewModelSteps(private val context: Context) {
 
     fun imageViewModelIsCreated(model: AsyncImageModel, resultsQueue: Scheduler = this.resultsQueue): AsyncImageViewModelImp {
 
-        return AsyncImageViewModelImp(model, resultsQueue)
+        return AsyncImageViewModelImp(
+            model,
+            resultsQueue
+        )
     }
 
     fun observeImage(viewModel: AsyncImageViewModelImp): Disposable {

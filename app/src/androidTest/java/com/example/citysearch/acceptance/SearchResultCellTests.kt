@@ -12,13 +12,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.citysearch.R
-import com.example.citysearch.data.CitySearchResult
+import com.example.citysearch.entities.CitySearchResult
 import com.example.citysearch.reactive.ViewBinderImp
-import com.example.citysearch.search.OpenDetailsCommand
-import com.example.citysearch.search.OpenDetailsCommandFactory
-import com.example.citysearch.search.searchresults.citysearchresultcell.CitySearchResultCell
-import com.example.citysearch.search.searchresults.citysearchresultcell.CitySearchResultModelFactoryImp
-import com.example.citysearch.search.searchresults.citysearchresultcell.CitySearchResultViewModelFactoryImp
+import com.example.citysearch.commands.OpenDetailsCommand
+import com.example.citysearch.factories.OpenDetailsCommandFactory
+import com.example.citysearch.ui.CitySearchResultCell
+import com.example.citysearch.factories.CitySearchResultModelFactoryImp
+import com.example.citysearch.factories.CitySearchResultViewModelFactoryImp
 import com.example.citysearch.stub.CitySearchResultsStub
 import com.example.citysearch.utilities.ImageLoader
 import com.example.citysearch.utilities.MeasureConverterImp
@@ -287,13 +287,20 @@ class SearchResultCellSteps(private val context: Context, targetContext: Context
 
     fun searchResultCellIsCreated(titleLabel: TextView = this.titleLabel, imageView: ImageView = this.imageView): CitySearchResultCell {
 
-        return CitySearchResultCell(view, titleLabel, imageView, ViewBinderImp())
+        return CitySearchResultCell(
+            view,
+            titleLabel,
+            imageView,
+            ViewBinderImp()
+        )
     }
 
     fun assignResultToCell(result: CitySearchResult, cell: CitySearchResultCell) {
 
-        val modelFactory = CitySearchResultModelFactoryImp()
-        val viewModelFactory = CitySearchResultViewModelFactoryImp()
+        val modelFactory =
+            CitySearchResultModelFactoryImp()
+        val viewModelFactory =
+            CitySearchResultViewModelFactoryImp()
 
         val openDetailsCommand = mock<OpenDetailsCommand>()
         val openDetailsCommandFactory = mock<OpenDetailsCommandFactory> {

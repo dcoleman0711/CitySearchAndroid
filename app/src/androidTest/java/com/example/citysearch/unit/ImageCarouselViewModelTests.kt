@@ -5,13 +5,13 @@ import android.graphics.Bitmap
 import android.util.Size
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.example.citysearch.details.imagecarousel.ImageCarouselModel
-import com.example.citysearch.details.imagecarousel.ImageCarouselViewModelImp
-import com.example.citysearch.details.imagecarousel.asyncimage.AsyncImageModel
-import com.example.citysearch.details.imagecarousel.asyncimage.AsyncImageViewModel
-import com.example.citysearch.details.imagecarousel.asyncimage.AsyncImageViewModelFactory
-import com.example.citysearch.reactive.CellData
-import com.example.citysearch.reactive.RecyclerViewModel
+import com.example.citysearch.models.ImageCarouselModel
+import com.example.citysearch.viewmodels.ImageCarouselViewModelImp
+import com.example.citysearch.models.AsyncImageModel
+import com.example.citysearch.viewmodels.AsyncImageViewModel
+import com.example.citysearch.factories.AsyncImageViewModelFactory
+import com.example.citysearch.viewmodels.CellData
+import com.example.citysearch.viewmodels.RecyclerViewModel
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
@@ -126,7 +126,12 @@ class ImageCarouselViewModelSteps(private val context: Context) {
 
     fun imageCarouselViewModelIsCreated(model: ImageCarouselModel, resultsQueue: Scheduler = this.resultsQueue): ImageCarouselViewModelImp {
 
-        return ImageCarouselViewModelImp(model, resultViewModelFactory, workQueue, resultsQueue)
+        return ImageCarouselViewModelImp(
+            model,
+            resultViewModelFactory,
+            workQueue,
+            resultsQueue
+        )
     }
 
     fun imageCarouselModel(): ImageCarouselModel {

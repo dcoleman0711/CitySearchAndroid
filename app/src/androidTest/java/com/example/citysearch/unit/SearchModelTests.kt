@@ -1,8 +1,8 @@
 package com.example.citysearch.unit
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.citysearch.data.CitySearchResults
-import com.example.citysearch.search.searchresults.SearchResultsModel
+import com.example.citysearch.entities.CitySearchResults
+import com.example.citysearch.models.SearchResultsModel
 import com.example.citysearch.stub.CitySearchResultsStub
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock

@@ -2,9 +2,9 @@ package com.example.citysearch.unit
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.citysearch.acceptance.StartupScreenTestConstants
-import com.example.citysearch.reactive.TextViewModel
-import com.example.citysearch.startup.StartupModel
-import com.example.citysearch.startup.StartupViewModelImp
+import com.example.citysearch.viewmodels.TextViewModel
+import com.example.citysearch.models.StartupModel
+import com.example.citysearch.viewmodels.StartupViewModelImp
 import com.example.citysearch.utilities.Font
 import com.nhaarman.mockitokotlin2.mock
 import io.reactivex.subjects.BehaviorSubject

@@ -6,24 +6,27 @@ import android.graphics.drawable.ColorDrawable
 import android.util.Size
 import android.view.LayoutInflater
 import android.widget.FrameLayout
-import android.widget.ScrollView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.citysearch.R
-import com.example.citysearch.data.CitySearchResult
-import com.example.citysearch.data.CitySearchResults
-import com.example.citysearch.reactive.RecyclerCell
+import com.example.citysearch.entities.CitySearchResult
+import com.example.citysearch.entities.CitySearchResults
+import com.example.citysearch.factories.CitySearchResultModelFactory
+import com.example.citysearch.factories.CitySearchResultViewModelFactory
+import com.example.citysearch.models.CitySearchResultModel
+import com.example.citysearch.ui.RecyclerCell
 import com.example.citysearch.reactive.RecyclerViewBindingAdapter
-import com.example.citysearch.search.OpenDetailsCommand
-import com.example.citysearch.search.OpenDetailsCommandFactory
-import com.example.citysearch.search.searchresults.SearchResultsModelImp
-import com.example.citysearch.search.searchresults.SearchResultsViewImp
-import com.example.citysearch.search.searchresults.SearchResultsViewModelImp
-import com.example.citysearch.search.searchresults.citysearchresultcell.*
+import com.example.citysearch.commands.OpenDetailsCommand
+import com.example.citysearch.factories.OpenDetailsCommandFactory
+import com.example.citysearch.models.SearchResultsModelImp
+import com.example.citysearch.ui.SearchResultsViewImp
+import com.example.citysearch.viewmodels.SearchResultsViewModelImp
 import com.example.citysearch.stub.CitySearchResultsStub
+import com.example.citysearch.ui.CitySearchResultCell
 import com.example.citysearch.utilities.MeasureConverterImp
+import com.example.citysearch.viewmodels.CitySearchResultViewModel
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
@@ -207,11 +210,23 @@ class SearchResultsSteps(private val context: Context) {
 
         buildSearchResults = {
 
-            val model = SearchResultsModelImp(resultModelFactory, openDetailsCommandFactory)
-            val viewModel = SearchResultsViewModelImp(context, model, resultViewModelFactory)
+            val model = SearchResultsModelImp(
+                resultModelFactory,
+                openDetailsCommandFactory
+            )
+            val viewModel =
+                SearchResultsViewModelImp(
+                    context,
+                    model,
+                    resultViewModelFactory
+                )
             model.setResults(initialData)
 
-            SearchResultsViewImp(context, recyclerView, viewModel)
+            SearchResultsViewImp(
+                context,
+                recyclerView,
+                viewModel
+            )
         }
     }
 

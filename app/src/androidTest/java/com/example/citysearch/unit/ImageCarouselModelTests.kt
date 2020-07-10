@@ -1,9 +1,9 @@
 package com.example.citysearch.unit
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.citysearch.details.imagecarousel.ImageCarouselModelImp
-import com.example.citysearch.details.imagecarousel.asyncimage.AsyncImageModel
-import com.example.citysearch.details.imagecarousel.asyncimage.AsyncImageModelFactory
+import com.example.citysearch.models.ImageCarouselModelImp
+import com.example.citysearch.models.AsyncImageModel
+import com.example.citysearch.factories.AsyncImageModelFactory
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
@@ -87,7 +87,9 @@ class ImageCarouselModelSteps {
 
     fun imageCarouselModelCreated(): ImageCarouselModelImp {
 
-        return ImageCarouselModelImp(imageModelFactory)
+        return ImageCarouselModelImp(
+            imageModelFactory
+        )
     }
 
     fun imageCarouselModelDataIsSetToURLs(imageCarouselsModel: ImageCarouselModelImp, imageURLEvents: Observable<List<URL>>) {

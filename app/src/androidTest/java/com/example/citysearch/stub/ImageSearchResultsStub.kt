@@ -1,7 +1,7 @@
 package com.example.citysearch.stub
 
-import com.example.citysearch.data.ImageSearchResult
-import com.example.citysearch.data.ImageSearchResults
+import com.example.citysearch.entities.ImageSearchResult
+import com.example.citysearch.entities.ImageSearchResults
 
 class ImageSearchResultsStub {
 
@@ -9,13 +9,15 @@ class ImageSearchResultsStub {
 
         fun stubResults(): ImageSearchResults {
 
-            return ImageSearchResults(arrayListOf(
-                ImageSearchResult("https://images.com/image1"),
-                ImageSearchResult("https://images.com/image2"),
-                ImageSearchResult("https://images.com/image3"),
-                ImageSearchResult("https://images.com/image4"),
-                ImageSearchResult("https://images.com/image5")
-            ))
+            return ImageSearchResults(
+                arrayListOf(
+                    ImageSearchResult("https://images.com/image1"),
+                    ImageSearchResult("https://images.com/image2"),
+                    ImageSearchResult("https://images.com/image3"),
+                    ImageSearchResult("https://images.com/image4"),
+                    ImageSearchResult("https://images.com/image5")
+                )
+            )
         }
     }
 }

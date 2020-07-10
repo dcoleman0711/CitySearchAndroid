@@ -12,18 +12,18 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.citysearch.R
-import com.example.citysearch.animations.ShimmeringLoaderView
-import com.example.citysearch.data.CitySearchResult
-import com.example.citysearch.data.GeoPoint
-import com.example.citysearch.data.ImageSearchResults
-import com.example.citysearch.data.ImageSearchService
-import com.example.citysearch.details.CityDetailsModelImp
-import com.example.citysearch.details.CityDetailsView
-import com.example.citysearch.details.CityDetailsViewImp
-import com.example.citysearch.details.CityDetailsViewModelImp
-import com.example.citysearch.details.imagecarousel.ImageCarouselModelImp
-import com.example.citysearch.details.imagecarousel.ImageCarouselView
-import com.example.citysearch.details.map.MapView
+import com.example.citysearch.ui.ShimmeringLoaderView
+import com.example.citysearch.entities.CitySearchResult
+import com.example.citysearch.entities.GeoPoint
+import com.example.citysearch.entities.ImageSearchResults
+import com.example.citysearch.services.ImageSearchService
+import com.example.citysearch.models.CityDetailsModelImp
+import com.example.citysearch.ui.CityDetailsView
+import com.example.citysearch.ui.CityDetailsViewImp
+import com.example.citysearch.viewmodels.CityDetailsViewModelImp
+import com.example.citysearch.models.ImageCarouselModelImp
+import com.example.citysearch.ui.ImageCarouselView
+import com.example.citysearch.ui.MapView
 import com.example.citysearch.reactive.ViewBinderImp
 import com.example.citysearch.stub.CitySearchResultsStub
 import com.example.citysearch.utilities.*
@@ -318,7 +318,12 @@ class DetailsScreenSteps(private val context: Context) {
 
     fun searchResult(): CitySearchResult {
 
-        return CitySearchResult("Test City", 1234567, GeoPoint(0.0, 0.0), adminCode = "BS")
+        return CitySearchResult(
+            "Test City",
+            1234567,
+            GeoPoint(0.0, 0.0),
+            adminCode = "BS"
+        )
     }
 
     fun titleText(searchResult: CitySearchResult): String {
@@ -333,8 +338,14 @@ class DetailsScreenSteps(private val context: Context) {
                       map: MapView = this.mapView,
                       imageCarousel: ImageCarouselView = this.imageCarouselView) {
 
-        val model = CityDetailsModelImp(searchResult, ImageCarouselModelImp(context), imageSearchService, Schedulers.computation())
-        val viewModel = CityDetailsViewModelImp(model)
+        val model = CityDetailsModelImp(
+            searchResult,
+            ImageCarouselModelImp(context),
+            imageSearchService,
+            Schedulers.computation()
+        )
+        val viewModel =
+            CityDetailsViewModelImp(model)
 
         buildDetailsScreen = {
 
@@ -347,7 +358,8 @@ class DetailsScreenSteps(private val context: Context) {
                 imageCarousel,
                 shimmeringLoaderView,
                 viewModel,
-                ViewBinderImp())
+                ViewBinderImp()
+            )
         }
     }
 

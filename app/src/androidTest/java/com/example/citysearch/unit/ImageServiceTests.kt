@@ -2,8 +2,7 @@ package com.example.citysearch.unit
 
 import android.graphics.Bitmap
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.citysearch.data.ImageServiceImp
-import com.example.citysearch.utilities.ImageLoader
+import com.example.citysearch.services.ImageServiceImp
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
@@ -16,7 +15,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
-import java.io.OutputStream
 import java.net.URL
 
 @RunWith(AndroidJUnit4::class)

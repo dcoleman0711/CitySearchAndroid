@@ -4,20 +4,17 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
-import android.widget.ScrollView
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.citysearch.R
-import com.example.citysearch.details.imagecarousel.ImageCarouselViewImp
-import com.example.citysearch.details.imagecarousel.ImageCarouselViewModel
-import com.example.citysearch.details.imagecarousel.asyncimage.AsyncImageCell
-import com.example.citysearch.details.imagecarousel.asyncimage.AsyncImageViewModel
+import com.example.citysearch.ui.ImageCarouselViewImp
+import com.example.citysearch.viewmodels.ImageCarouselViewModel
+import com.example.citysearch.ui.AsyncImageCell
+import com.example.citysearch.viewmodels.AsyncImageViewModel
 import com.example.citysearch.reactive.RecyclerViewBinder
-import com.example.citysearch.reactive.RecyclerViewModel
-import com.nhaarman.mockitokotlin2.argumentCaptor
+import com.example.citysearch.viewmodels.RecyclerViewModel
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import io.reactivex.subjects.BehaviorSubject
@@ -104,7 +101,11 @@ class ImageCarouselViewSteps(private val context: Context) {
 
     fun imageCarouselViewIsCreated(recyclerView: RecyclerView, viewModel: ImageCarouselViewModel = this.viewModel, binder: RecyclerViewBinder<AsyncImageViewModel, AsyncImageCell> = this.viewBinder): ImageCarouselViewImp {
 
-        return ImageCarouselViewImp(recyclerView, viewModel, binder)
+        return ImageCarouselViewImp(
+            recyclerView,
+            viewModel,
+            binder
+        )
     }
 
     fun recyclerViewLayoutIsHorizontalGrid(recyclerView: RecyclerView) {

@@ -7,10 +7,10 @@ import android.graphics.Rect
 import android.util.Size
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.example.citysearch.data.GeoPoint
-import com.example.citysearch.details.map.MapModel
-import com.example.citysearch.details.map.MapViewModel
-import com.example.citysearch.details.map.MapViewModelImp
+import com.example.citysearch.entities.GeoPoint
+import com.example.citysearch.models.MapModel
+import com.example.citysearch.viewmodels.MapViewModel
+import com.example.citysearch.viewmodels.MapViewModelImp
 import com.example.citysearch.utilities.ImageLoader
 import com.nhaarman.mockitokotlin2.mock
 import io.reactivex.disposables.Disposable

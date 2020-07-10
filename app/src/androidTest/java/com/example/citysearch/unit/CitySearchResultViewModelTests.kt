@@ -4,10 +4,12 @@ import android.content.Context
 import android.graphics.Bitmap
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.example.citysearch.reactive.TextViewModel
-import com.example.citysearch.search.OpenDetailsCommand
-import com.example.citysearch.search.searchresults.citysearchresultcell.*
+import com.example.citysearch.factories.CitySearchResultViewModelFactoryImp
+import com.example.citysearch.models.*
+import com.example.citysearch.viewmodels.TextViewModel
+import com.example.citysearch.commands.OpenDetailsCommand
 import com.example.citysearch.utilities.ImageLoader
+import com.example.citysearch.viewmodels.CitySearchResultViewModelImp
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.disposables.Disposable
@@ -121,7 +123,8 @@ class CitySearchResultViewModelSteps(private val context: Context) {
 
     fun icon(populationClass: PopulationClass): Bitmap {
 
-        class ImageSelector: PopulationClassVisitor<Bitmap> {
+        class ImageSelector:
+            PopulationClassVisitor<Bitmap> {
 
             override fun visitSmall(popClass: PopulationClassSmall): Bitmap { return ImageLoader.loadImage(context,"City1.png") }
             override fun visitMedium(popClass: PopulationClassMedium): Bitmap { return ImageLoader.loadImage(context,"City2.png") }
@@ -134,7 +137,8 @@ class CitySearchResultViewModelSteps(private val context: Context) {
 
     fun viewModelIsCreated(model: CitySearchResultModel): CitySearchResultViewModelImp {
 
-        return CitySearchResultViewModelFactoryImp().resultViewModel(context, model) as CitySearchResultViewModelImp
+        return CitySearchResultViewModelFactoryImp()
+            .resultViewModel(context, model) as CitySearchResultViewModelImp
     }
 
     fun viewModelTextIs(viewModel: CitySearchResultViewModelImp, expectedText: String) {

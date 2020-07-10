@@ -2,11 +2,11 @@ package com.example.citysearch.unit
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.citysearch.acceptance.StartupScreenTestConstants
-import com.example.citysearch.data.CitySearchResults
-import com.example.citysearch.data.CitySearchService
-import com.example.citysearch.reactive.ObservableFactory
-import com.example.citysearch.startup.StartupModelImp
-import com.example.citysearch.startup.StartupTransitionCommand
+import com.example.citysearch.entities.CitySearchResults
+import com.example.citysearch.services.CitySearchService
+import com.example.citysearch.factories.ObservableFactory
+import com.example.citysearch.models.StartupModelImp
+import com.example.citysearch.commands.StartupTransitionCommand
 import com.example.citysearch.stub.CitySearchResultsStub
 import com.nhaarman.mockitokotlin2.*
 import io.reactivex.Scheduler
@@ -156,7 +156,13 @@ class StartupModelSteps {
 
     fun modelIsCreated(transitionCommand: StartupTransitionCommand = this.transitionCommand, searchService: CitySearchService = this.searchService): StartupModelImp {
 
-        return StartupModelImp(transitionCommand, searchService, observableFactory, workScheduler, invokeScheduler)
+        return StartupModelImp(
+            transitionCommand,
+            searchService,
+            observableFactory,
+            workScheduler,
+            invokeScheduler
+        )
     }
 
     fun observeAppTitleText(model: StartupModelImp) {

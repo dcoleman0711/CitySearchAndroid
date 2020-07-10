@@ -3,9 +3,9 @@ package com.example.citysearch.unit
 import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.example.citysearch.data.ImageSearchResult
-import com.example.citysearch.data.ImageSearchResults
-import com.example.citysearch.data.ImageSearchServiceImp
+import com.example.citysearch.entities.ImageSearchResult
+import com.example.citysearch.entities.ImageSearchResults
+import com.example.citysearch.services.ImageSearchServiceImp
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
@@ -176,18 +176,23 @@ class ImageSearchServiceSteps(private val context: Context) {
 
     fun searchService(httpClient: OkHttpClient): ImageSearchServiceImp {
 
-        return ImageSearchServiceImp(httpClient, queue)
+        return ImageSearchServiceImp(
+            httpClient,
+            queue
+        )
     }
 
     fun expectedResults(): ImageSearchResults {
 
-        return ImageSearchResults(arrayListOf(
-            ImageSearchResult("https://www.apple.com/ac/structured-data/images/open_graph_logo.png?202005131207"),
-            ImageSearchResult("https://as-images.apple.com/is/og-default?wid=1200&hei=630&fmt=jpeg&qlt=95&op_usm=0.5,0.5&.v=1525370171638"),
-            ImageSearchResult("https://yt3.ggpht.com/a/AATXAJxK3dHVZIVCtxjYZ7mp77wBbCs9fw4zU46V_Q=s900-c-k-c0xffffffff-no-rj-mo"),
-            ImageSearchResult("https://pbs.twimg.com/profile_images/1110319067280269312/iEqpsbUA_400x400.png"),
-            ImageSearchResult("https://www.apple.com/ac/structured-data/images/knowledge_graph_logo.png?201809210816")
-        ))
+        return ImageSearchResults(
+            arrayListOf(
+                ImageSearchResult("https://www.apple.com/ac/structured-data/images/open_graph_logo.png?202005131207"),
+                ImageSearchResult("https://as-images.apple.com/is/og-default?wid=1200&hei=630&fmt=jpeg&qlt=95&op_usm=0.5,0.5&.v=1525370171638"),
+                ImageSearchResult("https://yt3.ggpht.com/a/AATXAJxK3dHVZIVCtxjYZ7mp77wBbCs9fw4zU46V_Q=s900-c-k-c0xffffffff-no-rj-mo"),
+                ImageSearchResult("https://pbs.twimg.com/profile_images/1110319067280269312/iEqpsbUA_400x400.png"),
+                ImageSearchResult("https://www.apple.com/ac/structured-data/images/knowledge_graph_logo.png?201809210816")
+            )
+        )
     }
 
     fun perform(searchService: ImageSearchServiceImp, query: String): ImageSearchResults? {

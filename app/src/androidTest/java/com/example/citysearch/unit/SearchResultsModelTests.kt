@@ -1,12 +1,12 @@
 package com.example.citysearch.unit
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.citysearch.data.CitySearchResult
-import com.example.citysearch.data.CitySearchResults
-import com.example.citysearch.search.OpenDetailsCommandFactory
-import com.example.citysearch.search.searchresults.SearchResultsModelImp
-import com.example.citysearch.search.searchresults.citysearchresultcell.CitySearchResultModel
-import com.example.citysearch.search.searchresults.citysearchresultcell.CitySearchResultModelFactory
+import com.example.citysearch.entities.CitySearchResult
+import com.example.citysearch.entities.CitySearchResults
+import com.example.citysearch.factories.OpenDetailsCommandFactory
+import com.example.citysearch.models.SearchResultsModelImp
+import com.example.citysearch.models.CitySearchResultModel
+import com.example.citysearch.factories.CitySearchResultModelFactory
 import com.example.citysearch.stub.CitySearchResultsStub
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
@@ -115,7 +115,10 @@ class SearchResultsModelSteps {
 
     fun searchResultsModelCreated(tapCommandFactory: OpenDetailsCommandFactory = this.tapCommandFactory): SearchResultsModelImp {
 
-        return SearchResultsModelImp(resultModelFactory, tapCommandFactory)
+        return SearchResultsModelImp(
+            resultModelFactory,
+            tapCommandFactory
+        )
     }
 
     fun searchResultsModelDataIsSetTo(searchResultsModel: SearchResultsModelImp, searchResults: CitySearchResults) {

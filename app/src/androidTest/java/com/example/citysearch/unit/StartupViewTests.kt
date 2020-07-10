@@ -1,25 +1,17 @@
 package com.example.citysearch.unit
 
-import android.content.Context
-import android.content.res.Configuration
-import android.content.res.Resources
 import android.graphics.Typeface
-import android.util.DisplayMetrics
-import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.view.children
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.citysearch.animations.RollingAnimationLabel
-import com.example.citysearch.reactive.TextViewModel
-import com.example.citysearch.startup.*
-import com.example.citysearch.utilities.ConstraintSetFactory
+import com.example.citysearch.models.StartupModel
+import com.example.citysearch.ui.RollingAnimationLabel
+import com.example.citysearch.viewmodels.TextViewModel
+import com.example.citysearch.ui.StartupViewImp
 import com.example.citysearch.utilities.Font
-import com.nhaarman.mockitokotlin2.any
+import com.example.citysearch.viewmodels.StartupViewModel
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import io.reactivex.subjects.BehaviorSubject
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -92,7 +84,11 @@ class StartupViewSteps {
 
     fun startupViewIsCreated(appTitleLabel: RollingAnimationLabel = this.appTitleLabel, startupModel: StartupModel = this.startupModel, startupViewModel: StartupViewModel = this.viewModel): StartupViewImp {
 
-        return StartupViewImp(view, viewModel, appTitleLabel)
+        return StartupViewImp(
+            view,
+            viewModel,
+            appTitleLabel
+        )
     }
 
     fun appTitleLabel(): RollingAnimationLabel {
@@ -102,7 +98,12 @@ class StartupViewSteps {
 
     fun appTitleLabelIsBoundToViewModel(appTitleLabel: RollingAnimationLabel, viewModel: StartupViewModel) {
 
-        appTitle.onNext(TextViewModel(stubText, stubFont))
+        appTitle.onNext(
+            TextViewModel(
+                stubText,
+                stubFont
+            )
+        )
         verify(appTitleLabel).start(stubText, stubFont)
     }
 

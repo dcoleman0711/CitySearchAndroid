@@ -1,13 +1,11 @@
 package com.example.citysearch.unit
 
-import android.content.Context
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.view.Choreographer
 import android.view.View
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.citysearch.animations.ShimmeringLoaderView
-import com.example.citysearch.animations.ShimmeringLoaderViewImp
+import com.example.citysearch.ui.ShimmeringLoaderView
+import com.example.citysearch.ui.ShimmeringLoaderViewImp
 import com.example.citysearch.utilities.ChoreographerWrapper
 import com.nhaarman.mockitokotlin2.*
 import org.junit.Assert
@@ -117,7 +115,10 @@ class ShimmeringLoaderViewSteps {
 
     fun shimmerView(): ShimmeringLoaderViewImp {
 
-        return ShimmeringLoaderViewImp(view, choreographer)
+        return ShimmeringLoaderViewImp(
+            view,
+            choreographer
+        )
     }
 
     fun shimmerViewStartAnimating(shimmerView: ShimmeringLoaderViewImp) {

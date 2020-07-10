@@ -9,11 +9,15 @@ import android.view.LayoutInflater
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.citysearch.R
-import com.example.citysearch.animations.RollingAnimationLabel
-import com.example.citysearch.data.CitySearchResults
-import com.example.citysearch.data.CitySearchService
-import com.example.citysearch.startup.*
+import com.example.citysearch.commands.StartupTransitionCommand
+import com.example.citysearch.ui.RollingAnimationLabel
+import com.example.citysearch.entities.CitySearchResults
+import com.example.citysearch.services.CitySearchService
+import com.example.citysearch.factories.StartupViewModelFactory
+import com.example.citysearch.ui.StartupView
+import com.example.citysearch.ui.StartupViewImp
 import com.example.citysearch.utilities.Font
+import com.example.citysearch.viewmodels.StartupViewModelImp
 import com.nhaarman.mockitokotlin2.*
 import io.reactivex.subjects.BehaviorSubject
 import org.junit.Assert.assertEquals
@@ -149,7 +153,8 @@ class StartupScreenSteps(private val context: Context) {
 
     private val initialResults = CitySearchResults.emptyResults()
 
-    private val startupViewModelFactory = StartupViewModelFactory(mock())
+    private val startupViewModelFactory =
+        StartupViewModelFactory(mock())
 
     private lateinit var startupViewModel: StartupViewModelImp
 
@@ -213,7 +218,11 @@ class StartupScreenSteps(private val context: Context) {
     fun startupScreenLoadedAtTime(): Instant {
 
         val view = LayoutInflater.from(context).inflate(R.layout.startup, null)
-        this.startupScreen = StartupViewImp(view, startupViewModel, appTitleLabel)
+        this.startupScreen = StartupViewImp(
+            view,
+            startupViewModel,
+            appTitleLabel
+        )
         return Instant.now()
     }
 

@@ -1,18 +1,17 @@
 package com.example.citysearch.unit
 
 import android.content.Context
-import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.example.citysearch.data.CitySearchResults
-import com.example.citysearch.search.SearchFragment
-import com.example.citysearch.search.SearchFragmentFactory
-import com.example.citysearch.search.searchresults.SearchResultsModel
-import com.example.citysearch.search.searchresults.SearchResultsModelFactory
-import com.example.citysearch.startup.StartupTransitionCommandImp
+import com.example.citysearch.entities.CitySearchResults
+import com.example.citysearch.fragments.SearchFragment
+import com.example.citysearch.factories.SearchFragmentFactory
+import com.example.citysearch.models.SearchResultsModel
+import com.example.citysearch.factories.SearchResultsModelFactory
+import com.example.citysearch.commands.StartupTransitionCommandImp
 import com.example.citysearch.stub.CitySearchResultsStub
 import com.nhaarman.mockitokotlin2.*
 import io.reactivex.Observable
@@ -121,7 +120,11 @@ class StartupTransitionSteps(private val context: Context) {
 
     fun transitionCommand(): StartupTransitionCommandImp {
 
-        return StartupTransitionCommandImp(fragmentManager, searchResultsModelFactory, searchFragmentFactory)
+        return StartupTransitionCommandImp(
+            fragmentManager,
+            searchResultsModelFactory,
+            searchFragmentFactory
+        )
     }
 
     fun initialResults(): CitySearchResults {

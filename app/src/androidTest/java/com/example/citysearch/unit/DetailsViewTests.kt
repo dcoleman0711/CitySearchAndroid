@@ -1,21 +1,16 @@
 package com.example.citysearch.unit
 
-import android.widget.ScrollView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.citysearch.StubMeasureConverter
-import com.example.citysearch.animations.ShimmeringLoaderView
-import com.example.citysearch.details.CityDetailsView
-import com.example.citysearch.details.CityDetailsViewImp
-import com.example.citysearch.details.CityDetailsViewModel
-import com.example.citysearch.details.imagecarousel.ImageCarouselView
-import com.example.citysearch.details.map.MapView
-import com.example.citysearch.reactive.TextViewModel
+import com.example.citysearch.ui.ShimmeringLoaderView
+import com.example.citysearch.ui.CityDetailsView
+import com.example.citysearch.ui.CityDetailsViewImp
+import com.example.citysearch.viewmodels.CityDetailsViewModel
+import com.example.citysearch.ui.ImageCarouselView
+import com.example.citysearch.ui.MapView
+import com.example.citysearch.viewmodels.TextViewModel
 import com.example.citysearch.reactive.ViewBinder
-import com.example.citysearch.utilities.ConstraintSetFactory
-import com.nhaarman.mockitokotlin2.atLeastOnce
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import io.reactivex.subjects.BehaviorSubject
@@ -176,7 +171,17 @@ class DetailsViewSteps {
                              viewModel: CityDetailsViewModel = this.viewModel,
                              binder: ViewBinder = this.viewBinder): CityDetailsView {
 
-        return CityDetailsViewImp(view, titleLabel, populationTitleLabel, populationLabel, mapView, imageCarouselView, shimmeringLoader, viewModel, binder)
+        return CityDetailsViewImp(
+            view,
+            titleLabel,
+            populationTitleLabel,
+            populationLabel,
+            mapView,
+            imageCarouselView,
+            shimmeringLoader,
+            viewModel,
+            binder
+        )
     }
 
     fun viewModelPublishesShowLoader(viewModel: CityDetailsViewModel) {

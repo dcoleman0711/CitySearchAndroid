@@ -9,10 +9,10 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.constraintlayout.widget.Placeholder
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.citysearch.StubMeasureConverter
-import com.example.citysearch.details.map.MapViewImp
-import com.example.citysearch.details.map.MapViewModel
+import com.example.citysearch.factories.ConstraintSetFactory
+import com.example.citysearch.ui.MapViewImp
+import com.example.citysearch.viewmodels.MapViewModel
 import com.example.citysearch.reactive.ViewBinder
-import com.example.citysearch.utilities.*
 import com.nhaarman.mockitokotlin2.atLeastOnce
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
@@ -137,7 +137,16 @@ class MapViewSteps {
 
     fun mapViewIsCreated(backgroundImageView: ImageView = this.backgroundImageView, markerImageView: ImageView = this.markerImageView, viewModel: MapViewModel = this.viewModel, binder: ViewBinder = this.viewBinder): MapViewImp {
 
-        return MapViewImp(view, backgroundImageView, markerImageView, placeholder, binder, viewModel, constraintSetFactory, measureConverter)
+        return MapViewImp(
+            view,
+            backgroundImageView,
+            markerImageView,
+            placeholder,
+            binder,
+            viewModel,
+            constraintSetFactory,
+            measureConverter
+        )
     }
 
     fun backgroundImageViewIsBoundToViewModel(backgroundImageView: ImageView, viewModel: MapViewModel) {

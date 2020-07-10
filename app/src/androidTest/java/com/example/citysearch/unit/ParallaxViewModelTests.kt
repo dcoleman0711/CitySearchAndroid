@@ -3,9 +3,9 @@ package com.example.citysearch.unit
 import android.graphics.Bitmap
 import android.graphics.Point
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.citysearch.parallax.ParallaxLayer
-import com.example.citysearch.parallax.ParallaxModel
-import com.example.citysearch.parallax.ParallaxViewModelImp
+import com.example.citysearch.models.ParallaxLayer
+import com.example.citysearch.models.ParallaxModel
+import com.example.citysearch.viewmodels.ParallaxViewModelImp
 import com.nhaarman.mockitokotlin2.mock
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
@@ -82,7 +82,12 @@ class ParallaxViewModelSteps {
 
     fun parallaxLayers(): List<ParallaxLayer> {
 
-        return (0 until 5).map { index -> ParallaxLayer(10.0f / (index + 1).toFloat(), Bitmap.createBitmap(20, 20, Bitmap.Config.ARGB_8888)) }
+        return (0 until 5).map { index ->
+            ParallaxLayer(
+                10.0f / (index + 1).toFloat(),
+                Bitmap.createBitmap(20, 20, Bitmap.Config.ARGB_8888)
+            )
+        }
     }
 
     fun images(layers: List<ParallaxLayer>): List<Bitmap> {
@@ -97,7 +102,10 @@ class ParallaxViewModelSteps {
 
     fun detailsViewModel(model: ParallaxModel): ParallaxViewModelImp {
 
-        return ParallaxViewModelImp(model, resultsQueue)
+        return ParallaxViewModelImp(
+            model,
+            resultsQueue
+        )
     }
 
     fun offset(): Point {

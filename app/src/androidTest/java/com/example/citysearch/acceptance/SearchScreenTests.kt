@@ -10,18 +10,26 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.citysearch.R
-import com.example.citysearch.data.CitySearchResult
-import com.example.citysearch.data.CitySearchResults
-import com.example.citysearch.details.CityDetailsFragment
-import com.example.citysearch.details.CityDetailsView
-import com.example.citysearch.details.CityDetailsFragmentFactory
-import com.example.citysearch.parallax.ParallaxView
-import com.example.citysearch.parallax.ParallaxViewImp
-import com.example.citysearch.parallax.ParallaxViewModel
-import com.example.citysearch.search.*
-import com.example.citysearch.search.searchresults.*
+import com.example.citysearch.commands.OpenDetailsCommand
+import com.example.citysearch.entities.CitySearchResult
+import com.example.citysearch.entities.CitySearchResults
+import com.example.citysearch.fragments.CityDetailsFragment
+import com.example.citysearch.factories.CityDetailsFragmentFactory
+import com.example.citysearch.factories.OpenDetailsCommandFactory
+import com.example.citysearch.factories.OpenDetailsCommandFactoryImp
+import com.example.citysearch.models.SearchModel
+import com.example.citysearch.models.SearchResultsModelImp
+import com.example.citysearch.ui.ParallaxView
+import com.example.citysearch.ui.ParallaxViewImp
+import com.example.citysearch.viewmodels.ParallaxViewModel
 import com.example.citysearch.stub.CitySearchResultsStub
+import com.example.citysearch.ui.SearchResultsView
+import com.example.citysearch.ui.SearchResultsViewImp
+import com.example.citysearch.ui.SearchView
+import com.example.citysearch.ui.SearchViewImp
 import com.example.citysearch.utilities.*
+import com.example.citysearch.viewmodels.SearchResultsViewModelImp
+import com.example.citysearch.viewmodels.SearchViewModelImp
 import com.nhaarman.mockitokotlin2.*
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
@@ -151,7 +159,11 @@ class SearchScreenSteps(private val context: Context) {
     }
 
     private var openDetailsCommands = HashMap<String, OpenDetailsCommand>()
-    private val realOpenDetailsCommandFactory = OpenDetailsCommandFactoryImp(fragmentManager, detailsFragmentFactory)
+    private val realOpenDetailsCommandFactory =
+        OpenDetailsCommandFactoryImp(
+            fragmentManager,
+            detailsFragmentFactory
+        )
     private val openDetailsCommandFactory = mock<OpenDetailsCommandFactory> {
 
         on { openDetailsCommand(any()) }.then { invocation ->
@@ -164,13 +176,29 @@ class SearchScreenSteps(private val context: Context) {
         }
     }
 
-    private val searchResultsModel = SearchResultsModelImp(openDetailsCommandFactory)
-    private val searchResultsViewModel = SearchResultsViewModelImp(context, searchResultsModel)
+    private val searchResultsModel =
+        SearchResultsModelImp(
+            openDetailsCommandFactory
+        )
+    private val searchResultsViewModel =
+        SearchResultsViewModelImp(
+            context,
+            searchResultsModel
+        )
 
     private val searchView = LayoutInflater.from(context).inflate(R.layout.search, null) as ConstraintLayout
 
-    private val searchResultsView = SearchResultsViewImp(context, searchView.findViewById(R.id.searchResults), searchResultsViewModel)
-    private val parallaxView = ParallaxViewImp(context, searchView.findViewById(R.id.parallaxView), parallaxViewModel)
+    private val searchResultsView =
+        SearchResultsViewImp(
+            context,
+            searchView.findViewById(R.id.searchResults),
+            searchResultsViewModel
+        )
+    private val parallaxView = ParallaxViewImp(
+        context,
+        searchView.findViewById(R.id.parallaxView),
+        parallaxViewModel
+    )
 
     private var parallaxOffset: Point? = null
     private var parallaxSubscriber: Disposable? = null
@@ -215,14 +243,21 @@ class SearchScreenSteps(private val context: Context) {
         searchResultsModel.setResults(initialData)
 
         val searchModel = mock<SearchModel>()
-        val searchViewModel = SearchViewModelImp(searchModel, parallaxViewModel, searchResultsViewModel)
+        val searchViewModel =
+            SearchViewModelImp(
+                searchModel,
+                parallaxViewModel,
+                searchResultsViewModel
+            )
 
         this.buildSearchScreen = {
 
-            SearchViewImp(searchView,
+            SearchViewImp(
+                searchView,
                 searchViewModel,
                 searchResultsView,
-                parallaxView)
+                parallaxView
+            )
         }
     }
 

@@ -2,10 +2,10 @@ package com.example.citysearch.unit
 
 import android.graphics.Point
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.citysearch.parallax.ParallaxViewModel
-import com.example.citysearch.search.SearchModel
-import com.example.citysearch.search.SearchViewModelImp
-import com.example.citysearch.search.searchresults.SearchResultsViewModel
+import com.example.citysearch.viewmodels.ParallaxViewModel
+import com.example.citysearch.models.SearchModel
+import com.example.citysearch.viewmodels.SearchViewModelImp
+import com.example.citysearch.viewmodels.SearchResultsViewModel
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import io.reactivex.subjects.BehaviorSubject
@@ -64,7 +64,11 @@ class SearchViewModelSteps {
 
     fun searchViewModelIsCreated(parallaxViewModel: ParallaxViewModel, searchResultsViewModel: SearchResultsViewModel): SearchViewModelImp {
 
-        return SearchViewModelImp(model, parallaxViewModel, searchResultsViewModel)
+        return SearchViewModelImp(
+            model,
+            parallaxViewModel,
+            searchResultsViewModel
+        )
     }
 
     fun parallaxViewModelReceivesSearchResultsOffsets(parallaxViewModel: ParallaxViewModel, searchResultsViewModel: SearchResultsViewModel) {

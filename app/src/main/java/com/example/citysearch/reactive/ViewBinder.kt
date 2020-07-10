@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.citysearch.utilities.TextViewUtilities
+import com.example.citysearch.viewmodels.TextViewModel
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import java.util.*

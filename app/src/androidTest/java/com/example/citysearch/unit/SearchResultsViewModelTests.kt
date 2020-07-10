@@ -5,14 +5,14 @@ import android.graphics.Point
 import android.util.Size
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.example.citysearch.reactive.CellData
-import com.example.citysearch.reactive.RecyclerViewModel
-import com.example.citysearch.search.OpenDetailsCommand
-import com.example.citysearch.search.searchresults.SearchResultsModel
-import com.example.citysearch.search.searchresults.SearchResultsViewModelImp
-import com.example.citysearch.search.searchresults.citysearchresultcell.CitySearchResultModel
-import com.example.citysearch.search.searchresults.citysearchresultcell.CitySearchResultViewModel
-import com.example.citysearch.search.searchresults.citysearchresultcell.CitySearchResultViewModelFactory
+import com.example.citysearch.viewmodels.CellData
+import com.example.citysearch.viewmodels.RecyclerViewModel
+import com.example.citysearch.commands.OpenDetailsCommand
+import com.example.citysearch.models.SearchResultsModel
+import com.example.citysearch.viewmodels.SearchResultsViewModelImp
+import com.example.citysearch.models.CitySearchResultModel
+import com.example.citysearch.viewmodels.CitySearchResultViewModel
+import com.example.citysearch.factories.CitySearchResultViewModelFactory
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
@@ -94,7 +94,11 @@ class SearchResultsViewModelSteps(private val context: Context) {
 
     fun searchResultsViewModelCreated(model: SearchResultsModel): SearchResultsViewModelImp {
 
-        return SearchResultsViewModelImp(context, model, resultViewModelFactory)
+        return SearchResultsViewModelImp(
+            context,
+            model,
+            resultViewModelFactory
+        )
     }
 
     fun searchResultsModel(): SearchResultsModel {
@@ -119,7 +123,13 @@ class SearchResultsViewModelSteps(private val context: Context) {
 
     fun resultsData(viewModels: List<CitySearchResultViewModel>, cellSize: Size): RecyclerViewModel<CitySearchResultViewModel> {
 
-        val cells = viewModels.map({ viewModel -> CellData(viewModel, cellSize, viewModel.openDetailsCommand) })
+        val cells = viewModels.map({ viewModel ->
+            CellData(
+                viewModel,
+                cellSize,
+                viewModel.openDetailsCommand
+            )
+        })
         return RecyclerViewModel(cells, 0, 0)
     }
 

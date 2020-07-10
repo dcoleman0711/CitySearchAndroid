@@ -6,16 +6,13 @@ import android.graphics.Typeface
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.citysearch.reactive.TextViewModel
+import com.example.citysearch.viewmodels.TextViewModel
 import com.example.citysearch.reactive.ViewBinderImp
 import com.example.citysearch.utilities.Font
-import com.example.citysearch.utilities.ImageLoader
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
-import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.BehaviorSubject
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -127,12 +124,22 @@ class ViewBinderSteps {
 
     fun updateText(text: String) {
 
-        textUpdates.onNext(TextViewModel(text, Font(Typeface.DEFAULT, 12.0)))
+        textUpdates.onNext(
+            TextViewModel(
+                text,
+                Font(Typeface.DEFAULT, 12.0)
+            )
+        )
     }
 
     fun updateFont(font: Font) {
 
-        textUpdates.onNext(TextViewModel("", font))
+        textUpdates.onNext(
+            TextViewModel(
+                "",
+                font
+            )
+        )
     }
 
     fun updateImage(image: Bitmap) {

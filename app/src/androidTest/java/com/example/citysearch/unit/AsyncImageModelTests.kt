@@ -4,8 +4,8 @@ import android.content.Context
 import android.graphics.Bitmap
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.example.citysearch.data.ImageService
-import com.example.citysearch.details.imagecarousel.asyncimage.AsyncImageModelImp
+import com.example.citysearch.services.ImageService
+import com.example.citysearch.models.AsyncImageModelImp
 import com.example.citysearch.utilities.ImageLoader
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
@@ -135,7 +135,11 @@ class AsyncImageModelSteps(private val context: Context) {
 
     fun imageModelIsCreated(imageURL: URL, imageService: ImageService): AsyncImageModelImp {
 
-        return AsyncImageModelImp(context, imageURL, imageService)
+        return AsyncImageModelImp(
+            context,
+            imageURL,
+            imageService
+        )
     }
 
     fun observeSearchResults(model: AsyncImageModelImp): Disposable {

@@ -7,11 +7,11 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.example.citysearch.data.CitySearchResult
-import com.example.citysearch.details.CityDetailsFragment
-import com.example.citysearch.details.CityDetailsFragmentFactory
-import com.example.citysearch.search.OpenDetailsCommandFactoryImp
-import com.example.citysearch.search.OpenDetailsCommandImp
+import com.example.citysearch.entities.CitySearchResult
+import com.example.citysearch.fragments.CityDetailsFragment
+import com.example.citysearch.factories.CityDetailsFragmentFactory
+import com.example.citysearch.factories.OpenDetailsCommandFactoryImp
+import com.example.citysearch.commands.OpenDetailsCommandImp
 import com.example.citysearch.stub.CitySearchResultsStub
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.anyOrNull
@@ -124,7 +124,11 @@ class OpenDetailsCommandSteps(private val context: Context) {
 
     fun openDetailsCommand(searchResult: CitySearchResult, searchScreen: SearchView): OpenDetailsCommandImp {
 
-        val factory = OpenDetailsCommandFactoryImp(fragmentManager, detailsFragmentFactory)
+        val factory =
+            OpenDetailsCommandFactoryImp(
+                fragmentManager,
+                detailsFragmentFactory
+            )
         return factory.openDetailsCommand(searchResult) as OpenDetailsCommandImp
     }
 

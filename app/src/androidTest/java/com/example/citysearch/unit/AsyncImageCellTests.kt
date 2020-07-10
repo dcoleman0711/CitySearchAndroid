@@ -5,14 +5,11 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.example.citysearch.details.imagecarousel.asyncimage.AsyncImageCell
-import com.example.citysearch.details.imagecarousel.asyncimage.AsyncImageViewModel
+import com.example.citysearch.ui.AsyncImageCell
+import com.example.citysearch.viewmodels.AsyncImageViewModel
 import com.example.citysearch.reactive.ViewBinder
-import com.example.citysearch.utilities.ConstraintSetFactory
-import com.nhaarman.mockitokotlin2.atLeastOnce
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import io.reactivex.subjects.BehaviorSubject

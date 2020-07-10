@@ -11,6 +11,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.citysearch.StubMeasureConverter
 import com.example.citysearch.reactive.*
+import com.example.citysearch.ui.RecyclerCell
+import com.example.citysearch.viewmodels.CellData
+import com.example.citysearch.viewmodels.CellTapCommand
+import com.example.citysearch.viewmodels.RecyclerViewModel
 import com.nhaarman.mockitokotlin2.*
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.BehaviorSubject
@@ -208,7 +212,11 @@ class RecyclerViewBinderSteps(private val context: Context) {
                 null
             }
 
-            CellData(viewModel, Size(index * 32, index * 64), command)
+            CellData(
+                viewModel,
+                Size(index * 32, index * 64),
+                command
+            )
 
         }
     }
@@ -240,7 +248,12 @@ class RecyclerViewBinderSteps(private val context: Context) {
 
     fun viewModel(cellData: List<CellData<String>> = arrayListOf(), horSpacing: Int = 0, verSpacing: Int = 0, horMargins: Int = 0): RecyclerViewModel<String> {
 
-        return RecyclerViewModel<String>(cellData, horSpacing, verSpacing, horMargins)
+        return RecyclerViewModel<String>(
+            cellData,
+            horSpacing,
+            verSpacing,
+            horMargins
+        )
     }
 
     fun updateViewModels(viewModel: RecyclerViewModel<String>) {
@@ -380,7 +393,8 @@ class RecyclerViewBinderSteps(private val context: Context) {
     }
 }
 
-class TestMVVMCell(override val view: View): RecyclerCell<String> {
+class TestMVVMCell(override val view: View):
+    RecyclerCell<String> {
 
     override var viewModel: String? = null
 

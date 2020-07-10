@@ -6,8 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.*
+import com.example.citysearch.ui.RecyclerCell
 import com.example.citysearch.utilities.MeasureConverter
 import com.example.citysearch.utilities.MeasureConverterImp
+import com.example.citysearch.viewmodels.CellData
+import com.example.citysearch.viewmodels.RecyclerViewModel
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 
@@ -53,7 +56,7 @@ class RecyclerViewBinderImp<ViewModel, CellType: RecyclerCell<ViewModel>>(privat
 }
 
 open class RecyclerViewBindingAdapter<ViewModel, CellType: RecyclerCell<ViewModel>>(private val constructor: (Context) -> CellType,
-                                                                                    private val measureConverter: MeasureConverter):
+                                                                                                                                 private val measureConverter: MeasureConverter):
     ListAdapter<CellData<ViewModel>, RecyclerViewBindingAdapter<ViewModel, CellType>.CellHolder>(ItemCallBack()) {
 
     inner class CellHolder(val cell: RecyclerCell<ViewModel>): RecyclerView.ViewHolder(cell.view)

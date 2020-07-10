@@ -2,8 +2,8 @@ package com.example.citysearch.unit
 
 import android.graphics.Bitmap
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.citysearch.parallax.ParallaxLayer
-import com.example.citysearch.parallax.ParallaxModelImp
+import com.example.citysearch.models.ParallaxLayer
+import com.example.citysearch.models.ParallaxModelImp
 import io.reactivex.disposables.Disposable
 import org.junit.Assert
 import org.junit.Before
@@ -49,7 +49,12 @@ class ParallaxModelSteps {
 
     fun parallaxLayers(): List<ParallaxLayer> {
 
-        return (0 until 5).map { index -> ParallaxLayer(10.0f / (index + 1).toFloat(), Bitmap.createBitmap(64, 64, Bitmap.Config.ARGB_8888)) }
+        return (0 until 5).map { index ->
+            ParallaxLayer(
+                10.0f / (index + 1).toFloat(),
+                Bitmap.createBitmap(64, 64, Bitmap.Config.ARGB_8888)
+            )
+        }
     }
 
     fun observeLayers(model: ParallaxModelImp): Disposable {

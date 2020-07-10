@@ -2,9 +2,9 @@ package com.example.citysearch.unit
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.citysearch.acceptance.DetailsScreenTestConstants
-import com.example.citysearch.details.CityDetailsModel
-import com.example.citysearch.details.CityDetailsViewModelImp
-import com.example.citysearch.reactive.TextViewModel
+import com.example.citysearch.models.CityDetailsModel
+import com.example.citysearch.viewmodels.CityDetailsViewModelImp
+import com.example.citysearch.viewmodels.TextViewModel
 import com.example.citysearch.utilities.Font
 import com.nhaarman.mockitokotlin2.mock
 import io.reactivex.disposables.Disposable

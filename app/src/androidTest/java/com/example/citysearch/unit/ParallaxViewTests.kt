@@ -8,11 +8,11 @@ import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.citysearch.parallax.ParallaxViewImp
-import com.example.citysearch.parallax.ParallaxViewModel
+import com.example.citysearch.ui.ParallaxViewImp
+import com.example.citysearch.viewmodels.ParallaxViewModel
 import com.example.citysearch.utilities.CollectionUtilities
-import com.example.citysearch.utilities.ConstraintSetFactory
-import com.example.citysearch.utilities.ViewFactory
+import com.example.citysearch.factories.ConstraintSetFactory
+import com.example.citysearch.factories.ViewFactory
 import com.nhaarman.mockitokotlin2.*
 import io.reactivex.subjects.BehaviorSubject
 import org.junit.Assert
@@ -159,7 +159,12 @@ class ParallaxViewSteps {
 
     fun parallaxViewIsCreated(viewModel: ParallaxViewModel = this.viewModel): ParallaxViewImp {
 
-        return ParallaxViewImp(view, viewModel, viewFactory, constraintSetFactory)
+        return ParallaxViewImp(
+            view,
+            viewModel,
+            viewFactory,
+            constraintSetFactory
+        )
     }
 
     fun viewModelPublishesImages(viewModel: ParallaxViewModel, images: List<Bitmap>) {

@@ -1,9 +1,9 @@
 package com.example.citysearch.unit
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.citysearch.data.CitySearchResult
-import com.example.citysearch.data.GeoPoint
-import com.example.citysearch.details.map.MapModelImp
+import com.example.citysearch.entities.CitySearchResult
+import com.example.citysearch.entities.GeoPoint
+import com.example.citysearch.models.MapModelImp
 import io.reactivex.disposables.Disposable
 import org.junit.Assert
 import org.junit.Before
@@ -44,7 +44,12 @@ class MapModelSteps {
 
     fun searchResult(): CitySearchResult {
 
-        return CitySearchResult("Test City", 0, GeoPoint(34.0, 45.0), "QZ")
+        return CitySearchResult(
+            "Test City",
+            0,
+            GeoPoint(34.0, 45.0),
+            "QZ"
+        )
     }
 
     fun geoCoordinates(searchResult: CitySearchResult): GeoPoint {

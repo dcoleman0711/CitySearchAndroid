@@ -1,11 +1,12 @@
 package com.example.citysearch.unit
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.citysearch.data.CitySearchResult
-import com.example.citysearch.data.GeoPoint
-import com.example.citysearch.search.OpenDetailsCommand
-import com.example.citysearch.search.OpenDetailsCommandFactory
-import com.example.citysearch.search.searchresults.citysearchresultcell.*
+import com.example.citysearch.entities.CitySearchResult
+import com.example.citysearch.entities.GeoPoint
+import com.example.citysearch.factories.CitySearchResultModelFactoryImp
+import com.example.citysearch.models.*
+import com.example.citysearch.commands.OpenDetailsCommand
+import com.example.citysearch.factories.OpenDetailsCommandFactory
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import org.junit.Assert
@@ -69,12 +70,22 @@ class CitySearchResultModelSteps {
     fun searchResult(): CitySearchResult {
 
         // This only tests one population class.  There should be one test for each class that produces a distinct output
-        return CitySearchResult("Test City", 100000, GeoPoint(0.0, 0.0), adminCode = "QZ")
+        return CitySearchResult(
+            "Test City",
+            100000,
+            GeoPoint(0.0, 0.0),
+            adminCode = "QZ"
+        )
     }
 
     fun populationClass(searchResult: CitySearchResult): PopulationClass {
 
-        return (arrayListOf(PopulationClassSmall(), PopulationClassMedium(), PopulationClassLarge(), PopulationClassVeryLarge()).first { populationClass ->
+        return (arrayListOf(
+            PopulationClassSmall(),
+            PopulationClassMedium(),
+            PopulationClassLarge(),
+            PopulationClassVeryLarge()
+        ).first { populationClass ->
 
             populationClass.range.contains(searchResult.population)
         })
@@ -96,7 +107,8 @@ class CitySearchResultModelSteps {
 
     fun modelIsCreated(searchResult: CitySearchResult, tapCommandFactory: OpenDetailsCommandFactory = this.openDetailsCommandFactory): CitySearchResultModelImp {
 
-        return CitySearchResultModelFactoryImp().resultModel(searchResult, tapCommandFactory) as CitySearchResultModelImp
+        return CitySearchResultModelFactoryImp()
+            .resultModel(searchResult, tapCommandFactory) as CitySearchResultModelImp
     }
 
     fun modelTitleIs(model: CitySearchResultModelImp, expectedTitle: String) {

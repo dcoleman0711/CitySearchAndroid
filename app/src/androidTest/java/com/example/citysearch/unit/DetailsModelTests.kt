@@ -1,11 +1,11 @@
 package com.example.citysearch.unit
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.citysearch.data.CitySearchResult
-import com.example.citysearch.data.ImageSearchResults
-import com.example.citysearch.data.ImageSearchService
-import com.example.citysearch.details.CityDetailsModelImp
-import com.example.citysearch.details.imagecarousel.ImageCarouselModel
+import com.example.citysearch.entities.CitySearchResult
+import com.example.citysearch.entities.ImageSearchResults
+import com.example.citysearch.services.ImageSearchService
+import com.example.citysearch.models.CityDetailsModelImp
+import com.example.citysearch.models.ImageCarouselModel
 import com.example.citysearch.stub.CitySearchResultsStub
 import com.example.citysearch.stub.ImageSearchResultsStub
 import com.nhaarman.mockitokotlin2.*
@@ -206,7 +206,12 @@ class DetailsModelSteps {
 
     fun detailsModelIsCreated(searchResult: CitySearchResult, imageCarouselModel: ImageCarouselModel = this.imageCarouselModel, imageSearchService: ImageSearchService = this.imageSearchService, resultsQueue: Scheduler = this.resultsQueue): CityDetailsModelImp {
 
-        return CityDetailsModelImp(searchResult, imageCarouselModel, imageSearchService, resultsQueue)
+        return CityDetailsModelImp(
+            searchResult,
+            imageCarouselModel,
+            imageSearchService,
+            resultsQueue
+        )
     }
     
     fun observeTitle(model: CityDetailsModelImp): Disposable {
