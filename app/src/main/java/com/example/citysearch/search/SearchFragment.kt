@@ -52,7 +52,7 @@ open class SearchFragment(private val searchResultsModel: SearchResultsModel): F
         if(searchView != null)
             return searchView.view
 
-        val view = inflater.inflate(R.layout.search, null) as ConstraintLayout
+        val view = inflater.inflate(R.layout.search, container, false) as ConstraintLayout
 
         val context = requireContext()
 

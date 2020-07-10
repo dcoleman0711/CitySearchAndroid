@@ -24,9 +24,9 @@ class AsyncImageModelImp(context: Context, imageURL: URL, imageService: ImageSer
 
     init {
 
-        image = imageService.fetchImage(imageURL).onErrorResumeNext({ error: Throwable ->
+        image = imageService.fetchImage(imageURL).onErrorResumeNext { _: Throwable ->
             Observable.just(missingImage)
-        }).replay(1)
+        }.replay(1)
 
         image.connect()
     }

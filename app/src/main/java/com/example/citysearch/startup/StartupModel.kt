@@ -40,13 +40,14 @@ class StartupModelImp(private val transitionCommand: StartupTransitionCommand,
 
     override val appTitle = Observable.just("City Search")
 
+    private var subscriber: Disposable? = null
+
     override fun startTransitionTimer() {
 
         val timer = observableFactory.timer(4, TimeUnit.SECONDS, workScheduler)
 
-        val beginTransitionEvents = zip(initialResults, timer, BiFunction<CitySearchResults, Long, CitySearchResults> { initialResults, time -> initialResults })
+        val beginTransitionEvents = zip(initialResults, timer, BiFunction<CitySearchResults, Long, CitySearchResults> { initialResults, _ -> initialResults })
 
-        var subscriber: Disposable?
         subscriber = beginTransitionEvents
             .subscribeOn(workScheduler)
             .observeOn(invocationScheduler)

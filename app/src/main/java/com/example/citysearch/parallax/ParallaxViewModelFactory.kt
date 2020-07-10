@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
  */
 class ParallaxViewModelFactory(private val model: ParallaxModel): ViewModelProvider.Factory {
 
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 
         return ParallaxViewModelImp(model) as T

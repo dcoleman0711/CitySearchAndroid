@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
  */
 class ImageCarouselViewModelFactory(private val model: ImageCarouselModel): ViewModelProvider.Factory {
 
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 
         return ImageCarouselViewModelImp(model) as T

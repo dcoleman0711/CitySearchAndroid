@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
  */
 class MapViewModelFactory(private val context: Context, private val model: MapModel): ViewModelProvider.Factory {
 
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 
         return MapViewModelImp(context, model) as T

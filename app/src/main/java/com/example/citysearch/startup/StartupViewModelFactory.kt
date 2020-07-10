@@ -14,6 +14,7 @@ class StartupViewModelFactory(private val fragmentManager: FragmentManager): Vie
     var transitionCommand: StartupTransitionCommand? = null
     var searchService: CitySearchService = CitySearchServiceImp()
 
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 
         val transitionCommand = this.transitionCommand ?: StartupTransitionCommandImp(fragmentManager)

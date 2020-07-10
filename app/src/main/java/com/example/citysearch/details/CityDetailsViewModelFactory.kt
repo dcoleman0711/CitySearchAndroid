@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
  */
 class CityDetailsViewModelFactory(private val model: CityDetailsModel): ViewModelProvider.Factory {
 
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 
         return CityDetailsViewModelImp(model) as T

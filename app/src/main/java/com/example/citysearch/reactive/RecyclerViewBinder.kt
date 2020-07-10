@@ -19,13 +19,14 @@ interface  RecyclerViewBinder<ViewModel, CellType: RecyclerCell<ViewModel>> {
     fun bindCells(view: RecyclerView, viewModelUpdates: Observable<RecyclerViewModel<ViewModel>>): Disposable
 }
 
-class RecyclerViewBinderImp<ViewModel, CellType: RecyclerCell<ViewModel>>(private val cellConstructor: (Context) -> CellType, private val measureConverter: MeasureConverter): RecyclerViewBinder<ViewModel, CellType> {
+class RecyclerViewBinderImp<ViewModel, CellType: RecyclerCell<ViewModel>>(private val cellConstructor: (Context) -> CellType,
+                                                                          private val measureConverter: MeasureConverter): RecyclerViewBinder<ViewModel, CellType> {
 
     constructor(context: Context, constructor: (Context) -> CellType) : this(constructor, MeasureConverterImp(context))
 
-    constructor(context: Context, layout: Int, cellConstructor: (View) -> CellType) : this(context, { context ->
+    constructor(context: Context, layout: Int, cellConstructor: (View) -> CellType) : this(context, { ctx ->
 
-        val view = LayoutInflater.from(context).inflate(layout, null)
+        val view = LayoutInflater.from(ctx).inflate(layout, null)
         cellConstructor(view)
     })
 
@@ -39,7 +40,7 @@ class RecyclerViewBinderImp<ViewModel, CellType: RecyclerCell<ViewModel>>(privat
             for(decIndex in 0 until view.itemDecorationCount)
                 view.removeItemDecorationAt(decIndex)
 
-            val spacingDecoration = SpacingDecoration<ViewModel>(viewModel.horSpacing, viewModel.verSpacing, viewModel.horMargins, measureConverter)
+            val spacingDecoration = SpacingDecoration(viewModel.horSpacing, viewModel.verSpacing, viewModel.horMargins, measureConverter)
             view.addItemDecoration(spacingDecoration)
 
             adapter.submitList(viewModel.cells)
@@ -101,7 +102,10 @@ open class RecyclerViewBindingAdapter<ViewModel, CellType: RecyclerCell<ViewMode
     }
 }
 
-class SpacingDecoration<ViewModel>(private val horSpacing: Int, private val verSpacing: Int, private val horMargins: Int, private val measureConverter: MeasureConverter): RecyclerView.ItemDecoration() {
+class SpacingDecoration(private val horSpacing: Int,
+                        private val verSpacing: Int,
+                        private val horMargins: Int,
+                        private val measureConverter: MeasureConverter): RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(
         outRect: Rect,

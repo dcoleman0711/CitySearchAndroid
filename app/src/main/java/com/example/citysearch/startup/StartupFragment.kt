@@ -16,11 +16,6 @@ import com.example.citysearch.R
  */
 class StartupFragment: Fragment() {
 
-    companion object {
-
-        lateinit var context: Context
-    }
-
     private lateinit var startupView: StartupView
 
     override fun onCreateView(
@@ -32,7 +27,7 @@ class StartupFragment: Fragment() {
         val viewModelFactory = StartupViewModelFactory(parentFragmentManager)
         val viewModel: StartupViewModelImp by activityViewModels { viewModelFactory }
 
-        val view = inflater.inflate(R.layout.startup, null)
+        val view = inflater.inflate(R.layout.startup, container, false)
 
         startupView = StartupViewImp(view, viewModel)
         return view

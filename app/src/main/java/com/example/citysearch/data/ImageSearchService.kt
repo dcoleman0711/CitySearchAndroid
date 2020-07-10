@@ -1,5 +1,6 @@
 package com.example.citysearch.data
 
+import android.content.Context
 import com.example.citysearch.startup.StartupFragment
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -75,11 +76,11 @@ class ImageSearchServiceImp(private val client: OkHttpClient,
 /**
  * Stub service that returns locally stored results, useful for development
  */
-class ImageSearchServiceStub(): ImageSearchService {
+class ImageSearchServiceStub(private val context: Context): ImageSearchService {
 
     override fun imageSearch(query: String): ImageSearchFuture {
 
-        val stubFile = StartupFragment.context.assets.open("stubImageResponse.json")
+        val stubFile = context.assets.open("stubImageResponse.json")
         val stubResults = Gson().fromJson(InputStreamReader(stubFile), ImageSearchResults::class.java)
 
         return Observable.just(stubResults)

@@ -55,7 +55,7 @@ open class CityDetailsFragment(private val searchResult: CitySearchResult): Frag
         if(detailsView != null)
             return detailsView.view
 
-        val view = LayoutInflater.from(context).inflate(R.layout.citydetails, null) as ConstraintLayout
+        val view = inflater.inflate(R.layout.citydetails, container, false) as ConstraintLayout
 
         val context = requireContext()
 
