@@ -2,6 +2,9 @@ package com.example.citysearch.unit
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Point
+import android.graphics.Rect
+import android.util.Size
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.citysearch.data.GeoPoint
@@ -9,9 +12,6 @@ import com.example.citysearch.details.map.MapModel
 import com.example.citysearch.details.map.MapViewModel
 import com.example.citysearch.details.map.MapViewModelImp
 import com.example.citysearch.utilities.ImageLoader
-import com.example.citysearch.utilities.Point
-import com.example.citysearch.utilities.Rect
-import com.example.citysearch.utilities.Size
 import com.nhaarman.mockitokotlin2.mock
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.BehaviorSubject
@@ -174,11 +174,17 @@ class MapViewModelSteps(private val context: Context) {
 
     fun observerReceivedSize(expectedSize: Size) {
 
-        Assert.assertEquals("Marker Image Observer did not receive correct size", expectedSize, observedFrame?.size)
+        val observedFrame = observedFrame
+        val observedSize = if(observedFrame != null) Size(observedFrame.width(), observedFrame.height()) else null
+
+        Assert.assertEquals("Marker Image Observer did not receive correct size", expectedSize, observedSize)
     }
 
     fun observerReceivedPosition(expectedPosition: Point) {
 
-        Assert.assertEquals("Marker Image Observer did not receive correct position", expectedPosition, observedFrame?.origin)
+        val observedFrame = observedFrame
+        val observedPosition = if(observedFrame != null) Point(observedFrame.left, observedFrame.top) else null
+
+        Assert.assertEquals("Marker Image Observer did not receive correct position", expectedPosition, observedPosition)
     }
 }

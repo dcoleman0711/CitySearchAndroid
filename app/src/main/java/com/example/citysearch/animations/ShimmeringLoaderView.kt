@@ -7,7 +7,9 @@ import com.example.citysearch.utilities.ChoreographerWrapper
 import com.example.citysearch.utilities.ChoreographerWrapperImp
 import kotlin.math.sin
 
-// Implements the loading effect seen on the image carousel
+/**
+ * Interface for a loading view with a "shimmering" (cycling between dark and light) effect
+ */
 interface ShimmeringLoaderView {
 
     val view: View
@@ -16,6 +18,9 @@ interface ShimmeringLoaderView {
     fun stopAnimating()
 }
 
+/**
+ * Implements the loading effect seen on the image carousel
+ */
 class ShimmeringLoaderViewImp(override val view: View,
                               private val choreographer: ChoreographerWrapper): ShimmeringLoaderView, Choreographer.FrameCallback {
 
@@ -53,7 +58,7 @@ class ShimmeringLoaderViewImp(override val view: View,
     override fun doFrame(frameTimeNanos: Long) {
 
         if(!running)
-            return;
+            return
 
         choreographer.postFrameCallback(this)
 
@@ -67,7 +72,7 @@ class ShimmeringLoaderViewImp(override val view: View,
 
         val factor = sin(4.0 * interval).toFloat() * 0.5f + 0.5f
 
-        val grayVal = ShimmeringLoaderViewImp.darkest + (ShimmeringLoaderViewImp.lightest - ShimmeringLoaderViewImp.darkest) * factor
+        val grayVal = darkest + (lightest - darkest) * factor
 
         view.setBackgroundColor(Color.argb(1.0f, grayVal, grayVal, grayVal))
     }

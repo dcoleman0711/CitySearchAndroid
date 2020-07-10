@@ -5,15 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.example.citysearch.R
 
-// Fragment for Startup.  Handles building the various components and managing the lifecycle
+/**
+ * Fragment for Startup.
+ *
+ * Handles building the various components and managing the lifecycle
+ */
 class StartupFragment: Fragment() {
 
     companion object {

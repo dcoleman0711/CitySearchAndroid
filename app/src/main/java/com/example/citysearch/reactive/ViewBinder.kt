@@ -1,8 +1,6 @@
 package com.example.citysearch.reactive
 
-import android.annotation.SuppressLint
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.citysearch.utilities.TextViewUtilities
@@ -12,7 +10,9 @@ import java.util.*
 
 fun<T> Optional<T>.toNullable(): T? = orElse(null)
 
-// Handles binding various "simple" widgets to observable streams of their associated displayed data
+/**
+ * Handles binding various "simple" widgets to observable streams of their associated displayed data
+ */
 interface ViewBinder {
 
     fun bindTextView(view: TextView, viewModelUpdates: Observable<TextViewModel>): Disposable

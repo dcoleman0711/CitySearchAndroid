@@ -5,7 +5,12 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.citysearch.parallax.ParallaxView
 import com.example.citysearch.search.searchresults.*
 
-// View for Search MVVM.  Handles binding to the ViewModel.  This is separate from the Fragment because that allows easier testing without any direct coupling to Android classes.
+/**
+ * View for Search MVVM.
+ *
+ * Handles binding to the ViewModel.
+ * This is separate from the Fragment because that allows easier testing without any direct coupling to Android classes.
+ */
 interface SearchView {
 
     val view: View

@@ -1,7 +1,8 @@
 package com.example.citysearch.unit
 
 import android.graphics.Bitmap
-import android.view.View
+import android.graphics.Point
+import android.graphics.Rect
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
@@ -120,7 +121,8 @@ class MapViewSteps {
 
     fun frame(): Rect {
 
-        return Rect(Point((0.2 * MapViewModel.resolution).toInt(), (0.4 * MapViewModel.resolution).toInt()), Size(16, 16))
+        val origin = Point((0.2 * MapViewModel.resolution).toInt(), (0.4 * MapViewModel.resolution).toInt())
+        return Rect(origin.x, origin.y, origin.x + 16, origin.y + 16)
     }
 
     fun viewModel(): MapViewModel {
@@ -150,10 +152,10 @@ class MapViewSteps {
 
     fun markerImageViewFrameIsCorrect(markerImageView: ImageView, expectedFrame: Rect) {
 
-        verify(constraints, atLeastOnce()).constrainWidth(markerImageView.id, measureConverter.convertToPixels(expectedFrame.size.width))
-        verify(constraints, atLeastOnce()).constrainHeight(markerImageView.id, measureConverter.convertToPixels(expectedFrame.size.height))
+        verify(constraints, atLeastOnce()).constrainWidth(markerImageView.id, measureConverter.convertToPixels(expectedFrame.width()))
+        verify(constraints, atLeastOnce()).constrainHeight(markerImageView.id, measureConverter.convertToPixels(expectedFrame.height()))
 
-        verify(constraints, atLeastOnce()).constrainPercentWidth(placeholder.id, expectedFrame.origin.x.toFloat() / MapViewModel.resolution)
-        verify(constraints, atLeastOnce()).constrainPercentHeight(placeholder.id, expectedFrame.origin.y.toFloat() / MapViewModel.resolution)
+        verify(constraints, atLeastOnce()).constrainPercentWidth(placeholder.id, expectedFrame.left.toFloat() / MapViewModel.resolution)
+        verify(constraints, atLeastOnce()).constrainPercentHeight(placeholder.id, expectedFrame.top.toFloat() / MapViewModel.resolution)
     }
 }

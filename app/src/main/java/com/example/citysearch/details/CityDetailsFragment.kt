@@ -13,7 +13,11 @@ import com.example.citysearch.data.CitySearchResult
 import com.example.citysearch.details.imagecarousel.*
 import com.example.citysearch.details.map.*
 
-// Fragment for City Details.  Handles building the various components and managing the lifecycle
+/**
+ * Fragment for City Details.
+ *
+ * Handles building the various components and managing the lifecycle
+ */
 open class CityDetailsFragment(private val searchResult: CitySearchResult): Fragment() {
 
     private lateinit var mapViewModel: MapViewModel

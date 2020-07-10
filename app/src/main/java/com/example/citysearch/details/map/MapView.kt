@@ -1,6 +1,7 @@
 package com.example.citysearch.details.map
 
 import android.content.Context
+import android.graphics.Rect
 import android.view.View
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -11,7 +12,11 @@ import com.example.citysearch.reactive.ViewBinderImp
 import com.example.citysearch.utilities.*
 import io.reactivex.disposables.Disposable
 
-// View for Map MVVM.  Converts the view-models pin location into layout constraints
+/**
+ * View for Map MVVM.
+ *
+ * Converts the view-models pin location into layout constraints
+ */
 interface MapView {
 
     val view: View
@@ -60,11 +65,11 @@ class MapViewImp(override val view: ConstraintLayout,
         constraints.clone(view)
 
         // The marker frame size is in dp, the position is in *percent* of the total map
-        constraints.constrainWidth(markerImageView.id, measureConverter.convertToPixels(markerFrame.size.width))
-        constraints.constrainHeight(markerImageView.id, measureConverter.convertToPixels(markerFrame.size.height))
+        constraints.constrainWidth(markerImageView.id, measureConverter.convertToPixels(markerFrame.width()))
+        constraints.constrainHeight(markerImageView.id, measureConverter.convertToPixels(markerFrame.height()))
 
-        constraints.constrainPercentWidth(placeholder.id, markerFrame.origin.x.toFloat() / MapViewModel.resolution)
-        constraints.constrainPercentHeight(placeholder.id, markerFrame.origin.y.toFloat() / MapViewModel.resolution)
+        constraints.constrainPercentWidth(placeholder.id, markerFrame.left.toFloat() / MapViewModel.resolution)
+        constraints.constrainPercentHeight(placeholder.id, markerFrame.top.toFloat() / MapViewModel.resolution)
 
         constraints.applyTo(view)
     }

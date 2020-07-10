@@ -8,7 +8,11 @@ import com.example.citysearch.search.searchresults.SearchResultsModel
 import com.example.citysearch.utilities.ImageLoader
 import java.lang.ref.WeakReference
 
-// Model for Search MVVM.  Constructs the parallax layers that are seen on the search screen and passes them to the parallax model
+/**
+ * Model for Search MVVM.
+ *
+ * Constructs the parallax layers that are seen on the search screen and passes them to the parallax model
+ */
 interface SearchModel
 
 class SearchModelImp(private val context: Context, private val parallaxModel: ParallaxModel, private val searchResultsModel: SearchResultsModel): SearchModel {

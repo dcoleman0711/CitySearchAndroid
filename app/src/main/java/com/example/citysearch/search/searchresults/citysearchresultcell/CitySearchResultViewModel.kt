@@ -10,7 +10,9 @@ import com.example.citysearch.utilities.ImageLoader
 import io.reactivex.Observable
 import java.util.*
 
-// ViewModel for CitySearchResult MVVM.  Defines the font and maps population classes to icons
+/**
+ * ViewModel for CitySearchResult MVVM.  Defines the font and maps population classes to icons
+ */
 interface CitySearchResultViewModel {
 
     val title: Observable<TextViewModel>

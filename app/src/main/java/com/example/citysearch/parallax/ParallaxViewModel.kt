@@ -1,8 +1,8 @@
 package com.example.citysearch.parallax
 
 import android.graphics.Bitmap
+import android.graphics.Point
 import androidx.lifecycle.ViewModel
-import com.example.citysearch.utilities.Point
 import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -10,7 +10,11 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
 import io.reactivex.subjects.BehaviorSubject
 
-// ViewModel for Parallax MVVM.  Exposes settable content offset, and converts the model's parallax layers into offsets for the displayed images
+/**
+ * ViewModel for Parallax MVVM.
+ *
+ * Exposes settable content offset, and converts the model's parallax layers into offsets for the displayed images
+ */
 interface ParallaxViewModel {
 
     val images: Observable<List<Bitmap>>

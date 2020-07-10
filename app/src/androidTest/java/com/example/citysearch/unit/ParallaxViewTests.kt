@@ -2,6 +2,7 @@ package com.example.citysearch.unit
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Point
 import android.view.View
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -11,7 +12,6 @@ import com.example.citysearch.parallax.ParallaxViewImp
 import com.example.citysearch.parallax.ParallaxViewModel
 import com.example.citysearch.utilities.CollectionUtilities
 import com.example.citysearch.utilities.ConstraintSetFactory
-import com.example.citysearch.utilities.Point
 import com.example.citysearch.utilities.ViewFactory
 import com.nhaarman.mockitokotlin2.*
 import io.reactivex.subjects.BehaviorSubject

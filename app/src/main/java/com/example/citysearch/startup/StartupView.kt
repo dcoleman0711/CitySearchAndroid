@@ -5,7 +5,12 @@ import com.example.citysearch.R
 import com.example.citysearch.animations.RollingAnimationLabel
 import io.reactivex.disposables.Disposable
 
-// View for Startup MVVM.  Handles binding to the ViewModel.  This is separate from the Fragment because that allows easier testing without any direct coupling to Android classes.
+/**
+ * View for Startup MVVM.
+ *
+ * Handles binding to the ViewModel.
+ * This is separate from the Fragment because that allows easier testing without any direct coupling to Android classes.
+ */
 interface StartupView {
 
     val view: View

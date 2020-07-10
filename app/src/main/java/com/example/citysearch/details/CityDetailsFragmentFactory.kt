@@ -2,7 +2,9 @@ package com.example.citysearch.details
 
 import com.example.citysearch.data.CitySearchResult
 
-// Factory for creating CityDetailsFragments.  Useful for testing
+/**
+ * Factory for creating CityDetailsFragments.  Useful for testing
+ */
 interface CityDetailsFragmentFactory {
 
     fun detailsFragment(searchResult: CitySearchResult): CityDetailsFragment

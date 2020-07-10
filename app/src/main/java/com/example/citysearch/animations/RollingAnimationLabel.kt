@@ -2,18 +2,21 @@ package com.example.citysearch.animations
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Point
+import android.graphics.Rect
 import android.graphics.Typeface
 import android.util.AttributeSet
+import android.util.Size
 import android.view.Choreographer
 import android.view.Gravity
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.example.citysearch.utilities.*
 import java.time.Duration
-import kotlin.math.max
-import kotlin.math.min
 
-// Implementation for the animation seen on the title screen
+/**
+ * Implementation for the animation seen on the title screen
+ */
 open class RollingAnimationLabel(context: Context, attributeSet: AttributeSet?): FrameLayout(context, attributeSet), Choreographer.FrameCallback {
 
     private var text: String = ""
@@ -32,7 +35,7 @@ open class RollingAnimationLabel(context: Context, attributeSet: AttributeSet?):
 
     private var startTimes: Map<TextView, Duration> = mapOf()
 
-    private var containerSize: Size = Size.zero
+    private var containerSize: Size = Size(0, 0)
     private var xFinalOffsets: Map<TextView, Int> = mapOf()
 
     private var running = false
@@ -61,43 +64,45 @@ open class RollingAnimationLabel(context: Context, attributeSet: AttributeSet?):
         // Use sizeThatFits to get the size of each character label, then accumulate the sizes to build frames left-to-right
         val sizes = characterViews.map { characterView -> ViewUtilities.intrinsicSize(characterView) }
 
-        val frames = sizes.map { size -> Rect(origin = Point.zero, size = size) }.stream()
+        val frames = sizes.map { size -> Rect(0, 0, size.width, size.height) }.stream()
             .collect({ ArrayList<Rect>() }, { sums, next ->
 
             var x = 0
             if(!sums.isEmpty()) {
-                x = sums.last().maxX
+                x = sums.last().right
             }
 
-            sums.add(Rect(origin = Point(x = x, y = 0), size = next.size))
+            sums.add(Rect(x, 0, x + next.width(), next.height()))
 
         }, { first, second -> first.addAll(second) })
 
         // Now get the center of each character
-        val centers = frames.map { frame -> frame.center }
+        val centers = frames.map { frame -> Point(frame.centerX(), frame.centerY()) }
         val viewsAndCenters = CollectionUtilities.zip(characterViews, centers)
 
         // The width of the entire label is the right edge of the last frame
-        val width = frames.lastOrNull()?.maxX ?: 0
-        val height = frames.map { frame -> frame.size.height }.max() ?: 0
+        val width = frames.lastOrNull()?.right ?: 0
+        val height = frames.map { frame -> frame.height() }.max() ?: 0
 
         this.containerSize = Size(width, height)
 
-        val containerCenter = Point(x = width / 2, y = height / 2)
+        val containerCenter = Point(width / 2, height / 2)
 
-        // Build constraints from the center of each label's calculated frame to the center of the container.  The center will be the "anchor" during the animation
+        // Build the final ("destination") x offsets from the center of each label's calculated frame to the center of the container.
+        // The center will be the "anchor" during the animation
         val xOffsets = viewsAndCenters.map { viewAndCenter ->
 
             Pair(viewAndCenter.first, viewAndCenter.second.x - containerCenter.x)
         }
 
-        // Store the constant of each constraint for its "actual" position in the label, which is where it will be at the end of the animation
         this.xFinalOffsets = xOffsets.toMap()
 
         // No need to animate whitespace character, no one would know the difference!
         val nonwhiteSpaceCharacterViews = characterViews.filter { label -> !label.text.first().isWhitespace() }
 
-        // The last character's animation should end at the end of the total duration.  Therefore the last character should begin its animation at this duration minus the individual character duration.  The start times are then evenly spread between 0 and this maximum interval
+        // The last character's animation should end at the end of the total duration.
+        // Therefore the last character should begin its animation at this duration minus the individual character duration.
+        // The start times are then evenly spread between 0 and this maximum interval
         val lastAnimationStart = totalDuration - characterDuration
         val lastIndex = nonwhiteSpaceCharacterViews.size - 1
         val startTimes = (0..lastIndex).map { index -> lastAnimationStart.multipliedBy(index.toLong()).dividedBy(lastIndex.toLong()) }
@@ -140,9 +145,12 @@ open class RollingAnimationLabel(context: Context, attributeSet: AttributeSet?):
             return
         }
 
-        // Map each offset within the duration to the offset relative to the current time.  Then scale by the character duration, and we get an array of progresses (from 0 to 1) of each character animation
+        // Map each offset within the duration to the offset relative to the current time.
+        // Then scale by the character duration, and we get an array of progresses (from 0 to 1) of each character animation
         val characterOffsets = this.startTimes.mapValues { viewAndStartTime -> offset - viewAndStartTime.value }
-        val characterProgresses = characterOffsets.mapValues { viewAndOffset -> min(max(viewAndOffset.value.toNanos().toDouble() / this.characterDuration.toNanos().toDouble(), 0.0), 1.0) }
+        val characterProgresses = characterOffsets.mapValues { viewAndOffset ->
+            (viewAndOffset.value.toNanos().toDouble() / this.characterDuration.toNanos().toDouble()).coerceIn(0.0, 1.0)
+        }
 
         for(viewAndProgress in characterProgresses) {
 
@@ -153,21 +161,22 @@ open class RollingAnimationLabel(context: Context, attributeSet: AttributeSet?):
             val alpha = progress.toFloat()
             val fontSize = this.font.size * animationCurve(progress)
 
-            // The constraint constants will be scaled, starting at twice their final value.  The reason we picked the center of the container as the anchor is so that the characters on the left come in from the left, and the characters on the right come in from the right
+            // The x constants will be scaled, starting at twice their final value.
+            // The reason we picked the center of the container as the anchor is so that the characters on the left come in from the left,
+            // and the characters on the right come in from the right
             val xFinalOffset = xFinalOffsets[view]!!
             val xOffset = ((2.0 - progress) * xFinalOffset).toInt()
 
-            // One way to fake font scaling is with transforms, but this gives better results, because it actually transitions smoothly through each font size
             val font = Font(this.font.typeface, fontSize)
 
             view.alpha = alpha
             TextViewUtilities.setFont(view, font)
 
             val size = ViewUtilities.intrinsicSize(view)
-            val center = Point(containerSize.width / 2 + xOffset.toInt(), containerSize.height / 2)
+            val center = Point(containerSize.width / 2 + xOffset, containerSize.height / 2)
             val origin = Point(center.x - size.width / 2, center.y - size.height / 2)
 
-            val layoutParams = view.layoutParams as FrameLayout.LayoutParams
+            val layoutParams = view.layoutParams as LayoutParams
             layoutParams.gravity = Gravity.NO_GRAVITY
             layoutParams.leftMargin = origin.x
             layoutParams.topMargin = origin.y

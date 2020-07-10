@@ -1,6 +1,8 @@
 package com.example.citysearch.search.searchresults
 
 import android.content.Context
+import android.graphics.Point
+import android.util.Size
 import androidx.lifecycle.ViewModel
 import com.example.citysearch.reactive.CellData
 import com.example.citysearch.reactive.RecyclerViewModel
@@ -8,12 +10,15 @@ import com.example.citysearch.search.searchresults.citysearchresultcell.CitySear
 import com.example.citysearch.search.searchresults.citysearchresultcell.CitySearchResultViewModel
 import com.example.citysearch.search.searchresults.citysearchresultcell.CitySearchResultViewModelFactory
 import com.example.citysearch.search.searchresults.citysearchresultcell.CitySearchResultViewModelFactoryImp
-import com.example.citysearch.utilities.Point
-import com.example.citysearch.utilities.Size
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 
-// ViewModel for SearchResults MVVM.  Handles building the RecyclerViewModel out of the model's list of cell models.  Also provides a way to accept the recycler view's content offset event stream from the view
+/**
+ * ViewModel for SearchResults MVVM.
+ *
+ * Handles building the RecyclerViewModel out of the model's list of cell models.
+ * Also provides a way to accept the recycler view's content offset event stream from the view
+ */
 interface SearchResultsViewModel {
 
     val resultsViewModels: Observable<RecyclerViewModel<CitySearchResultViewModel>>
@@ -35,7 +40,7 @@ class SearchResultsViewModelImp(private val context: Context,
 
     override val contentOffset = contentOffsetStreams.flatMap { point -> point }
 
-    private val cellSize = Size(width = 128, height = 128)
+    private val cellSize = Size(128, 128)
     private val horSpacing = 16
     private val verSpacing = 28
 

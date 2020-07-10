@@ -2,11 +2,11 @@ package com.example.citysearch.acceptance
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Point
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.ScrollView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -314,11 +314,6 @@ class DetailsScreenSteps(private val context: Context) {
     fun populationText(searchResult: CitySearchResult): String {
 
         return "1,234,567"
-    }
-
-    fun screenSizes(): List<Size> {
-
-        return arrayListOf(Size(1024, 768), Size(2048, 768), Size(2048, 1536))
     }
 
     fun searchResult(): CitySearchResult {

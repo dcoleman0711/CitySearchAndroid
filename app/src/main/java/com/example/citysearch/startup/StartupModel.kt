@@ -13,7 +13,11 @@ import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
-// Model for Startup MVVM.  It fetches the initial city search results, and ensures the startup screen remains visible for at least 4 seconds.  Also exposes the text to display.
+/**
+ * Model for Startup MVVM.
+ *
+ * It fetches the initial city search results, and ensures the startup screen remains visible for at least 4 seconds.  Also exposes the text to display.
+ */
 interface StartupModel {
 
     val appTitle: Observable<String>

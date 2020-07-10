@@ -4,7 +4,11 @@ import android.content.Context
 import com.example.citysearch.data.ImageServiceImp
 import java.net.URL
 
-// Factory for creating AsyncImageModels.  Useful for mocking model creation during tests
+/**
+ * Factory for creating AsyncImageModels.
+ *
+ * Useful for mocking model creation during tests
+ */
 interface AsyncImageModelFactory {
 
     fun imageModel(url: URL): AsyncImageModel

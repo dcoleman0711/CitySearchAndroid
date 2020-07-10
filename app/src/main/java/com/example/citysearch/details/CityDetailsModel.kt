@@ -13,7 +13,11 @@ import retrofit2.http.Url
 import java.net.URL
 import java.net.URLDecoder
 
-// Model for CityDetails MVVM.  Handles connecting the image carousel to the image search service, exposing loading state, and exposing state for the displayed text
+/**
+ * Model for CityDetails MVVM.
+ *
+ * Handles connecting the image carousel to the image search service, exposing loading state, and exposing state for the displayed text
+ */
 interface CityDetailsModel {
 
     val title: Observable<String>

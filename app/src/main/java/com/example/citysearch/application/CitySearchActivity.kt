@@ -4,7 +4,11 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import com.example.citysearch.startup.StartupFragment
 
-// The whole app uses a single activity.  Navigation is handled with fragments.
+/**
+ * Main application activity
+ *
+ * The whole app uses a single activity.  Navigation is handled with fragments.
+ */
 class CitySearchActivity: FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

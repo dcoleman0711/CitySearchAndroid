@@ -1,11 +1,11 @@
 package com.example.citysearch.unit
 
 import android.graphics.Bitmap
+import android.graphics.Point
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.citysearch.parallax.ParallaxLayer
 import com.example.citysearch.parallax.ParallaxModel
 import com.example.citysearch.parallax.ParallaxViewModelImp
-import com.example.citysearch.utilities.Point
 import com.nhaarman.mockitokotlin2.mock
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable

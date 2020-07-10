@@ -2,13 +2,15 @@ package com.example.citysearch.details
 
 import android.graphics.Typeface
 import androidx.lifecycle.ViewModel
-import com.example.citysearch.data.CitySearchResult
 import com.example.citysearch.reactive.TextViewModel
 import com.example.citysearch.utilities.Font
 import io.reactivex.Observable
-import java.text.DecimalFormat
 
-// ViewModel for CityDetails MVVM.  Provides additional "decoration" visual state, and defines fonts
+/**
+ * ViewModel for CityDetails MVVM.
+ *
+ * Provides additional "decoration" visual state, and defines fonts
+ */
 interface CityDetailsViewModel {
 
     val title: Observable<TextViewModel>

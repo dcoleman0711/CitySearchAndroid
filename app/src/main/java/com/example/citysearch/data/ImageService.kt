@@ -15,13 +15,19 @@ import java.net.URL
 
 typealias ImageFuture = Observable<Bitmap>
 
-// Service for retrieving an image from a URL.
+/**
+ * Service for retrieving an image from a URL.
+ */
 interface ImageService {
 
     fun fetchImage(url: URL): ImageFuture
 }
 
-// Implementation for an image service that supports HTTP/HTTPS URLs to fetch and decode images from the web
+/**
+ * Implementation for an image service that supports HTTP/HTTPS URLs to fetch and decode images from the web
+ *
+ * Uses OkHttp and RxSchedulers
+ */
 class ImageServiceImp(private val client: OkHttpClient,
                       private val queue: Scheduler): ImageService {
 

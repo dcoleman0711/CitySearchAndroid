@@ -1,6 +1,5 @@
 package com.example.citysearch.startup
 
-import android.content.Context
 import androidx.fragment.app.FragmentManager
 import com.example.citysearch.data.CitySearchResults
 import com.example.citysearch.details.CityDetailsFragmentFactoryImp
@@ -8,12 +7,19 @@ import com.example.citysearch.search.*
 import com.example.citysearch.search.searchresults.SearchResultsModelFactory
 import com.example.citysearch.search.searchresults.SearchResultsModelFactoryImp
 
-// Command for transitioning from startup to search.  Handles creating the search fragment and handling the fragment transactions
+/**
+ * Command for transitioning from startup to search.
+ */
 interface StartupTransitionCommand {
 
     fun invoke(initialResults: CitySearchResults)
 }
 
+/**
+ * Implements the startup transition with a fragment manager.
+ *
+ * Handles creating the search fragment and handling the fragment transactions
+ */
 class StartupTransitionCommandImp(private val fragmentManager: FragmentManager,
                                   private val searchResultsModelFactory: SearchResultsModelFactory,
                                   private val searchFragmentFactory: SearchFragmentFactory): StartupTransitionCommand {

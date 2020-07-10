@@ -3,6 +3,7 @@ package com.example.citysearch.acceptance
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.util.Size
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.ScrollView
@@ -23,7 +24,6 @@ import com.example.citysearch.search.searchresults.SearchResultsViewModelImp
 import com.example.citysearch.search.searchresults.citysearchresultcell.*
 import com.example.citysearch.stub.CitySearchResultsStub
 import com.example.citysearch.utilities.MeasureConverterImp
-import com.example.citysearch.utilities.Size
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever

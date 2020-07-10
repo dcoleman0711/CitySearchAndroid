@@ -4,7 +4,9 @@ import androidx.fragment.app.FragmentManager
 import com.example.citysearch.data.CitySearchResult
 import com.example.citysearch.details.CityDetailsFragmentFactory
 
-// Factory for creating OpenDetailsCommands.  Useful for testing.
+/**
+ * Factory for creating OpenDetailsCommands.  Useful for testing.
+ */
 interface OpenDetailsCommandFactory {
 
     fun openDetailsCommand(searchResult: CitySearchResult): OpenDetailsCommand

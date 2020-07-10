@@ -10,7 +10,11 @@ import com.example.citysearch.reactive.ViewBinder
 import com.example.citysearch.reactive.ViewBinderImp
 import io.reactivex.disposables.Disposable
 
-// View for CitySearchResult MVVM.  Handles binding to the view-model
+/**
+ * View for CitySearchResult MVVM.
+ *
+ * Handles binding to the view-model
+ */
 class CitySearchResultCell(override val view: ConstraintLayout,
                            private val titleLabel: TextView,
                            private val imageView: ImageView,

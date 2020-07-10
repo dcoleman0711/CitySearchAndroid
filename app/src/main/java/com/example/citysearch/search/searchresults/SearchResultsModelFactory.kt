@@ -2,7 +2,9 @@ package com.example.citysearch.search.searchresults
 
 import com.example.citysearch.search.OpenDetailsCommandFactory
 
-// Factory for creating SearchResultsModels.  Useful for testing.
+/**
+ * Factory for creating SearchResultsModels.  Useful for testing.
+ */
 interface SearchResultsModelFactory {
 
     fun searchResultsModel(openDetailsCommandFactory: OpenDetailsCommandFactory): SearchResultsModel

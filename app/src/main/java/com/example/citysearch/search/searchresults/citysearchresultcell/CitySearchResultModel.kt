@@ -5,7 +5,11 @@ import com.example.citysearch.search.OpenDetailsCommand
 import com.example.citysearch.search.OpenDetailsCommandFactory
 import io.reactivex.Observable
 
-// Model for CitySearchResult MVVM.  Exposes the properties of the search result for display, and categorizes the population into one of 4 classes
+/**
+ * Model for CitySearchResult MVVM.
+ *
+ * Exposes the properties of the search result for display, and categorizes the population into one of 4 classes
+ */
 interface CitySearchResultModel {
 
     val title: Observable<String>

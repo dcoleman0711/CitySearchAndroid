@@ -15,17 +15,22 @@ import retrofit2.http.Headers
 import retrofit2.http.Query
 import java.io.InputStreamReader
 import java.util.*
-import kotlin.collections.HashMap
 
 typealias CitySearchFuture = Observable<CitySearchResults>
 
-// Interface for a City Search Service
+/**
+ * Interface for a City Search Service
+ */
 interface CitySearchService {
 
     fun citySearch(): CitySearchFuture
 }
 
-// Data class to specify a country filter to the city search results
+/**
+ * Data class to specify a country filter to the city search results
+ *
+ * @property objectId The unique identifier in the database for the country
+ */
 data class CountryFilter(val objectId: String) {
 
     companion object {
@@ -37,7 +42,10 @@ data class CountryFilter(val objectId: String) {
     val className = "Continentscountriescities_Country"
 }
 
-// Filter values are used to encode conditions like "greater than" or "less than" for search queries
+/**
+ * Factory class for creating search filters.
+ * Filter values are used to encode conditions like "greater than" or "less than" for search queries
+ */
 class FilterValue {
 
     companion object {
@@ -49,7 +57,11 @@ class FilterValue {
     }
 }
 
-// Implementation of the search service that uses the REST web service
+/**
+ * Implementation of the search service that uses the REST web service.
+ *
+ * Uses OkHttp and Rx Schedulers
+ */
 class CitySearchServiceImp(private val client: OkHttpClient,
                            private val queue: Scheduler): CitySearchService {
 
@@ -114,7 +126,9 @@ class CitySearchServiceImp(private val client: OkHttpClient,
     }
 }
 
-// Stub service that returns locally stored results, useful for development
+/**
+ * Stub service that returns locally stored results, useful for development
+ */
 class CitySearchServiceStub(): CitySearchService {
 
     override fun citySearch(): CitySearchFuture {

@@ -2,16 +2,21 @@ package com.example.citysearch.details.map
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Point
+import android.graphics.Rect
+import android.util.Size
 import androidx.lifecycle.ViewModel
 import com.example.citysearch.data.GeoPoint
 import com.example.citysearch.utilities.ImageLoader
-import com.example.citysearch.utilities.Point
-import com.example.citysearch.utilities.Rect
-import com.example.citysearch.utilities.Size
 import io.reactivex.Observable
 import java.util.*
 
-// Model for Map MVVM.  Converts the model's geo-location into a percentage-based visual location, and the pin's size.  Also defines the images for the Earth background and pin
+/**
+ * Model for Map MVVM.
+ *
+ * Converts the model's geo-location into a percentage-based visual location, and the pin's size.
+ * Also defines the images for the Earth background and pin
+ */
 interface MapViewModel {
 
     companion object {
@@ -51,6 +56,6 @@ class MapViewModelImp(context: Context,
 
         val position = Point((xPercent * MapViewModel.resolution).toInt(), (yPercent * MapViewModel.resolution).toInt())
 
-        return Rect(position, markerSize)
+        return Rect(position.x, position.y, position.x + markerSize.width, position.y + markerSize.height)
     }
 }

@@ -1,6 +1,8 @@
 package com.example.citysearch.unit
 
 import android.content.Context
+import android.graphics.Point
+import android.util.Size
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.citysearch.reactive.CellData
@@ -11,8 +13,6 @@ import com.example.citysearch.search.searchresults.SearchResultsViewModelImp
 import com.example.citysearch.search.searchresults.citysearchresultcell.CitySearchResultModel
 import com.example.citysearch.search.searchresults.citysearchresultcell.CitySearchResultViewModel
 import com.example.citysearch.search.searchresults.citysearchresultcell.CitySearchResultViewModelFactory
-import com.example.citysearch.utilities.Point
-import com.example.citysearch.utilities.Size
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever

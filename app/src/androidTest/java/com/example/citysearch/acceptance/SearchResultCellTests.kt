@@ -3,6 +3,7 @@ package com.example.citysearch.acceptance
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.util.Size
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -21,7 +22,6 @@ import com.example.citysearch.search.searchresults.citysearchresultcell.CitySear
 import com.example.citysearch.stub.CitySearchResultsStub
 import com.example.citysearch.utilities.ImageLoader
 import com.example.citysearch.utilities.MeasureConverterImp
-import com.example.citysearch.utilities.Size
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import org.junit.Assert

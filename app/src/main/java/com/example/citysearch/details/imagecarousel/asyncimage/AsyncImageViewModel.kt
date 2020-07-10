@@ -6,7 +6,11 @@ import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import java.util.*
 
-// ViewModel for AsyncImage MVVM.  Primarily ensures that the bitmap to show is delivered on the main thread
+/**
+ * ViewModel for AsyncImage MVVM.
+ *
+ * Primarily ensures that the bitmap to show is delivered on the main thread
+ */
 interface AsyncImageViewModel {
 
     val image: Observable<Optional<Bitmap>>
@@ -20,6 +24,8 @@ class AsyncImageViewModelImp(private val model: AsyncImageModel, private val res
 
     init {
 
-        image = Observable.just(Optional.empty<Bitmap>()).mergeWith(model.image.map { image -> Optional.of(image) }).observeOn(resultsQueue)
+        image = Observable.just(Optional.empty<Bitmap>())
+            .mergeWith(model.image.map { image -> Optional.of(image) })
+            .observeOn(resultsQueue)
     }
 }

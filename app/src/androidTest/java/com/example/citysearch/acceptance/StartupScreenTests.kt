@@ -1,13 +1,11 @@
-//package com.example.citysearch.acceptance
-//
+package com.example.citysearch.acceptance
+
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.os.ConditionVariable
 import android.view.LayoutInflater
-import android.view.View
-import androidx.fragment.app.FragmentManager
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.citysearch.R
@@ -16,12 +14,8 @@ import com.example.citysearch.data.CitySearchResults
 import com.example.citysearch.data.CitySearchService
 import com.example.citysearch.startup.*
 import com.example.citysearch.utilities.Font
-import com.example.citysearch.utilities.Point
-import com.example.citysearch.utilities.Size
-import com.example.citysearch.utilities.ViewUtilities
 import com.nhaarman.mockitokotlin2.*
 import io.reactivex.subjects.BehaviorSubject
-import org.junit.Assert.assertTrue
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.junit.Before
@@ -233,11 +227,6 @@ class StartupScreenSteps(private val context: Context) {
         return StartupScreenTestConstants.appTitle
     }
 
-    fun screenSizes(): Array<Size> {
-
-        return arrayOf(Size(width = 1024, height = 768), Size(width = 2048, height = 768), Size(width = 2048, height = 1536))
-    }
-
     fun appTitleLabel(): RollingAnimationLabel {
 
         return appTitleLabel
@@ -269,13 +258,6 @@ class StartupScreenSteps(private val context: Context) {
 
         startupScreenLoadedAtTime()
         return startupScreen
-    }
-
-    fun startupScreenSizeBecomes(startupScreen: StartupView, screenSize: Size) {
-
-        startupScreen.view.requestLayout();
-        startupScreen.view.measure(View.MeasureSpec.makeMeasureSpec(screenSize.width, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(screenSize.height, View.MeasureSpec.EXACTLY))
-        startupScreen.view.layout(0, 0, screenSize.width, screenSize.height);
     }
 
     fun startupScreenBackgroundIsWhite(startupScreen: StartupView) {

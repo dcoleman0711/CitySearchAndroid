@@ -1,6 +1,7 @@
 package com.example.citysearch.unit
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.citysearch.acceptance.StartupScreenTestConstants
 import com.example.citysearch.reactive.TextViewModel
 import com.example.citysearch.startup.StartupModel
 import com.example.citysearch.startup.StartupViewModelImp

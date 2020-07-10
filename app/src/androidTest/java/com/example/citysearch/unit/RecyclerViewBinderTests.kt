@@ -2,7 +2,7 @@ package com.example.citysearch.unit
 
 import android.content.Context
 import android.graphics.Rect
-import android.os.ConditionVariable
+import android.util.Size
 import android.view.View
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.GridLayoutManager
@@ -10,9 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.citysearch.StubMeasureConverter
-import com.example.citysearch.acceptance.RecyclerViewTestUtilities
 import com.example.citysearch.reactive.*
-import com.example.citysearch.utilities.Size
 import com.nhaarman.mockitokotlin2.*
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.BehaviorSubject
@@ -20,7 +18,6 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.util.concurrent.locks.Condition
 
 @RunWith(AndroidJUnit4::class)
 class RecyclerViewBinderTests {

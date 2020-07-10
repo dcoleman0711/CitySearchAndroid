@@ -9,7 +9,11 @@ import com.example.citysearch.reactive.ViewBinder
 import com.example.citysearch.reactive.ViewBinderImp
 import io.reactivex.disposables.Disposable
 
-// View for Async Image MVVM.  Displays a single image in its full bounds
+/**
+ * View for Async Image MVVM.
+ *
+ * Displays a single image in its full bounds
+ */
 class AsyncImageCell(override val view: ConstraintLayout,
                      private val imageView: ImageView,
                      private val binder: ViewBinder): RecyclerCell<AsyncImageViewModel> {

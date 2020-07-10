@@ -2,6 +2,7 @@ package com.example.citysearch.unit
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.util.Size
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.citysearch.details.imagecarousel.ImageCarouselModel
@@ -11,8 +12,6 @@ import com.example.citysearch.details.imagecarousel.asyncimage.AsyncImageViewMod
 import com.example.citysearch.details.imagecarousel.asyncimage.AsyncImageViewModelFactory
 import com.example.citysearch.reactive.CellData
 import com.example.citysearch.reactive.RecyclerViewModel
-import com.example.citysearch.utilities.ImageLoader
-import com.example.citysearch.utilities.Size
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever

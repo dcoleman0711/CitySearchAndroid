@@ -1,6 +1,7 @@
 package com.example.citysearch.acceptance
 
 import android.content.Context
+import android.graphics.Point
 import android.view.LayoutInflater
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout

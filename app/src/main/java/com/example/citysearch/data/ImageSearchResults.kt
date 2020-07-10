@@ -1,7 +1,15 @@
 package com.example.citysearch.data
 
-// Data class for the results of an image search.  Contains a list of images
+/**
+ * Data class for the results of an image search.  Contains a list of images (JSON codable)
+ *
+ * @property images_results The list of images returned by the search
+ */
 data class ImageSearchResults(val images_results: List<ImageSearchResult>)
 
-// Data class for an image search result entity.  The only property we're really intereste in is "original", which is the URL link to the original image
+/**
+ * Data class for an image search result entity. (JSON codable)
+ *
+ * @property original The original image URL
+ */
 data class ImageSearchResult(val original: String?)

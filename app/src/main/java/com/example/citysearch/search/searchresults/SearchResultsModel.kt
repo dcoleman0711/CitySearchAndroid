@@ -8,7 +8,11 @@ import com.example.citysearch.search.searchresults.citysearchresultcell.CitySear
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 
-// Model for SearchResults MVVM.  Exposes a settable city search results, and maps it into a stream of lists of search result cell models
+/**
+ * Model for SearchResults MVVM.
+ *
+ * Exposes a settable city search results, and maps it into a stream of lists of search result cell models
+ */
 interface SearchResultsModel {
 
     val resultsModels: Observable<List<CitySearchResultModel>>

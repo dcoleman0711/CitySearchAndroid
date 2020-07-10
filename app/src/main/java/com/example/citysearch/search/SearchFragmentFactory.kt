@@ -2,7 +2,9 @@ package com.example.citysearch.search
 
 import com.example.citysearch.search.searchresults.SearchResultsModel
 
-// Factory for creating SearchFragments.  Useful for testing.
+/**
+ * Factory for creating SearchFragments.  Useful for testing.
+ */
 interface SearchFragmentFactory {
 
     fun searchFragment(searchResultsModel: SearchResultsModel): SearchFragment

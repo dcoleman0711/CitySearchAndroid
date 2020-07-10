@@ -5,9 +5,16 @@ import com.example.citysearch.data.CitySearchResult
 import com.example.citysearch.details.CityDetailsFragmentFactory
 import com.example.citysearch.reactive.CellTapCommand
 
-// Command for opening a details screen for a search result.  Handles the necessary fragment transactions and creates the right details fragment
+/**
+ * Command for opening a details screen for a search result.
+ */
 interface OpenDetailsCommand: CellTapCommand
 
+/**
+ * Implements the open details command using a fragment manager.
+ *
+ * Handles the necessary fragment transactions and creates the right details fragment
+ */
 class OpenDetailsCommandImp(private val fragmentManager: FragmentManager,
                             private val detailsFragmentFactory: CityDetailsFragmentFactory,
                             private val searchResult: CitySearchResult): OpenDetailsCommand {
